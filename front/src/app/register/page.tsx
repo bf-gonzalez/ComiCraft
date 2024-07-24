@@ -3,7 +3,7 @@ import styles from "../../components/regularBackground/RegularBackground.module.
 export default function loginPage() {
     return (
         <main className={styles.fondo}>
-        <div className="w-screen h-screen">
+        <div className="h-screen">
             <h1>Soy la página de register</h1>
         </div>
         </main>

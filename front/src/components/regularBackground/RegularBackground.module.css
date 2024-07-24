@@ -1,6 +1,8 @@
 .fondo {
     background-image: url(../../../public/images/regularBg.jpg);
     background-repeat: no-repeat;
-    background-size: 100vw;
+    background-size: cover;
     display: table;
+    width: 100%;
+    height: 100vh;
 }
