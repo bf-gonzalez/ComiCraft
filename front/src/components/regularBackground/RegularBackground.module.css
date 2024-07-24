@@ -1,0 +1,6 @@
+.fondo {
+    background-image: url(../../../public/images/regularBg.jpg);
+    background-repeat: no-repeat;
+    background-size: 100vw;
+    display: table;
+}
