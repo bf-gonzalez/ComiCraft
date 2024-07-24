@@ -11,7 +11,8 @@ export const Register = () => {
         password: "",
         confirmPassword: "",
         direccion: "",
-        phone: ""
+        phone: "",
+        birthdate: ""
     });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -112,6 +113,18 @@ export const Register = () => {
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     {errors.direccion && <p className="text-red-500 text-xs italic">{errors.direccion}</p>}
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="birthdate" className="block text-gray-700 text-sm font-bold mb-2">Fecha de Nacimiento:</label>
+                    <input
+                        type="date"
+                        id="birthdate"
+                        name="birthdate"
+                        onChange={handleChange}
+                        value={signUpValue.birthdate}
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    />
+                    {errors.birthdate && <p className="text-red-500 text-xs italic">{errors.birthdate}</p>}
                 </div>
                 <div className="flex items-center justify-between">
                     <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Registrarse</button>
