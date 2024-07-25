@@ -1,15 +1,8 @@
 "use client";
 
+
 import React, { useState } from "react";
 import { validateLogin } from "@/helpers/validateLogin";
-import { Bebas_Neue } from "next/font/google";
-
-
-const bebas = Bebas_Neue({
-    subsets: ['latin'],
-    weight: ['400'],
-    variable: '--font-bebas',
-});
 
 export const Login = () => {
     const [loginValue, setLoginValue] = useState({
@@ -21,6 +14,7 @@ export const Login = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setLoginValue({ ...loginValue, [name]: value });
+
 
         const newErrors = validateLogin({ ...loginValue, [name]: value });
         setErrors(newErrors);
@@ -38,8 +32,9 @@ export const Login = () => {
 
     return (
         <div className="max-w-md mx-auto mt-10">
-            <form onSubmit={handleSubmit} className="bg-custom-transparent shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
+                    <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
                     <input
                         type="email"
                         id="email"
@@ -47,11 +42,12 @@ export const Login = () => {
                         onChange={handleChange}
                         placeholder="Email"
                         value={loginValue.email}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 placeholder-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     {errors.email && <p className="text-red-500 text-xs italic">{errors.email}</p>}
                 </div>
                 <div className="mb-4">
+                    <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Contraseña:</label>
                     <input
                         type="password"
                         id="password"
@@ -59,15 +55,12 @@ export const Login = () => {
                         onChange={handleChange}
                         placeholder="Contraseña"
                         value={loginValue.password}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 placeholder-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
                     {errors.password && <p className="text-red-500 text-xs italic">{errors.password}</p>}
                 </div>
                 <div className="flex items-center justify-between">
-                    <button type="submit" className={`${bebas.variable} font-sans 
-                    login cursor-pointer
-                    text-4xl text-white hover:text-yellow-400
-                    transition-all custom-transition duration-300`}>Iniciar Sesión</button>
+                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Iniciar Sesión</button>
                 </div>
             </form>
         </div>
