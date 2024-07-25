@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { Comic } from './interfaces/comic.interface';
 
-const comics = [
+const comics: Comic[] = [
   {
     id: 1,
     title: 'The Amazing Spider-Man',
@@ -63,8 +64,6 @@ const comics = [
   },
 ];
 
-export default comics;
-
 @Injectable()
 export class ComicsService {
   getComics() {
@@ -72,7 +71,43 @@ export class ComicsService {
   }
 
   getComicById(id: number) {
-    if (id > comics.length) return 'no se encontro comic con ese id ';
-    return comics.find((comic) => comic.id === id);
+    return (
+      comics.find((comic) => comic.id === id) ||
+      'No se encontró comic con ese ID'
+    );
+  }
+
+  getComicByName(name: string) {
+    return comics.filter((comic) =>
+      comic.title.toLowerCase().includes(name.toLowerCase()),
+    );
+  }
+
+  postComic(comic: Comic) {
+    const newComic = { id: comics.length + 1, ...comic };
+    comics.push(newComic);
+    return newComic;
+  }
+
+  putComic(id: number, updatedComic: Partial<Comic>) {
+    const comicIndex = comics.findIndex((comic) => comic.id === id);
+    if (comicIndex === -1) {
+      return 'No se encontró comic con ese ID';
+    }
+
+    const existingComic = comics[comicIndex];
+    const updated = { ...existingComic, ...updatedComic };
+
+    comics[comicIndex] = updated;
+    return comics[comicIndex];
+  }
+
+  deleteComic(id: number) {
+    const comicIndex = comics.findIndex((comic) => comic.id === id);
+    if (comicIndex === -1) {
+      return 'No se encontró comic con ese ID';
+    }
+    comics.splice(comicIndex, 1);
+    return 'Comic Eliminado correctamente';
   }
 }
