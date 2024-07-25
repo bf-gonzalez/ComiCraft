@@ -21,7 +21,7 @@ function Footer() {
   }
 
   return (
-    <footer className="bg-black text-white py-6 w-full overflow-hidden">
+    <footer className="absolute bg-black text-white py-6 pb-1 w-screen overflow-hidden">
       <div className="container mx-auto grid grid-cols-4 gap-4">
         <div className="text-left">
           <Image src="/images/ccLogo.png" alt="logo" className="logo duration-500 hover:scale-105 cursor-pointer ml-2 mt-4" height={100} width={200}/>
@@ -43,17 +43,17 @@ function Footer() {
         <div className="text-left">
           <h2 className="font-bold text-xl">Comunidad</h2>
           <ul className="mt-2 text-lg flex space-x-4">
-            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110">
+            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110 duration-500">
               <a href="https://discord.com" target="_blank" rel="noopener noreferrer">
                 <IoLogoDiscord className="text-2xl text-white" />
               </a>
             </li>
-            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110">
+            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110 duration-500">
               <a href="https://x.com" target="_blank" rel="noopener noreferrer">
                 <BsTwitterX className="text-2xl text-white" />
               </a>
             </li>
-            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110">
+            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110 duration-500">
               <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer">
                 <FaTiktok className="text-2xl text-white" />
               </a>
