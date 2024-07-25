@@ -18,9 +18,8 @@ function Navbar() {
 
     return(
         <main>
-
         {pathname !== '/' && (
-            <div className="absolute top-0 flex flex-row">
+            <div className="absolute top-0 flex flex-row w-full">
 
                 <section className="flex flex-row items-center w-[88vw] h-24 justify-evenly p-2">
                 <SearchBar placeholder="buscar por nombre" />
