@@ -1,7 +1,7 @@
 {
   "name": "back",
   "version": "0.0.1",
-  "description": "<p align=\"center\">\r   <a href=\"http://nestjs.com/\" target=\"blank\"><img src=\"https://nestjs.com/img/logo-small.svg\" width=\"200\" alt=\"Nest Logo\" /></a>\r </p>",
+  "description": "",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -65,10 +65,5 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  },
-  "main": ".eslintrc.js",
-  "directories": {
-    "test": "test"
-  },
-  "keywords": []
+  }
 }
