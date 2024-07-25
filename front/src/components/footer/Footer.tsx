@@ -44,17 +44,17 @@ function Footer() {
         <div className="text-left">
           <h2 className="font-bold text-xl">Comunidad</h2>
           <ul className="mt-2 text-lg flex space-x-4">
-            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110">
+            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110 duration-500">
               <a href="https://discord.com" target="_blank" rel="noopener noreferrer">
                 <IoLogoDiscord className="text-2xl text-white" />
               </a>
             </li>
-            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110">
+            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110 duration-500">
               <a href="https://x.com" target="_blank" rel="noopener noreferrer">
                 <BsTwitterX className="text-2xl text-white" />
               </a>
             </li>
-            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110">
+            <li className="flex items-center space-x-2 bg-blue-900 p-2 rounded transition-transform transform hover:scale-110 duration-500">
               <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer">
                 <FaTiktok className="text-2xl text-white" />
               </a>

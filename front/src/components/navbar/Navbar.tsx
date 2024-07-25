@@ -1,7 +1,6 @@
 'use client'
 import { Bebas_Neue } from "next/font/google"
 import { usePathname, useRouter } from "next/navigation"
-import Image from "next/image";
 import SearchBar from "../searchBar/SearchBar";
 
 const  bebas = Bebas_Neue({
@@ -21,17 +20,17 @@ function Navbar() {
         {pathname !== '/' && (
             <div className="absolute top-0 flex flex-row w-full">
 
-                <section className="flex flex-row items-center w-[88vw] h-24 justify-evenly p-2">
-                <SearchBar placeholder="buscar por nombre" />
+                <section className="flex flex-row items-center space-x-8 ml-4 pt-4">
                 <button type="button" onClick={() => router.push('/home')}>
-                    <Image src="/images/ccLogo.png" alt="logo"
+                    <img src="/images/ccLogo.png" alt="logo"
                     className="logo
-                    duration-500 hover:scale-105 cursor-pointer ml-2 mt-4"
-                    height={100} width={200}/>
+                    duration-500 hover:scale-105 cursor-pointer h-24"
+                    />
                 </button>
+                <SearchBar placeholder="Buscar" />
                 </section>
 
-                <section className="flex flex-row align-middle mr-6 space-x-12">
+                <section className="flex flex-row align-middle space-x-12 mr-4">
 
                 {pathname !== '/register' && (
                     <button type="button" onClick={() => router.push('/register')} 
