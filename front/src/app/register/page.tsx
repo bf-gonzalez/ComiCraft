@@ -1,11 +1,15 @@
+import Register from "@/components/register/Register"
 import styles from "../../components/regularBackground/RegularBackground.module.css"
 
-export default function loginPage() {
+export default function LoginPage() {
     return (
         <main className={styles.fondo}>
-        <div className="h-screen">
-            <h1>Soy la página de register</h1>
-        </div>
+            <div className="flex h-screen">
+                <div className="flex-1"></div>
+                <div className="p-12 mx-38 mt-8 w-2/4">
+                    <Register/>
+                </div>
+            </div>
         </main>
     )
 }

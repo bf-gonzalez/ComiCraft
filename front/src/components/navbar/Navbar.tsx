@@ -17,9 +17,8 @@ function Navbar() {
 
     return(
         <main>
-
         {pathname !== '/' && (
-            <div className="absolute top-0 flex flex-row p-2 w-screen h-24 justify-between">
+            <div className="absolute top-0 flex flex-row w-full">
 
                 <section className="flex flex-row items-center space-x-8 ml-4 pt-4">
                 <button type="button" onClick={() => router.push('/home')}>
