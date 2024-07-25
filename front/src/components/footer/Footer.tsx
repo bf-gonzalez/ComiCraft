@@ -6,6 +6,7 @@ import { BsTwitterX } from "react-icons/bs";
 import { FaTiktok } from "react-icons/fa6";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import Link from "next/link";
 
 const bebas = Bebas_Neue({
     subsets: ['latin'],
@@ -21,7 +22,7 @@ function Footer() {
   }
 
   return (
-    <footer className="bg-black text-white py-6 w-full overflow-hidden">
+    <footer className="bg-[#01061A] text-white py-6 w-full overflow-hidden">
       <div className="container mx-auto grid grid-cols-4 gap-4">
         <div className="text-left">
           <Image src="/images/ccLogo.png" alt="logo" className="logo duration-500 hover:scale-105 cursor-pointer ml-2 mt-4" height={100} width={200}/>
@@ -29,9 +30,9 @@ function Footer() {
         <div className="text-left">
           <h2 className="font-bold text-xl">Soporte</h2>
           <ul className="mt-2 text-lg">
-            <li>Contactanos</li>
-            <li>Términos de Servicios</li>
-            <li>Nuestra política de privacidad</li>
+            <li><Link href="/contact">Contactanos</Link></li>
+            <li><Link href="/terms-of-service">Términos de Servicios</Link></li>
+            <li><Link href="/privacy-policy">Nuestra política de privacidad</Link></li>
           </ul>
         </div>
         <div className="text-left">

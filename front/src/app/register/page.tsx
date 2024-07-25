@@ -7,6 +7,9 @@ export default function loginPage() {
         <div className="h-screen">
             <Register/>
         </div>
+        <div className="h-screen p-8">
+                
+            </div>        
         </main>
     )
 }
