@@ -1,5 +1,5 @@
 import Register from "@/components/register/Register"
-import styles from "../../components/regularBackground/RegularBackground.module.css"
+import styles from "../../components/backgrounds/justice.module.css"
 
 export default function LoginPage() {
     return (

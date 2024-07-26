@@ -19,7 +19,8 @@ const config: Config = {
       },
     fontFamily: {
       sans: 'var(--font-bebas)',
-      mono: 'var(--font-antonio)'
+      mono: 'var(--font-antonio)',
+      black: 'var (--font-josefin)'
     },
       keyframes: {
         display: {

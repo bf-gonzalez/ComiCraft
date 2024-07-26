@@ -49,6 +49,14 @@ function Navbar() {
                     transition-all custom-transition duration-300`}>LOGIN</h1>
                     </button>
                 )}
+                {pathname !== '/dashboard' && (
+                    <button type="button" onClick={() => router.push('/dashboard')}>
+                        <h1 className={`${bebas.variable} font-sans 
+                    login cursor-pointer
+                    text-4xl text-white hover:text-yellow-400
+                    transition-all custom-transition duration-300`}>DASHBOARD</h1>
+                    </button>
+                )}
 
                 </section>
             </div>
