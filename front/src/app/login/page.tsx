@@ -4,11 +4,8 @@ import styles from "../../components/regularBackground/RegularBackground.module.
 export default function loginPage() {
     return (
         <main className={styles.fondo}>
-        <div className="flex h-screen">
-            <div className="flex-1"></div>
-            <div className="p-12 mx-38 mt-8 w-2/4">
-            <Login/> 
-            </div>
+        <div className="w-screen h-screen">
+           <Login/>
         </div>
         </main>
     )
