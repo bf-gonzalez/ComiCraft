@@ -76,6 +76,11 @@ export class UsersRepository {
     const newUser = this.usersRepository.create(user);
     const savedUser = await this.usersRepository.save(newUser);
     const { id, ...rest } = savedUser;
+    await this.mailerService.sendMail(
+      savedUser.email,
+      'bienvenido a nuestra aplicación',
+      `hola ${savedUser.email} gracias por registrarse en nuestra aplicación`,
+    );
     return { id, ...rest };
   }
 }
