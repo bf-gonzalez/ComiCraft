@@ -71,4 +71,11 @@ export class UsersRepository {
   async getUserByEmail(email: string) {
     return await this.usersRepository.findOneBy({ email });
   }
+
+  async addUser(user: Partial<Users>): Promise<Users> {
+    const newUser = this.usersRepository.create(user);
+    const savedUser = await this.usersRepository.save(newUser);
+    const { id, ...rest } = savedUser;
+    return { id, ...rest };
+  }
 }
