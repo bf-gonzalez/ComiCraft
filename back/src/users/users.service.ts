@@ -1,20 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
-import { Users } from './users.interface';
+import { Users } from './users.entity';
+
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UsersRepository) {}
 
-  addUser(user: Users) {
-    return this.userRepository.createUser(user);
+  createUser(user: any){
+    return this.userRepository.createUser(user)
   }
 
-  getUsers() {
-    return this.userRepository.getUsers();
+  getUsers(page: number, limit: number) {
+    return this.userRepository.getUsers(page, limit);
   }
 
-  getUserById(id: number) {
+  getUserById(id: string) {
     return this.userRepository.getUserById(id);
   }
 
@@ -22,7 +23,12 @@ export class UsersService {
     return this.userRepository.getUserByName(name);
   }
 
-  deleteUser(id: number) {
+  updateUser(id: string, user: Users){
+    return this.userRepository.updateUser(id, user)
+  }
+
+  deleteUser(id: string) {
     return this.userRepository.deleteUser(id);
   }
+  
 }
