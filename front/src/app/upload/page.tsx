@@ -6,6 +6,7 @@ import styles from '../../components/regularBackground/RegularBackground.module.
 
 export default function UploadPage() {
   const [images, setImages] = useState([]);
+  const [folderName, setFolderName] = useState('');
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -27,7 +28,16 @@ export default function UploadPage() {
   return (
     <main className={styles.fondo}>
       <div className="flex h-screen items-center justify-center">
-        <ImageUpload />
+        <div>
+          <input 
+            type="text" 
+            placeholder="Nombre de la carpeta" 
+            value={folderName} 
+            onChange={(e) => setFolderName(e.target.value)} 
+            className="mb-4 p-2 border rounded"
+          />
+          <ImageUpload folderName={folderName} />
+        </div>
       </div>
       <div className="grid grid-cols-3 gap-4 p-4">
         {images.map((image) => (
