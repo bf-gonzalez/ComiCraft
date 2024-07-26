@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Users } from './users.interface';
+import { MailerService } from 'src/mailer/mailer.service';
 
 let users = [
   {
@@ -76,8 +77,14 @@ let users = [
 
 @Injectable()
 export class UsersRepository {
-  createUser(user: Users) {
+  constructor(private readonly mailerService: MailerService) {}
+  async createUser(user: Users) {
     users.push(user);
+    await this.mailerService.sendMail(
+      user.email,
+      'Bienvenido a nuesrta aplicación',
+      `Hola ${user.name} bienvenido a nuestra aplicación`,
+    );
     return user;
   }
 
@@ -86,7 +93,6 @@ export class UsersRepository {
   }
 
   getUserById(id: number) {
-    console.log(id);
     if (id > users.length) return `No se encontro usuaria por el id ${id}`;
     return users.find((user) => user.id === id);
   }
