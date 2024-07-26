@@ -2,11 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
+import { MailerService } from 'src/mailer/mailer.service';
 
 @Injectable()
 export class UsersRepository {
   constructor(
     @InjectRepository(Users) private usersRepository: Repository<Users>,
+    private readonly mailerService: MailerService,
   ) {}
 
   async getUsers(page: number, limit: number) {
@@ -42,6 +44,12 @@ export class UsersRepository {
     const newUser = await this.usersRepository.save(user);
     const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
     const { password, ...userNoPassword } = dbUser;
+
+    await this.mailerService.sendMail(
+      userNoPassword.email,
+      'bienvenido a nuestra aplicación',
+      `hola ${userNoPassword.name} gracias por registrarse en nuestra aplicación`,
+    );
 
     return userNoPassword;
   }
