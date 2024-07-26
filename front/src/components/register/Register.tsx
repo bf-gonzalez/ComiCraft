@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { validateRegister } from "@/helpers/validateRegister";
 import { Bebas_Neue } from "next/font/google";
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
+import { UserContext } from "@/context/userContext";
 
 
 const bebas = Bebas_Neue({
@@ -12,14 +15,17 @@ const bebas = Bebas_Neue({
 });
 
 export const Register = () => {
+const router = useRouter();
+const {singUp} = useContext(UserContext);
+
     const [signUpValue, setSignUp] = useState({
         name: "",
         email: "",
         password: "",
         confirmPassword: "",
-        direccion: "",
+        address: "",
         phone: "",
-        birthdate: ""
+        birthday: ""
     });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -30,14 +36,35 @@ export const Register = () => {
         setErrors(newErrors);
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const validationErrors = validateRegister(signUpValue);
         if (Object.keys(validationErrors).length === 0) {
-            alert(JSON.stringify(signUpValue, null, 2));
-        } else {
-            setErrors(validationErrors);
-        }
+            const user = {
+              email: signUpValue.email,
+              password: signUpValue.password,
+              name: signUpValue.name,
+              address: signUpValue.address,
+              phone: signUpValue.phone,
+              birthday: signUpValue.birthday,
+            };
+            const respuesta = await singUp(user);
+      
+            if (respuesta) {
+              Swal.fire({
+                icon: "success",
+                title: "bienvenido",
+                text: "Disfrute de lo mejor!",
+              });
+              router.push("/home");
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Tus Credenciales no son correctas!",
+              });
+            }
+          }
     };
 
     return (
@@ -107,22 +134,22 @@ export const Register = () => {
                     <input
                         type="text"
                         id="direccion"
-                        name="direccion"
+                        name="address"
                         onChange={handleChange}
                         placeholder="Dirección"
-                        value={signUpValue.direccion}
+                        value={signUpValue.address}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 placeholder-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input"
                     />
                     {errors.direccion && <p className="text-red-500 text-xs italic">{errors.direccion}</p>}
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="birthdate" className="block text-yellow-600 text-sm font-bold mb-2">Fecha de Nacimiento:</label>
+                    <label htmlFor="birthday" className="block text-yellow-600 text-sm font-bold mb-2">Fecha de Nacimiento:</label>
                     <input
                         type="date"
                         id="birthdate"
-                        name="birthdate"
+                        name="birthday"
                         onChange={handleChange}
-                        value={signUpValue.birthdate}
+                        value={signUpValue.birthday}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 placeholder-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input"
                     />
                     {errors.birthdate && <p className="text-red-500 text-xs italic">{errors.birthdate}</p>}

@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useContext} from "react";
 import { validateLogin } from "@/helpers/validateLogin";
 import { Bebas_Neue } from "next/font/google";
-
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import { UserContext } from "@/context/userContext";
 
 const bebas = Bebas_Neue({
     subsets: ['latin'],
@@ -12,6 +14,9 @@ const bebas = Bebas_Neue({
 });
 
 export const Login = () => {
+    const router = useRouter();
+    const {singIn} = useContext(UserContext);
+
     const [loginValue, setLoginValue] = useState({
         email: "",
         password: "",
@@ -26,14 +31,26 @@ export const Login = () => {
         setErrors(newErrors);
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const validationErrors = validateLogin(loginValue);
         if (Object.keys(validationErrors).length === 0) {
-            alert(JSON.stringify(loginValue, null, 2));
-        } else {
-            setErrors(validationErrors);
-        }
+      const respuesta = await singIn(loginValue);
+      if (respuesta) {
+        Swal.fire({
+          icon: "success",
+          title: "bienvenido",
+          text: "Disfrute de lo mejor!",
+        });
+        router.push("/home");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Tus Credenciales no son correctas!",
+        });
+      }
+    }
     };
 
     return (
