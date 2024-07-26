@@ -1,5 +1,5 @@
 import Login from "@/components/login/Login"
-import styles from "../../components/regularBackground/RegularBackground.module.css"
+import styles from "../../components/backgrounds/cyclops.module.css"
 
 export default function loginPage() {
     return (
