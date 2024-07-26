@@ -1,11 +1,14 @@
 import { NextResponse } from 'next/server';
 import cloudinary from '@/server/cloudinary';
 
-export async function GET() {
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const folder = searchParams.get('folder');
+
   try {
     const result = await cloudinary.api.resources({
       type: 'upload',
-      prefix: '', // Puedes especificar un prefijo si quieres filtrar por carpeta
+      prefix: folder || '', // Filtra por carpeta si se proporciona
     });
     return NextResponse.json(result.resources);
   } catch (error) {

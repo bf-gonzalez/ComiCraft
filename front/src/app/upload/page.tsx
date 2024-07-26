@@ -1,29 +1,36 @@
 "use client"
 
 import { useEffect, useState } from 'react';
-import ImageUpload from '@/components/ImageUpload';
+import { useRouter } from 'next/navigation';
 import styles from '../../components/regularBackground/RegularBackground.module.css';
+import ImageUpload from '@/components/ImageUpload';
+
 
 export default function UploadPage() {
-  const [images, setImages] = useState([]);
+  const [folders, setFolders] = useState([]);
   const [folderName, setFolderName] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchFolders = async () => {
       try {
-        const response = await fetch('/api/images');
+        const response = await fetch('/api/folders');
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        setImages(data);
+        setFolders(data);
       } catch (error) {
-        console.error('Error fetching images:', error);
+        console.error('Error fetching folders:', error);
       }
     };
 
-    fetchImages();
+    fetchFolders();
   }, []);
+
+  const handleFolderClick = (folder) => {
+    router.push(`/upload/${folder}`);
+  };
 
   return (
     <main className={styles.fondo}>
@@ -40,8 +47,11 @@ export default function UploadPage() {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-4 p-4">
-        {images.map((image) => (
-          <img key={image.public_id} src={image.secure_url} alt={image.public_id} className="w-full h-auto" />
+        {folders.map((folder) => (
+          <div key={folder.name} onClick={() => handleFolderClick(folder.name)} className="cursor-pointer">
+            <img src={folder.firstImage} alt={folder.name} className="w-full h-auto" />
+            <p>{folder.name}</p>
+          </div>
         ))}
       </div>
     </main>
