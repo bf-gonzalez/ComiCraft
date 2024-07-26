@@ -1,4 +1,14 @@
-import { Body, Controller, Delete, Get, HttpCode, Param, Post, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { IUsers } from './users.interface';
 import { Users } from './users.entity';
@@ -17,15 +27,18 @@ export class UsersController {
 
   @HttpCode(200)
   @Get()
-  getUsers(@Query ('name') name?: string,
-           @Query ('page') page?: string,
-           @Query ('limit') limit?: string) {
-    if(name){
-      return this.usersService.getUserByName(name)
+  getUsers(
+    @Query('name') name?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    if (name) {
+      return this.usersService.getUserByName(name);
     }
     !page ? (page = '1') : page;
     !limit ? (limit = '5') : limit;
-    if(page && limit)return  this.usersService.getUsers(Number(page), Number(limit));
+    if (page && limit)
+      return this.usersService.getUsers(Number(page), Number(limit));
   }
 
   @HttpCode(200)
@@ -47,7 +60,7 @@ export class UsersController {
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: string, @Body() user: Users){
+  updateUser(@Param('id') id: string, @Body() user: Users) {
     return this.usersService.updateUser(id, user);
   }
 }
