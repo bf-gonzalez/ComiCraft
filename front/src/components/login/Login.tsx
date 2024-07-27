@@ -17,7 +17,7 @@ const bebas = Bebas_Neue({
 
 export const Login = () => {
     const router = useRouter();
-    const {singIn} = useContext(UserContext);
+    const {signIn} = useContext(UserContext);
 
     const [loginValue, setLoginValue] = useState({
         email: "",
@@ -38,7 +38,7 @@ export const Login = () => {
         e.preventDefault();
         const validationErrors = validateLogin(loginValue);
         if (Object.keys(validationErrors).length === 0) {
-      const respuesta = await singIn(loginValue);
+      const respuesta = await signIn(loginValue);
       if (respuesta) {
         Swal.fire({
           icon: "success",

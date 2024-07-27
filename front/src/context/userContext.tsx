@@ -8,8 +8,8 @@ export const UserContext = createContext<IUserContext>({
     setUser: () => {},
     isLogged: false,
     setIsLogged: () => {},
-    singIn: async () => false,
-    singUp: async () => false,
+    signIn: async () => false,
+    signUp: async () => false,
     logOut: () => {},
 });
 
@@ -18,11 +18,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<Partial<ILoginUserResponse> | null>(null);
     const [isLogged, setIsLogged] = useState(false);
 
-    const singUp = async (user: Omit<IUser, "id">) => {
+    const signUp = async (user: Omit<IUser, "id">) => {
+        console.log('entró');
+        
         try {
             const data = await postRegister(user);
             if (data.id) {
-                await singIn({ email: user.email, password: user.password });
+                signIn({ email: user.email, password: user.password });
                 return true;
             }
             return false;
@@ -32,7 +34,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         }
     };
 
-    const singIn = async (credentials: ILoginUser) => {
+    const signIn = async (credentials: ILoginUser) => {
         try {
             const data = await postLogin(credentials);
             setUser(data);
@@ -76,8 +78,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 setUser,
                 isLogged,
                 setIsLogged,
-                singIn,
-                singUp,
+                signIn,
+                signUp,
                 logOut,
             }}
         >

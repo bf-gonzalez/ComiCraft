@@ -29,21 +29,21 @@ export const validateRegister = (values: { [key: string]: string }) => {
       errors.address = "La dirección es requerida";
   }
 
-  if (!values.birthday) {
-      errors.birthday = "La fecha de nacimiento es requerida";
+  if (!values.dob) {
+      errors.dob = "La fecha de nacimiento es requerida";
   } else {
       const today = new Date();
-      const birthDate = new Date(values.birthday);
-      if (birthDate > today) {
-          errors.birthday = "La fecha de nacimiento no puede ser futura";
+      const dob = new Date(values.birthdate);
+      if (dob > today) {
+          errors.birthdate = "La fecha de nacimiento no puede ser futura";
       } else {
-          let age = today.getFullYear() - birthDate.getFullYear();
-          const monthDifference = today.getMonth() - birthDate.getMonth();
-          if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+          let age = today.getFullYear() - dob.getFullYear();
+          const monthDifference = today.getMonth() - dob.getMonth();
+          if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
               age--;
           }
           if (age < 18) {
-              errors.birthday = "Debes tener al menos 18 años";
+              errors.birthdate = "Debes tener al menos 18 años";
           }
       }
   }

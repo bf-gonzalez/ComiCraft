@@ -12,7 +12,7 @@ export class MailerService {
       service: 'gmail',
       auth: {
         user: process.env.MAIL_USER,
-        pass: process.env.AIL_PASSWORD,
+        pass: process.env.MAIL_PASSWORD,
       },
     });
   }
