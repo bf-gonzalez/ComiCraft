@@ -45,5 +45,6 @@ export class AuthService {
       ...user,
       password: hashedPassword,
     });
+    
   }
 }
