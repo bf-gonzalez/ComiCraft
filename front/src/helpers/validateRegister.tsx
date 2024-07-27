@@ -25,17 +25,17 @@ export const validateRegister = (values: { [key: string]: string }) => {
       errors.phone = "El teléfono debe tener al menos 10 dígitos";
   }
 
-  if (!values.direccion) {
-      errors.direccion = "La dirección es requerida";
+  if (!values.address) {
+      errors.address = "La dirección es requerida";
   }
 
-  if (!values.birthdate) {
-      errors.birthdate = "La fecha de nacimiento es requerida";
+  if (!values.birthday) {
+      errors.birthday = "La fecha de nacimiento es requerida";
   } else {
       const today = new Date();
-      const birthDate = new Date(values.birthdate);
+      const birthDate = new Date(values.birthday);
       if (birthDate > today) {
-          errors.birthdate = "La fecha de nacimiento no puede ser futura";
+          errors.birthday = "La fecha de nacimiento no puede ser futura";
       } else {
           let age = today.getFullYear() - birthDate.getFullYear();
           const monthDifference = today.getMonth() - birthDate.getMonth();
@@ -43,7 +43,7 @@ export const validateRegister = (values: { [key: string]: string }) => {
               age--;
           }
           if (age < 18) {
-              errors.birthdate = "Debes tener al menos 18 años";
+              errors.birthday = "Debes tener al menos 18 años";
           }
       }
   }

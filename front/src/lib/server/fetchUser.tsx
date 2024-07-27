@@ -1,7 +1,7 @@
 import { ILoginUser, IUser } from "@/interface/index";
 
 export const postRegister = async (user: Omit<IUser, "id">) =>{
-    const response = await fetch("", {
+    const response = await fetch("http://localhost:3000/auth/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
@@ -11,7 +11,7 @@ export const postRegister = async (user: Omit<IUser, "id">) =>{
 }
 
 export const postLogin = async (credentials: ILoginUser) =>{
-    const response = await fetch("", {
+    const response = await fetch("http://localhost:3000/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),

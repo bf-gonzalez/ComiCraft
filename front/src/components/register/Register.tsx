@@ -145,7 +145,7 @@ export const Register = () => {
                         value={signUpValue.address}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
-                    {errors.direccion && <p className="text-red-500 text-xs italic">{errors.direccion}</p>}
+                    {errors.address && <p className="text-red-500 text-xs italic">{errors.address}</p>}
                 </div>
                 <div className="mb-4">
                     <label htmlFor="birthday" className="block text-gray-700 text-sm font-bold mb-2">Fecha de Nacimiento:</label>
@@ -157,7 +157,7 @@ export const Register = () => {
                         value={signUpValue.birthday}
                         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     />
-                    {errors.birthdate && <p className="text-red-500 text-xs italic">{errors.birthdate}</p>}
+                    {errors.birthday && <p className="text-red-500 text-xs italic">{errors.birthday}</p>}
                 </div>
                 <div className="flex items-center justify-between">
                     <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Registrarse</button>
