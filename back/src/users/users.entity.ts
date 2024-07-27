@@ -51,7 +51,7 @@ export class Users {
   * @example 123456789
   */
   @Column({
-    type: 'int',
+    type: 'bigint',
   })
   phone: number;
 

@@ -25,21 +25,21 @@ export const validateRegister = (values: { [key: string]: string }) => {
       errors.phone = "El teléfono debe tener al menos 10 dígitos";
   }
 
-  if (!values.direccion) {
-      errors.direccion = "La dirección es requerida";
+  if (!values.address) {
+      errors.address = "La dirección es requerida";
   }
 
-  if (!values.birthdate) {
-      errors.birthdate = "La fecha de nacimiento es requerida";
+  if (!values.dob) {
+      errors.dob = "La fecha de nacimiento es requerida";
   } else {
       const today = new Date();
-      const birthDate = new Date(values.birthdate);
-      if (birthDate > today) {
+      const dob = new Date(values.birthdate);
+      if (dob > today) {
           errors.birthdate = "La fecha de nacimiento no puede ser futura";
       } else {
-          let age = today.getFullYear() - birthDate.getFullYear();
-          const monthDifference = today.getMonth() - birthDate.getMonth();
-          if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+          let age = today.getFullYear() - dob.getFullYear();
+          const monthDifference = today.getMonth() - dob.getMonth();
+          if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
               age--;
           }
           if (age < 18) {

@@ -6,7 +6,7 @@ email:string;
 password:string;
 address:string;
 phone: string;
-birthday: string;
+dob: string;
 }
 
 export interface IRegisterUserResponse {
@@ -15,7 +15,7 @@ export interface IRegisterUserResponse {
   password:string;
   address:string;
   phone: string;
-  birthday: string;
+  dob: string;
   role: string;
   credential: ICreadential;
   }
@@ -37,7 +37,7 @@ export interface ILoginUser {
     password:string;
     address:string;
     phone: string;
-    birthday: string;
+    dob: string;
     role?: string;
     credential?: ICreadential;
   }
@@ -53,7 +53,7 @@ export interface ILoginUser {
     setUser: React.Dispatch<React.SetStateAction<Partial<ILoginUserResponse> | null>>,
     isLogged: boolean,
     setIsLogged: (isLogged: boolean) => void,
-    singIn: (credentials: ILoginUser) => Promise<boolean>,
-    singUp: (user: Omit<IRegisterUser, "id">)=> Promise<boolean>,
+    signIn: (credentials: ILoginUser) => Promise<boolean>,
+    signUp: (user: Omit<IRegisterUser, "id">)=> Promise<boolean>,
     logOut: () => void,
   }
