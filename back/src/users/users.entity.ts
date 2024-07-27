@@ -34,9 +34,31 @@ export class Users {
   dob: Date;
 
   /**
-   * Es de tipo varchar, es unico y no puede ser null
-   * @example tester@example.com
-   */
+  * Es de tipo varchar, es unico y no puede ser null
+  * @example "calle falsa 123"
+  */
+  @Column({
+    type: 'varchar',
+    length: 40,
+    nullable: false,
+    unique: true
+    
+  })
+  address: string;
+
+  /**
+  * Es de tipo int
+  * @example 123456789
+  */
+  @Column({
+    type: 'int',
+  })
+  phone: number;
+
+  /**
+  * Es de tipo varchar, es unico y no puede ser null
+  * @example tester@example.com
+  */
   @Column({
     type: 'varchar',
     length: 50,

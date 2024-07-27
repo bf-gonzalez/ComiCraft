@@ -40,7 +40,7 @@ export class UsersRepository {
     return await this.usersRepository.findOneBy({ name });
   }
 
-  async createUser(user: Users) {
+  async createUser(user: Partial<Users>) {
     const newUser = await this.usersRepository.save(user);
     const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
     const { password, ...userNoPassword } = dbUser;
