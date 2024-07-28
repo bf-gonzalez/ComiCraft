@@ -1,8 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
 import { MailerService } from 'src/mailer/mailer.service';
+import { LoginUserDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -13,74 +19,117 @@ export class UsersRepository {
 
   async getUsers(page: number, limit: number) {
     const skip = (page - 1) * limit;
-    const users = await this.usersRepository.find({
-      take: limit,
-      skip: skip,
-    });
-    return users.map(({ password, ...userNoPassword }) => userNoPassword);
+    try {
+      const users = await this.usersRepository.find({
+        take: limit,
+        skip: skip,
+      });
+      if (users.length < 1) {
+        throw new NotFoundException('No se encontraron usuarios');
+      }
+      return users;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new InternalServerErrorException('Error al buscar los usuarios');
+    }
   }
 
   async getUserById(id: string) {
-    const user = await this.usersRepository.findOne({
-      where: { id },
-      relations: {
-        comics: true,
-        memberships: true,
-      },
-    });
-    if (!user) return `No se encontro el usuario con id ${id}`;
-    const { password, ...userNoPassword } = user;
-    return userNoPassword;
+    try {
+      const user = await this.usersRepository.findOne({
+        where: { id },
+        relations: {
+          comics: true,
+          memberships: true,
+        },
+      });
+      if (!user) {
+        throw new NotFoundException(
+          `No se encontró nigún usuario con el id ${id}`,
+        );
+      }
+
+      return user;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new BadRequestException('Error al buscar el usuario');
+    }
   }
 
   async getUserByName(name?: string) {
-    if (!name) {
-      return `El nombre ${name} no se encontro`;
+    try {
+      if (!name) {
+        throw new NotFoundException(`No se encontró el usuario ${name}`);
+      }
+      return await this.usersRepository.findOneBy({ name });
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new BadRequestException('Error al buscar el usuario');
     }
-    return await this.usersRepository.findOneBy({ name });
   }
 
-  async createUser(user: Partial<Users>) {
-    const newUser = await this.usersRepository.save(user);
-    const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
-    const { password, ...userNoPassword } = dbUser;
-
-    await this.mailerService.sendMail(
-      userNoPassword.email,
-      'bienvenido a nuestra aplicación',
-      `hola ${userNoPassword.name} gracias por registrarse en nuestra aplicación`,
-    );
-
-    return userNoPassword;
+  async createUser(user: LoginUserDto) {
+    try {
+      const newUser = await this.usersRepository.save(user);
+      await this.mailerService.sendMail(
+        newUser.email,
+        'bienvenido a nuestra aplicación',
+        `hola ${newUser.name} gracias por registrarse`,
+      );
+      return newUser;
+    } catch (error) {
+      throw new BadRequestException('No se pudo registrar el Usuario');
+    }
   }
 
   async updateUser(id: string, user: Users) {
-    await this.usersRepository.update(id, user);
-    const updateUser = await this.usersRepository.findOneBy({ id });
-    const { password, ...userNoPassword } = updateUser;
-    return userNoPassword;
+    try {
+      await this.usersRepository.update(id, user);
+      const updateUser = await this.usersRepository.findOneBy({ id });
+      if (!updateUser) {
+        throw new NotFoundException(
+          `No se encontró nigún usuario con el id ${id}`,
+        );
+      }
+      return updateUser;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new BadRequestException('No se pudo actualizar al usuario');
+    }
   }
 
   async deleteUser(id: string) {
-    const user = await this.usersRepository.findOneBy({ id });
-    this.usersRepository.remove(user);
-    const { password, ...userNoPassword } = user;
-    return userNoPassword;
+    try {
+      const deletedUser = await this.usersRepository.findOneBy({ id });
+      if (!deletedUser) {
+        throw new NotFoundException(
+          `No se encontró nigún usuario con el id ${id}`,
+        );
+      }
+      return deletedUser;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new BadRequestException('No se pudo eliminar al usuario');
+    }
   }
 
   async getUserByEmail(email: string) {
     return await this.usersRepository.findOneBy({ email });
   }
 
-  async addUser(user: Partial<Users>): Promise<Users> {
-    const newUser = this.usersRepository.create(user);
-    const savedUser = await this.usersRepository.save(newUser);
-    const { id, ...rest } = savedUser;
-    await this.mailerService.sendMail(
-      savedUser.email,
-      'bienvenido a nuestra aplicación',
-      `hola ${savedUser.email} gracias por registrarse en nuestra aplicación`,
-    );
-    return { id, ...rest };
-  }
+  /* async addUser(user: Partial<Users>): Promise<Users> {
+    try {
+      const newUser = this.usersRepository.create(user);
+      const savedUser = await this.usersRepository.save(newUser);
+      const { id, ...rest } = savedUser;
+      await this.mailerService.sendMail(
+        savedUser.email,
+        'bienvenido a nuestra aplicación',
+        `hola ${savedUser.email} gracias por registrarse en nuestra aplicación`,
+      );
+      return { id, ...rest };
+    } catch (error) {
+      throw new BadRequestException('No se pudo registrar el Usuario');
+    }
+  } */
 }
