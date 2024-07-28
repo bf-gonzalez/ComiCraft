@@ -6,7 +6,7 @@ import { Bebas_Neue } from "next/font/google";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { UserContext } from "@/context/userContext";
-import {postRegister} from '@/lib/server/fetchUser'
+import { postRegister } from '@/lib/server/fetchUser';
 
 const bebas = Bebas_Neue({
     subsets: ['latin'],
@@ -54,7 +54,6 @@ export const Register = () => {
             try {
                 const respuesta = await postRegister(user);
                 console.log(user);
-                 
 
                 if (respuesta) {
                     Swal.fire({
@@ -79,10 +78,9 @@ export const Register = () => {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 ">
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div className="max-w-md mx-auto mt-10">
+            <form onSubmit={handleSubmit} className="bg-custom-transparent shadow-md rounded px-8 pt-6 pb-8 mb-4">
                 <div className="mb-4">
-                    <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Nombre:</label>
                     <input
                         type="text"
                         id="name"
@@ -90,12 +88,11 @@ export const Register = () => {
                         onChange={handleChange}
                         placeholder="Nombre"
                         value={signUpValues.name}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input placeholder-black"
                     />
                     {errors.name && <p className="text-red-500 text-xs italic">{errors.name}</p>}
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
                     <input
                         type="email"
                         id="email"
@@ -103,12 +100,11 @@ export const Register = () => {
                         onChange={handleChange}
                         placeholder="Email"
                         value={signUpValues.email}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input placeholder-black"
                     />
                     {errors.email && <p className="text-red-500 text-xs italic">{errors.email}</p>}
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Contraseña:</label>
                     <input
                         type="password"
                         id="password"
@@ -116,12 +112,11 @@ export const Register = () => {
                         onChange={handleChange}
                         placeholder="Contraseña"
                         value={signUpValues.password}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input placeholder-black"
                     />
                     {errors.password && <p className="text-red-500 text-xs italic">{errors.password}</p>}
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="confirmPassword" className="block text-gray-700 text-sm font-bold mb-2">Confirmar Contraseña:</label>
                     <input
                         type="password"
                         id="confirmPassword"
@@ -129,12 +124,11 @@ export const Register = () => {
                         onChange={handleChange}
                         placeholder="Confirmar Contraseña"
                         value={signUpValues.confirmPassword}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input placeholder-black"
                     />
                     {errors.confirmPassword && <p className="text-red-500 text-xs italic">{errors.confirmPassword}</p>}
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="phone" className="block text-gray-700 text-sm font-bold mb-2">Teléfono:</label>
                     <input
                         type="tel"
                         id="phone"
@@ -142,12 +136,11 @@ export const Register = () => {
                         onChange={handleChange}
                         placeholder="Teléfono"
                         value={signUpValues.phone}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input placeholder-black"
                     />
                     {errors.phone && <p className="text-red-500 text-xs italic">{errors.phone}</p>}
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="address" className="block text-gray-700 text-sm font-bold mb-2">Dirección:</label>
                     <input
                         type="text"
                         id="address"
@@ -155,24 +148,27 @@ export const Register = () => {
                         onChange={handleChange}
                         placeholder="Dirección"
                         value={signUpValues.address}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input placeholder-black"
                     />
                     {errors.address && <p className="text-red-500 text-xs italic">{errors.address}</p>}
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="dob" className="block text-gray-700 text-sm font-bold mb-2">Fecha de Nacimiento:</label>
+                <label htmlFor="password" className="block text-yellow-600 text-sm font-bold mb-2">Fecha de nacimiento:</label>
                     <input
                         type="date"
                         id="dob"
                         name="dob"
                         onChange={handleChange}
                         value={signUpValues.dob}
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline bg-custom-input placeholder-black"
                     />
                     {errors.dob && <p className="text-red-500 text-xs italic">{errors.dob}</p>}
                 </div>
                 <div className="flex items-center justify-between">
-                    <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Registrarse</button>
+                    <button type="submit" className={`${bebas.variable} font-sans 
+                    login cursor-pointer
+                    text-4xl text-white hover:text-yellow-400
+                    transition-all custom-transition duration-300`}>Registrarse</button>
                 </div>
             </form>
         </div>
