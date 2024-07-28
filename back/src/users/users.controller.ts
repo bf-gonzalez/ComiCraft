@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseUUIDPipe,
   Put,
   Query,
   UseInterceptors,
@@ -44,7 +45,7 @@ export class UsersController {
   @HttpCode(200)
   @Get(':id')
   @UseInterceptors(PasswordInterceptor)
-  getUserById(@Param('id') id: string) {
+  getUserById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getUserById(id);
   }
 
@@ -58,14 +59,14 @@ export class UsersController {
   @HttpCode(200)
   @UseInterceptors(PasswordInterceptor)
   @Delete(':id')
-  deleteUser(@Param('id') id: string) {
+  deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.deleteUser(id);
   }
 
   @HttpCode(201)
   @UseInterceptors(PasswordInterceptor)
   @Put(':id')
-  updateUser(@Param('id') id: string, @Body() user: Users) {
+  updateUser(@Param('id', ParseUUIDPipe) id: string, @Body() user: Users) {
     return this.usersService.updateUser(id, user);
   }
 }

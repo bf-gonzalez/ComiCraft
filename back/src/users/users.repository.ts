@@ -68,18 +68,119 @@ export class UsersRepository {
     }
   }
 
-  async createUser(user: LoginUserDto) {
-    try {
-      const newUser = await this.usersRepository.save(user);
-      await this.mailerService.sendMail(
-        newUser.email,
-        'bienvenido a nuestra aplicación',
-        `hola ${newUser.name} gracias por registrarse`,
-      );
-      return newUser;
-    } catch (error) {
-      throw new BadRequestException('No se pudo registrar el Usuario');
-    }
+  async createUser(user: Partial<Users>) {
+    const newUser = await this.usersRepository.save(user);
+    const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
+    const { password, ...userNoPassword } = dbUser;
+
+    await this.mailerService.sendMail(
+      userNoPassword.email,
+      '¡Bienvenido a ComiCraft!',
+      `Hola ${userNoPassword.name}, gracias por registrarte en ComiCraft`,
+      `
+        <html>
+        <head>
+          <style>
+            body {
+              font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+              background-color: #f2f2f2;
+              margin: 0;
+              padding: 0;
+            }
+            .container {
+              width: 100%;
+              max-width: 600px;
+              margin: 0 auto;
+              background-color: #ffffff;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+              background-color: #ffcc00;
+              color: #333;
+              text-align: center;
+              padding: 20px 0;
+              border-top-left-radius: 8px;
+              border-top-right-radius: 8px;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 24px;
+              text-transform: uppercase;
+              letter-spacing: 1.5px;
+            }
+            .content {
+              padding: 20px;
+              color: #333;
+            }
+            .content p {
+              margin: 10px 0;
+              line-height: 1.6;
+            }
+            .footer {
+              text-align: center;
+              padding: 10px 0;
+              background-color: #ffcc00;
+              color: #333;
+              border-bottom-left-radius: 8px;
+              border-bottom-right-radius: 8px;
+              font-size: 12px;
+            }
+            .footer p {
+              margin: 0;
+            }
+            .contenedorimg {
+              text-align: center;
+              margin: 20px 0;
+            }
+            .contenedorimg img.batman {
+              max-width: 100%;
+              height: auto;
+            }
+            .botoncreador {
+              background-color: #ffcc00;
+              color: #333;
+              border: none;
+              border-radius: 8px;
+              padding: 10px 20px;
+              cursor: pointer;
+              font-size: 16px;
+              margin-top: 10px;
+            }
+            .botoncreador:hover {
+              background-color: #e6b800;
+            } 
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>¡Bienvenido a ComiCraft!</h1>
+            </div>
+            <div class="content">
+              <p>Hola ${userNoPassword.name},</p>
+              <p>¡Gracias por registrarte en ComiCraft! Estamos emocionados de tenerte con nosotros en esta aventura de cómics.</p>
+              <p>En ComiCraft, podrás disfrutar de una amplia variedad de cómics y mangas. No dudes en explorar y descubrir nuevas historias.</p>
+              <p>Si tienes alguna pregunta, no dudes en contactarnos. ¡Disfruta de la magia de los cómics!</p>
+
+              <div class= "contenedorimg">
+                <p>Tambien queremos invitarte a que ¡TU!</p>
+                <img  class = "batman" src="https://res.cloudinary.com/dyeji7bvg/image/upload/v1722142238/Group_4_1_lvwly7.png">
+                <p>Te conviertas en el nuevo Autor estrella de comiCraft para que la gente conozca tus mejores historias </p>
+                <button class="botoncreador" onclick="window.open('https://www.google.com', '_blank')">¡Ùnete!</button>
+              </div>
+            </div>
+            <div class="footer">
+              <p>&copy; 2024 ComiCraft. Todos los derechos reservados.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `,
+    );
+
+    return userNoPassword;
   }
 
   async updateUser(id: string, user: Users) {
