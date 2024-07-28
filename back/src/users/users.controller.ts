@@ -20,11 +20,6 @@ import { PasswordInterceptor } from 'src/interceptors/password.interceptor';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @HttpCode(201)
-  /* @Post()
-  createUser(@Body() user: IUsers) {
-    return this.usersService.createUser(user);
-  } */
   @HttpCode(200)
   @UseInterceptors(PasswordInterceptor)
   @Get()
