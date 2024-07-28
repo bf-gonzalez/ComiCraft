@@ -68,15 +68,15 @@ export class UsersRepository {
     }
   }
 
-  async createUser(user: Partial<Users>) {
+  async createUser(user: LoginUserDto) {
     const newUser = await this.usersRepository.save(user);
-    const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
+    /* const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
     const { password, ...userNoPassword } = dbUser;
-
+ */
     await this.mailerService.sendMail(
-      userNoPassword.email,
+      newUser.email,
       '¡Bienvenido a ComiCraft!',
-      `Hola ${userNoPassword.name}, gracias por registrarte en ComiCraft`,
+      `Hola ${newUser.name}, gracias por registrarte en ComiCraft`,
       `
         <html>
         <head>
@@ -159,7 +159,7 @@ export class UsersRepository {
               <h1>¡Bienvenido a ComiCraft!</h1>
             </div>
             <div class="content">
-              <p>Hola ${userNoPassword.name},</p>
+              <p>Hola ${newUser.name},</p>
               <p>¡Gracias por registrarte en ComiCraft! Estamos emocionados de tenerte con nosotros en esta aventura de cómics.</p>
               <p>En ComiCraft, podrás disfrutar de una amplia variedad de cómics y mangas. No dudes en explorar y descubrir nuevas historias.</p>
               <p>Si tienes alguna pregunta, no dudes en contactarnos. ¡Disfruta de la magia de los cómics!</p>
@@ -180,7 +180,7 @@ export class UsersRepository {
       `,
     );
 
-    return userNoPassword;
+    return newUser;
   }
 
   async updateUser(id: string, user: Users) {
