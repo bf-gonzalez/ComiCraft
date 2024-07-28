@@ -5,6 +5,7 @@ import {
   Get,
   HttpCode,
   Param,
+  ParseUUIDPipe,
   Post,
   Put,
   Query,
@@ -43,7 +44,7 @@ export class UsersController {
 
   @HttpCode(200)
   @Get(':id')
-  getUserById(@Param('id') id: string) {
+  getUserById(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.getUserById(id);
   }
 
@@ -55,12 +56,12 @@ export class UsersController {
 
   @HttpCode(200)
   @Delete(':id')
-  deleteUser(@Param('id') id: string) {
+  deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.deleteUser(id);
   }
 
   @Put(':id')
-  updateUser(@Param('id') id: string, @Body() user: Users) {
+  updateUser(@Param('id', ParseUUIDPipe) id: string, @Body() user: Users) {
     return this.usersService.updateUser(id, user);
   }
 }

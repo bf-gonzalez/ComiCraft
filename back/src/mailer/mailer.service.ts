@@ -16,13 +16,15 @@ export class MailerService {
       },
     });
   }
+  
 
-  async sendMail(to: string, subject: string, text: string) {
+  async sendMail(to: string, subject: string, text: string, html?: string) {
     const mailOptions = {
       from: 'comicraft2024',
       to,
       subject,
       text,
+      html,
     };
     return await this.transporter.sendMail(mailOptions);
   }

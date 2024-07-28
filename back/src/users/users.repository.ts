@@ -47,8 +47,82 @@ export class UsersRepository {
 
     await this.mailerService.sendMail(
       userNoPassword.email,
-      'bienvenido a nuestra aplicación',
-      `hola ${userNoPassword.name} gracias por registrarse en nuestra aplicación`,
+      '¡Bienvenido a ComiCraft!',
+      `Hola ${userNoPassword.name}, gracias por registrarte en ComiCraft`,
+      `
+        <html>
+        <head>
+          <style>
+            body {
+              font-family: 'Comic Sans MS', 'Comic Sans', cursive;
+              background-color: #f2f2f2;
+              margin: 0;
+              padding: 0;
+            }
+            .container {
+              width: 100%;
+              max-width: 600px;
+              margin: 0 auto;
+              background-color: #ffffff;
+              padding: 20px;
+              border-radius: 8px;
+              box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            .header {
+              background-color: #ffcc00;
+              color: #333;
+              text-align: center;
+              padding: 20px 0;
+              border-top-left-radius: 8px;
+              border-top-right-radius: 8px;
+            }
+            .header h1 {
+              margin: 0;
+              font-size: 24px;
+              text-transform: uppercase;
+              letter-spacing: 1.5px;
+            }
+            .content {
+              padding: 20px;
+              color: #333;
+            }
+            .content p {
+              margin: 10px 0;
+              line-height: 1.6;
+            }
+            .footer {
+              text-align: center;
+              padding: 10px 0;
+              background-color: #ffcc00;
+              color: #333;
+              border-bottom-left-radius: 8px;
+              border-bottom-right-radius: 8px;
+              font-size: 12px;
+            }
+            .footer p {
+              margin: 0;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>¡Bienvenido a ComiCraft!</h1>
+            </div>
+            <div class="content">
+              <p>Hola ${userNoPassword.name},</p>
+              <p>¡Gracias por registrarte en ComiCraft! Estamos emocionados de tenerte con nosotros en esta aventura de cómics.</p>
+              <p>En ComiCraft, podrás disfrutar de una amplia variedad de cómics y mangas. No dudes en explorar y descubrir nuevas historias.</p>
+              <p>Además, te invitamos a crear tus propias historias y compartirlas con la comunidad. ¡Deja volar tu imaginación y conviértete en un creador de cómics!</p>
+              <p>Si tienes alguna pregunta, no dudes en contactarnos. ¡Disfruta de la magia de los cómics!</p>
+            </div>
+            <div class="footer">
+              <p>&copy; 2024 ComiCraft. Todos los derechos reservados.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `
     );
 
     return userNoPassword;
