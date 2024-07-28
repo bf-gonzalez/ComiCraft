@@ -69,15 +69,13 @@ export class UsersRepository {
   }
 
   async createUser(user: LoginUserDto) {
-    const newUser = await this.usersRepository.save(user);
-    /* const dbUser = await this.usersRepository.findOneBy({ id: newUser.id });
-    const { password, ...userNoPassword } = dbUser;
- */
-    await this.mailerService.sendMail(
-      newUser.email,
-      '¡Bienvenido a ComiCraft!',
-      `Hola ${newUser.name}, gracias por registrarte en ComiCraft`,
-      `
+    try {
+      const newUser = await this.usersRepository.save(user);
+      await this.mailerService.sendMail(
+        newUser.email,
+        '¡Bienvenido a ComiCraft!',
+        `Hola ${newUser.name}, gracias por registrarte en ComiCraft`,
+        `
         <html>
         <head>
           <style>
@@ -147,7 +145,7 @@ export class UsersRepository {
               cursor: pointer;
               font-size: 16px;
               margin-top: 10px;
-            }
+              }
             .botoncreador:hover {
               background-color: #e6b800;
             } 
@@ -159,7 +157,7 @@ export class UsersRepository {
               <h1>¡Bienvenido a ComiCraft!</h1>
             </div>
             <div class="content">
-              <p>Hola ${newUser.name},</p>
+            <p>Hola ${newUser.name},</p>
               <p>¡Gracias por registrarte en ComiCraft! Estamos emocionados de tenerte con nosotros en esta aventura de cómics.</p>
               <p>En ComiCraft, podrás disfrutar de una amplia variedad de cómics y mangas. No dudes en explorar y descubrir nuevas historias.</p>
               <p>Si tienes alguna pregunta, no dudes en contactarnos. ¡Disfruta de la magia de los cómics!</p>
@@ -173,14 +171,17 @@ export class UsersRepository {
             </div>
             <div class="footer">
               <p>&copy; 2024 ComiCraft. Todos los derechos reservados.</p>
-            </div>
-          </div>
-        </body>
-        </html>
-      `,
-    );
+              </div>
+              </div>
+              </body>
+              </html>
+              `,
+      );
 
-    return newUser;
+      return newUser;
+    } catch (error) {
+      throw new BadRequestException('Error al crear el usuario');
+    }
   }
 
   async updateUser(id: string, user: Users) {
@@ -207,6 +208,7 @@ export class UsersRepository {
           `No se encontró nigún usuario con el id ${id}`,
         );
       }
+      await this.usersRepository.delete(id);
       return deletedUser;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
