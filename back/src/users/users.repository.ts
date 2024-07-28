@@ -102,6 +102,27 @@ export class UsersRepository {
             .footer p {
               margin: 0;
             }
+            .contenedorimg {
+              text-align: center;
+              margin: 20px 0;
+            }
+            .contenedorimg img.batman {
+              max-width: 100%;
+              height: auto;
+            }
+            .botoncreador {
+              background-color: #ffcc00;
+              color: #333;
+              border: none;
+              border-radius: 8px;
+              padding: 10px 20px;
+              cursor: pointer;
+              font-size: 16px;
+              margin-top: 10px;
+            }
+            .botoncreador:hover {
+              background-color: #e6b800;
+            } 
           </style>
         </head>
         <body>
@@ -113,8 +134,14 @@ export class UsersRepository {
               <p>Hola ${userNoPassword.name},</p>
               <p>¡Gracias por registrarte en ComiCraft! Estamos emocionados de tenerte con nosotros en esta aventura de cómics.</p>
               <p>En ComiCraft, podrás disfrutar de una amplia variedad de cómics y mangas. No dudes en explorar y descubrir nuevas historias.</p>
-              <p>Además, te invitamos a crear tus propias historias y compartirlas con la comunidad. ¡Deja volar tu imaginación y conviértete en un creador de cómics!</p>
               <p>Si tienes alguna pregunta, no dudes en contactarnos. ¡Disfruta de la magia de los cómics!</p>
+
+              <div class= "contenedorimg">
+                <p>Tambien queremos invitarte a que ¡TU!</p>
+                <img  class = "batman" src="https://res.cloudinary.com/dyeji7bvg/image/upload/v1722142238/Group_4_1_lvwly7.png">
+                <p>Te conviertas en el nuevo Autor estrella de comiCraft para que la gente conozca tus mejores historias </p>
+                <button class="botoncreador" onclick="window.open('https://www.google.com', '_blank')">¡Ùnete!</button>
+              </div>
             </div>
             <div class="footer">
               <p>&copy; 2024 ComiCraft. Todos los derechos reservados.</p>
