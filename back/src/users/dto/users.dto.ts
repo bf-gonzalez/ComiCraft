@@ -3,6 +3,7 @@ import { IsEnum, IsOptional, IsString, IsNumber, IsNotEmpty, MinLength, MaxLengt
 import { MatchPassword } from 'src/decorators/matchPassword.decorator';
 import { MembershipType } from 'src/enum/membership-type.enum';
 import { Role } from 'src/enum/role.enum';
+import { Type } from 'class-transformer';
 
 
 export class CreateUserDto {
@@ -35,6 +36,7 @@ export class CreateUserDto {
   */
   @IsNotEmpty()
   @IsDate()
+  @Type(() => Date)
   dob: Date;
 
   /**

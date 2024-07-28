@@ -6,8 +6,7 @@ import {
 import { UsersRepository } from 'src/users/users.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { Users } from 'src/users/users.entity';
-import { LoginUserDto } from 'src/users/dto/users.dto';
+import { CreateUserDto, LoginUserDto } from 'src/users/dto/users.dto';
 
 @Injectable()
 export class AuthService {
@@ -40,7 +39,7 @@ export class AuthService {
     }
   }
 
-  async signUp(user: LoginUserDto) {
+  async signUp(user: CreateUserDto) {
     const { email, password } = user;
     try {
       if (!password)
