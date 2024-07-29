@@ -19,7 +19,7 @@ export class AuthController {
 
   @Post('signin')
   @HttpCode(201)
-  signin(@Body() credentials: CreateUserDto) {
+  signin(@Body() credentials: LoginUserDto) {
     const { password, email } = credentials;
     return this.authService.signIn(email, password);
   }
