@@ -1,5 +1,6 @@
 import { PickType } from '@nestjs/swagger';
 import { IsEnum, IsOptional, IsString, IsNumber, IsNotEmpty, MinLength, MaxLength, Matches, IsEmail, IsStrongPassword, Validate, IsDate } from 'class-validator';
+import { Type } from 'class-transformer'; // Importar Type desde class-transformer
 import { MatchPassword } from 'src/decorators/matchPassword.decorator';
 import { MembershipType } from 'src/enum/membership-type.enum';
 import { Role } from 'src/enum/role.enum';
@@ -35,6 +36,7 @@ export class CreateUserDto {
   */
   @IsNotEmpty()
   @IsDate()
+  @Type(() => Date)
   dob: Date;
 
   /**
@@ -84,6 +86,12 @@ export class CreateUserDto {
   membershipType?: MembershipType;
 }
 
-export class LoginUserDto extends PickType(CreateUserDto, ['email', 'password']){
-  
+export class LoginUserDto {
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  password: string;
 }
