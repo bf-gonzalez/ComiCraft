@@ -14,8 +14,12 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('signin')
-  async signIn(@Body() loginUserDto: LoginUserDto) {
-    return this.authService.signIn(loginUserDto);
+
+  @HttpCode(201)
+  signin(@Body() credentials: LoginUserDto) {
+    const { password, email } = credentials;
+    return this.authService.signIn(email, password);
+
   }
 
   @Post('signup')
