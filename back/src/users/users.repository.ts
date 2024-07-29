@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
 import { MailerService } from 'src/mailer/mailer.service';
-import { LoginUserDto } from './dto/users.dto';
+import { CreateUserDto, LoginUserDto } from './dto/users.dto';
 
 @Injectable()
 export class UsersRepository {
@@ -68,7 +68,7 @@ export class UsersRepository {
     }
   }
 
-  async createUser(user: LoginUserDto) {
+  async createUser(user: CreateUserDto) {
     try {
       const newUser = await this.usersRepository.save(user);
       await this.mailerService.sendMail(
