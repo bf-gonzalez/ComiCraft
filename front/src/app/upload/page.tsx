@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import styles from '../../components/regularBackground/RegularBackground.module.css';
 import ImageUpload from '@/components/ImageUpload';
 
-
 export default function UploadPage() {
   const [folders, setFolders] = useState([]);
   const [folderName, setFolderName] = useState('');
@@ -34,25 +33,25 @@ export default function UploadPage() {
 
   return (
     <main className={styles.fondo}>
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex flex-col items-start justify-start mt-48 p-4">
         <div>
           <input 
             type="text" 
-            placeholder="Nombre de la carpeta" 
+            placeholder="Nombre del Cómic" 
             value={folderName} 
             onChange={(e) => setFolderName(e.target.value)} 
-            className="mb-4 p-2 border rounded"
+            className="mb-4 p-2 border rounded text-black"
           />
           <ImageUpload folderName={folderName} />
         </div>
-      </div>
-      <div className="grid grid-cols-3 gap-4 p-4">
-        {folders.map((folder) => (
-          <div key={folder.name} onClick={() => handleFolderClick(folder.name)} className="cursor-pointer">
-            <img src={folder.firstImage} alt={folder.name} className="w-full h-auto" />
-            <p>{folder.name}</p>
-          </div>
-        ))}
+        <div className="grid grid-cols-3 gap-2 mt-4">
+          {folders.map((folder) => (
+            <div key={folder.name} onClick={() => handleFolderClick(folder.name)} className="relative w-64 h-80 border-2 border-gray-400 flex items-center justify-center cursor-pointer hover:scale-105 transition-transform duration-300">
+              <img src={folder.firstImage} alt={folder.name} className="absolute inset-0 w-full h-full object-cover" />
+              <p className="absolute bottom-0 bg-black bg-opacity-50 text-white w-full text-center">{folder.name}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );
