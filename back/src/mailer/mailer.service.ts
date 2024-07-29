@@ -7,6 +7,7 @@ dotenvConfig({ path: '.development.env' });
 @Injectable()
 export class MailerService {
   private transporter;
+  
   constructor() {
     this.transporter = nodemailer.createTransport({
       service: 'gmail',
@@ -14,10 +15,12 @@ export class MailerService {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASSWORD,
       },
+      tls: {
+        rejectUnauthorized: false, // Aceptar certificados autofirmados
+      },
     });
   }
   
-
   async sendMail(to: string, subject: string, text: string, html?: string) {
     const mailOptions = {
       from: 'comicraft2024',
