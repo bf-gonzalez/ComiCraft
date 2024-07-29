@@ -8,6 +8,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      backgroundColor: {
+        'custom-transparent': 'rgba(100, 6, 43, 0.5)',
+        'custom-input': 'rgba(245, 199, 2, 0.7)',
+      },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":
@@ -15,7 +19,8 @@ const config: Config = {
       },
     fontFamily: {
       sans: 'var(--font-bebas)',
-      mono: 'var(--font-antonio)'
+      mono: 'var(--font-antonio)',
+      black: 'var (--font-josefin)'
     },
       keyframes: {
         display: {

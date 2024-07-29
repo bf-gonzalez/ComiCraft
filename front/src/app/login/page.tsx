@@ -1,10 +1,14 @@
-import styles from "../../components/regularBackground/RegularBackground.module.css"
+import Login from "@/components/login/Login"
+import styles from "../../components/backgrounds/cyclops.module.css"
 
 export default function loginPage() {
     return (
         <main className={styles.fondo}>
-        <div className="w-screen h-screen">
-            <h1>Soy la página de login</h1>
+        <div className="flex h-screen">
+            <div className="flex-1"></div>
+            <div className="p-12 mx-38 mt-8 w-2/4">
+            <Login/> 
+            </div>
         </div>
         </main>
     )
