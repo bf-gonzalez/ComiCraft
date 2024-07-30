@@ -58,8 +58,6 @@ export interface ILoginUser {
   }
 
 
-
-
   export interface ILoginUserResponse {
     loggin: boolean;
     user: Partial<IUser> | null;

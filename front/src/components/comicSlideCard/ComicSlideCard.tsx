@@ -5,7 +5,7 @@ import { Bebas_Neue, Josefin_Sans } from "next/font/google";
 
 const josefin = Josefin_Sans({
     subsets: ['latin'],
-    weight: ['400'],
+    weight: ['600'],
     variable: '--font-josefin',
 });
 const bebas = Bebas_Neue({
@@ -16,12 +16,16 @@ const bebas = Bebas_Neue({
 
 function ComicSlideCard({ comic }: IComicProps) {
     const router = useRouter();
+    const handleComicClick = () => {
+        router.push(`/comic/${comic.id}`);
+    };
 
     return (
         <main className="flex flex-col items-center text-center">
-            <button className="hover:scale-105 duration-300 relative">
+            <button onClick={handleComicClick}
+            className="hover:scale-105 duration-300 relative">
 
-                {/* Image with Overlay Text */}
+                
                 <div className="relative">
                     <img
                         src={comic.image}
@@ -30,12 +34,12 @@ function ComicSlideCard({ comic }: IComicProps) {
                         height={600}
                     />
 
-                    {/* Overlay Text */}
+            
                     <div className="opacity-0 absolute inset-0 flex flex-col justify-end items-center p-4 bg-black bg-opacity-0 hover:opacity-100 hover:bg-opacity-50 rounded-xl duration-300">
                         <h2 className={`${bebas.variable} font-sans text-4xl text-yellow-400`}>
                             {comic.name}
                         </h2>
-                        <p className={`${josefin.variable} font-sans text-sm text-rose-600`}>
+                        <p className={`${bebas.variable} font-sans text-sm text-rose-600`}>
                             {comic.author}
                         </p>
                     </div>

@@ -14,15 +14,24 @@ const  bebas = Bebas_Neue({
     variable: '--font-bebas',
 });
 
+interface ComicPageProps {
+    comic: IComicTest;
+  }
+
 function ComicCard({comic}: IComicProps) {
     const router = useRouter();
+    const handleComicClick = () => {
+        router.push(`/comic/${comic.id}`);
+    };
 
     return (
         <main className="flex flex-col text-center">
-            <button className="hover:scale-105 duration-300">
+            <button onClick={handleComicClick}
+            className="hover:scale-105 duration-300">
 
             <img src= {comic.image} alt={comic.name}
-            className="rounded-xl border-2 max-h-96 border-rose-900 p-2"
+            className="rounded-xl border-2 h-96 border-rose-900 p-2
+            object-cover object-center w-64"
             height={400} />
 
             </button>
