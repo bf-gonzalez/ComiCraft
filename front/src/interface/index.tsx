@@ -42,6 +42,24 @@ export interface ILoginUser {
     credential?: ICreadential;
   }
 
+  export interface IComicTest {
+    id:number;
+    name: string;
+    image: string;
+    author: string;
+  }
+
+  export interface IComicListProps {
+    comics: IComicTest[];
+  }
+
+  export interface IComicProps {
+    comic: IComicTest;
+  }
+
+
+
+
   export interface ILoginUserResponse {
     loggin: boolean;
     user: Partial<IUser> | null;
