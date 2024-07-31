@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ComicsService } from './comics.service';
 import { Comic } from './interfaces/comic.interface';
 import { title } from 'process';

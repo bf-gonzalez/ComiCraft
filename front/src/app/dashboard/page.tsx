@@ -87,7 +87,7 @@ export default function dashboard() {
                     text-6xl text-rose-800 max-w-96 text-left
         `}>AÚN NO HAS SUBIDO CONTENIDO!</h1>
 
-        <button type="button" onClick={() => router.push('/add-comic')}>
+        <button type="button" onClick={() => router.push('/upload')}>
                     <img src="/images/subirExample.png" alt="añadir"
                     className="subir w-96
                     duration-500 hover:scale-105 cursor-pointer pb-5"
