@@ -1,6 +1,7 @@
 import { Comics } from 'src/comics/comics.entity';
+import { Comments } from 'src/comment/comment.entity';
 import { Membership } from 'src/membership/membership.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
   name: 'users',
@@ -82,4 +83,9 @@ export class Users {
 
   @OneToMany(() => Comics, (comic) => comic.user)
   comics: Comics[];
+  
+  @OneToMany(() => Comments, (comment) => comment.user)
+  @JoinColumn({name: 'comment_id'})
+  comments: Comments[];
+
 }

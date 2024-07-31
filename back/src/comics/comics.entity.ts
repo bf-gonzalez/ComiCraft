@@ -1,6 +1,7 @@
 import { Categories } from "src/categories/categories.entity";
+import { Comments } from "src/comment/comment.entity";
 import { Users } from "src/users/users.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity()
@@ -41,11 +42,11 @@ export class Comics{
      */
     @Column({
         type: 'varchar',
-        length: 25,
+        length: 40,
         unique: true,
         nullable: false,
     })
-    autor: string;
+    username: string;
 
     /**
      * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
@@ -62,9 +63,10 @@ export class Comics{
      * @example "https://res.cloudinary.com/dyeji7bvg/image/upload/v1720248068/uhzzius1h9lbjc8k3hd9.webp"
      */
     @Column({
-        type: 'text',
+        type: 'varchar',
+        nullable: false,
     })
-    imgUrl: string;
+    nombrecarpeta: string;
 
     @ManyToOne(() => Users, (user) => user.comics, { eager: true, nullable: false })
     user: Users;
@@ -73,4 +75,6 @@ export class Comics{
     @JoinColumn({name: 'category_id'})
     category: Categories;
 
+    @OneToMany(() => Comments, (comment) => comment.comic)
+    comment: Comments[];
 }
