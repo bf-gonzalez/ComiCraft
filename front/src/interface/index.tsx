@@ -89,3 +89,13 @@ export interface ILoginUser {
     signUp: (user: Omit<IRegisterUser, "id">)=> Promise<boolean>,
     logOut: () => void,
   }
+
+  export interface MembershipOption {
+    name: string;
+    price: number;
+    description: string;
+    features: {
+        text: string;
+        isAvailable: boolean;
+    }[];
+}

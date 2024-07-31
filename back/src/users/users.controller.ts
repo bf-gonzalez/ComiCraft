@@ -14,6 +14,7 @@ import { UsersService } from './users.service';
 import { Users } from './users.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { PasswordInterceptor } from 'src/interceptors/password.interceptor';
+import { Role } from 'src/enum/role.enum';
 
 @ApiTags('users')
 @Controller('users')
@@ -63,5 +64,15 @@ export class UsersController {
   @Put(':id')
   updateUser(@Param('id', ParseUUIDPipe) id: string, @Body() user: Users) {
     return this.usersService.updateUser(id, user);
+  }
+
+  @HttpCode(200)
+  @UseInterceptors(PasswordInterceptor)
+  @Put(':id/role')
+  updateUserRole(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body('role') role: Role,
+  ) {
+    return this.usersService.updateUserRole(id, [role]);
   }
 }

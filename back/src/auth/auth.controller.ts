@@ -8,14 +8,12 @@ import {
 import { AuthService } from './auth.service';
 import { CreateUserDto, LoginUserDto } from 'src/users/dto/users.dto';
 import { PasswordInterceptor } from 'src/interceptors/password.interceptor';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('auth')
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
-  /* @Get()
-  getAuth() {
-    return 'auth';
-  } */
 
   @Post('signin')
   @HttpCode(201)
@@ -27,7 +25,7 @@ export class AuthController {
   @Post('signup')
   @HttpCode(201)
   @UseInterceptors(PasswordInterceptor)
-  signUp(@Body() user: LoginUserDto) {
+  signUp(@Body() user: CreateUserDto) {
     return this.authService.signUp(user);
   }
 }

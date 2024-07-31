@@ -1,6 +1,9 @@
 import { Comics } from 'src/comics/comics.entity';
+import { Comments } from 'src/comment/comment.entity';
 import { Membership } from 'src/membership/membership.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from 'src/enum/role.enum';
+
 
 @Entity({
   name: 'users',
@@ -22,6 +25,14 @@ export class Users {
     nullable: false,
   })
   name: string;
+
+  @Column({
+    type: 'varchar',
+    length: 17,
+    unique: true,
+    nullable: false,
+  })
+  username: string;
 
   /**
    * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
@@ -77,9 +88,22 @@ export class Users {
   })
   password: string;
 
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: [Role.Invited],
+    array: true,
+  })
+  role?: Role[];
+
   @OneToMany(() => Membership, (membership) => membership.user)
   memberships: Membership[];
 
   @OneToMany(() => Comics, (comic) => comic.user)
   comics: Comics[];
+  
+  @OneToMany(() => Comments, (comment) => comment.user)
+  @JoinColumn({name: 'comment_id'})
+  comments: Comments[];
+
 }

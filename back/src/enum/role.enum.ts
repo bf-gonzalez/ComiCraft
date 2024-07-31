@@ -1,6 +1,7 @@
 export enum Role {
   Invited = 'invited',
-  Member = 'member',
+  MonthlyMember = 'monthly_member',
+  AnnualMember = 'annual_member',
   Creator = 'creator',
   Admin = 'admin',
-}
+} 
