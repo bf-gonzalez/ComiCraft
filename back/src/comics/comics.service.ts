@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Comic } from './interfaces/comic.interface';
+import { ComicsRepository } from './comics.repository';
 
 const comics: Comic[] = [
   {
@@ -66,6 +67,8 @@ const comics: Comic[] = [
 
 @Injectable()
 export class ComicsService {
+  constructor(private readonly comicsRepository:ComicsRepository){}
+
   getComics() {
     return comics;
   }
@@ -81,6 +84,10 @@ export class ComicsService {
     return comics.filter((comic) =>
       comic.title.toLowerCase().includes(name.toLowerCase()),
     );
+  }
+
+  addComics() {
+    return this.comicsRepository.addComics();
   }
 
   postComic(comic: Comic) {

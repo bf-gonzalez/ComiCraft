@@ -35,27 +35,27 @@ export class UsersRepository {
     }
   }
 
-  async getUserById(id: string) {
-    try {
-      const user = await this.usersRepository.findOne({
-        where: { id },
-        relations: {
-          comics: true,
-          memberships: true,
-        },
-      });
-      if (!user) {
-        throw new NotFoundException(
-          `No se encontró nigún usuario con el id ${id}`,
-        );
-      }
+  // async getUserById(id: string) {
+  //   try {
+  //     const user = await this.usersRepository.findOne({
+  //       where: { id },
+  //       relations: {
+  //         comics: true,
+  //         memberships: true,
+  //       },
+  //     });
+  //     if (!user) {
+  //       throw new NotFoundException(
+  //         `No se encontró nigún usuario con el id ${id}`,
+  //       );
+  //     }
 
-      return user;
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new BadRequestException('Error al buscar el usuario');
-    }
-  }
+  //     return user;
+  //   } catch (error) {
+  //     if (error instanceof NotFoundException) throw error;
+  //     throw new BadRequestException('Error al buscar el usuario');
+  //   }
+  // }
 
   async getUserByName(name?: string) {
     try {

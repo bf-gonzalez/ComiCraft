@@ -21,6 +21,11 @@ export class ComicsController {
     return this.comicsService.getComics();
   }
 
+  @Get('seeder')
+  addComics() {
+    return this.comicsService.addComics();
+  }
+  
   @Get(':id')
   getComicById(@Param('id') id: string) {
     return this.comicsService.getComicById(Number(id));
@@ -30,6 +35,7 @@ export class ComicsController {
   getComicByName(@Param('name') name: string) {
     return this.comicsService.getComicByName(name);
   }
+
 
   @Post()
   postComic(@Body() comic: Comic) {
