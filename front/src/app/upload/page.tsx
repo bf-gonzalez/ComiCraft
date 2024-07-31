@@ -1,13 +1,15 @@
 "use client"
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from '../../components/regularBackground/RegularBackground.module.css';
 import ImageUpload from '@/components/ImageUpload';
+import { UserContext } from '@/context/userContext';
 
 export default function UploadPage() {
   const [folders, setFolders] = useState([]);
   const [folderName, setFolderName] = useState('');
+  const { user } = useContext(UserContext);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,6 +28,12 @@ export default function UploadPage() {
 
     fetchFolders();
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      setFolderName(` @${user.name}`);
+    }
+  }, [user]);
 
   const handleFolderClick = (folder) => {
     router.push(`/upload/${folder}`);
