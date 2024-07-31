@@ -67,7 +67,7 @@ const comics: Comic[] = [
 
 @Injectable()
 export class ComicsService {
-  constructor(private readonly comicsRepository:ComicsRepository){}
+  constructor(private readonly comicsRepository: ComicsRepository) {}
 
   getComics() {
     return comics;
@@ -86,8 +86,8 @@ export class ComicsService {
     );
   }
 
-  addComics() {
-    return this.comicsRepository.addComics();
+  addComics(id: string) {
+    return this.comicsRepository.addComics(id);
   }
 
   postComic(comic: Comic) {

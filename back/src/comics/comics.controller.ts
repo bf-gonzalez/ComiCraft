@@ -21,9 +21,9 @@ export class ComicsController {
     return this.comicsService.getComics();
   }
 
-  @Get('seeder')
-  addComics() {
-    return this.comicsService.addComics();
+  @Get('seeder/:id')
+  addComics(@Param('id') id: string) {
+    return this.comicsService.addComics(id);
   }
   
   @Get(':id')

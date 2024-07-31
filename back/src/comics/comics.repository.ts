@@ -5,7 +5,6 @@ import { Comics } from './comics.entity';
 import { Categories } from 'src/categories/categories.entity';
 import data from '../utils/data.json';
 import { Users } from 'src/users/users.entity'; 
-import { UsersRepository } from 'src/users/users.repository'; 
 
 @Injectable()
 export class ComicsRepository {
@@ -15,12 +14,16 @@ export class ComicsRepository {
     @InjectRepository(Categories)
     private categoriesRepository: Repository<Categories>,
     @InjectRepository(Users)
-    private usersRepository: Repository<Users>, // Inyecta el repositorio de Users
+    private usersRepository: Repository<Users>,
   ) {}
-
-  async addComics() {
+ 
+  async addComics(userId: string) {
     const categories = await this.categoriesRepository.find();
-    const user = await this.usersRepository.findOne({ where: { id: '785647ec-27ca-4a52-b099-d2f6ef3da65f' } }); // Corrección aquí
+    const user = await this.usersRepository.findOne({ where: { id: userId } });
+
+    if (!user) {
+      throw new Error('Usuario no encontrado');
+    }
 
     data?.map(async (element) => {
       const category = categories.find(
