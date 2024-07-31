@@ -40,6 +40,24 @@ function Navbar() {
 
                 <section className="flex flex-row align-middle space-x-12 mr-4">
 
+                {pathname === '/home' &&  (
+                    <a href="#comicsHome" className="self-center">
+                        <h1 className={`${bebas.variable} font-sans 
+                    login cursor-pointer
+                    text-4xl text-white hover:text-yellow-400
+                    transition-all custom-transition duration-300`}>COMICS</h1>
+                    </a>
+                )}
+
+                {pathname === '/home' &&  (
+                    <a href="#creatorsHome" className="self-center">
+                        <h1 className={`${bebas.variable} font-sans 
+                    login cursor-pointer
+                    text-4xl text-white hover:text-yellow-400
+                    transition-all custom-transition duration-300`}>CREADORES</h1>
+                    </a>
+                )}
+
                 {pathname !== '/register' && !isLogged && (
                     <button type="button" onClick={() => router.push('/register')} 
                     className="">
@@ -65,6 +83,7 @@ function Navbar() {
                     transition-all custom-transition duration-300`}>PERFIL</h1>
                     </button>
                 )}
+
 
 {pathname !== '/' && isLogged && (        
         <button type="button" onClick={handleLogOut} >

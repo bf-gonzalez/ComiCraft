@@ -49,12 +49,28 @@ export interface ILoginUser {
     author: string;
   }
 
-  export interface IComicListProps {
-    comics: IComicTest[];
-  }
-
   export interface IComicProps {
     comic: IComicTest;
+  }
+
+  export interface IComicListProps {
+    comics: IComicTest[];
+    limit?: number;
+  }
+
+  export interface ICreatorTest {
+    id:string;
+    username: string;
+    pfp: string;
+  }
+  
+  export interface ICreatorProps {
+    creator: ICreatorTest;
+  }
+
+  export interface ICreatorListProps {
+    creators: ICreatorTest[];
+    limit?: number;
   }
 
 

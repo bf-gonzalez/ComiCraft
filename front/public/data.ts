@@ -1,4 +1,4 @@
-import { IComicTest } from "@/interface";
+import { IComicTest, ICreatorTest } from "@/interface";
 
 export const comicsPreload: IComicTest[] = [
 
@@ -67,35 +67,35 @@ export const comicsPreload: IComicTest[] = [
 },
 
 {
-    id: 9,
+    id: 10,
     name:"BATMAN BEYOND",
     image: "https://m.media-amazon.com/images/I/51GfFmlDuGL._SY445_SX342_.jpg",
     author: " DC Comics",
 
 },
 {
-    id: 10,
+    id: 11,
     name:"THE BOYS HEROGASM",
     image: "https://m.media-amazon.com/images/I/81aXHtxv7pL._SY466_.jpg",
     author: " Dynamite Entertainment",
 
 },
 {
-    id: 11,
+    id: 12,
     name:"MILES MORALES #1",
     image: "https://i.redd.it/y6psp2bbh0821.jpg",
     author: " Marvel Comics",
 
 },
 {
-    id: 12,
+    id: 13,
     name:"JUJUTSU KAISEN #5",
     image: "https://preview.redd.it/ka8zimxbfrq71.jpg?width=1526&format=pjpg&auto=webp&s=837cae6d596d034de77f9d259e9ee863fd868af5",
     author: "Gege Akutami",
 
 },
 {
-    id: 13,
+    id: 14,
     name:"DAREDEVIL DEVIL´S REIGN",
     image: "https://pbs.twimg.com/media/E_fTA0EWQAM5Vys?format=jpg&name=4096x4096",
     author: " Marvel Comics",
@@ -107,39 +107,75 @@ export const comicsPreload: IComicTest[] = [
 export const trendingPreload: IComicTest[] = [
 
     {
-        id: 9,
+        id: 10,
         name:"BATMAN BEYOND",
         image: "https://m.media-amazon.com/images/I/51GfFmlDuGL._SY445_SX342_.jpg",
         author: " DC Comics",
     
     },
     {
-        id: 10,
+        id: 11,
         name:"THE BOYS HEROGASM",
         image: "https://m.media-amazon.com/images/I/81aXHtxv7pL._SY466_.jpg",
         author: " Dynamite Entertainment",
     
     },
     {
-        id: 11,
+        id: 12,
         name:"MILES MORALES #1",
         image: "https://i.redd.it/y6psp2bbh0821.jpg",
         author: " Marvel Comics",
     
     },
     {
-        id: 12,
+        id: 13,
         name:"JUJUTSU KAISEN #5",
         image: "https://preview.redd.it/ka8zimxbfrq71.jpg?width=1526&format=pjpg&auto=webp&s=837cae6d596d034de77f9d259e9ee863fd868af5",
         author: "Gege Akutami",
     
     },
     {
-        id: 13,
-        name:"DAREDEVIL DEVIL´S REIGN",
+        id: 14,
+        name:"DAREDEVIL DEVIL'S REIGN",
         image: "https://pbs.twimg.com/media/E_fTA0EWQAM5Vys?format=jpg&name=4096x4096",
         author: " Marvel Comics",
     
     },
     
+];
+
+export const creatorsPreload: ICreatorTest[] = [
+    {    
+        id:"1c",
+        username: "Marvel Comics",
+        pfp: "https://m.media-amazon.com/images/I/91nxjwMsaZL._AC_SX679_.jpg",
+        
+    },
+
+    {    
+        id:"2c",
+        username: "DC Comics",
+        pfp: "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2020/02/dc-comics-1876595.jpg?tf=1200x",
+        
+    },
+    {    
+        id:"3c",
+        username: "Dynamite Entertainment",
+        pfp: "https://m.media-amazon.com/images/I/61189R+UonL._SY445_SX342_.jpg",
+        
+    },
 ]
+
+
+
+export const sixComics = comicsPreload.slice(0,6);
+export const trendingComics = comicsPreload.slice(0,5);
+
+export function shuffleArray<T>(array: T[]): T[] {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  }

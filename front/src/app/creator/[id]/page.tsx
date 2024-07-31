@@ -3,24 +3,25 @@
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ComicPage from "@/components/comicPage/ComicPage";
-import { IComicTest } from "@/interface";
-import { comicsPreload } from "public/data";
+import { IComicTest, ICreatorTest } from "@/interface";
+import { comicsPreload, creatorsPreload } from "public/data";
 import ComicListRectangles from "@/components/comicListRectangles/ComicListRectangles";
+import CreatorPage from "@/components/creatorPage/CreatorPage";
 
-const ComicDetailPage = () => {
+const CreatorDetailPage = () => {
     const router = useRouter();
     const params = useParams();
     const id = params?.id
-    const [comic, setComic] = useState<IComicTest | null>(null);
+    const [creator, setCreator] = useState<ICreatorTest | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (id) {
-            const selectedComic = comicsPreload.find(
-                (comic) => comic.id === Number(id)
+            const selectedCreator = creatorsPreload.find(
+                (creator) => creator.id === String(id)
             );
 
-            setComic(selectedComic || null);
+            setCreator(selectedCreator || null);
             setLoading(false);
           }
         }, [id]);
@@ -29,15 +30,15 @@ const ComicDetailPage = () => {
           return <div>Loading...</div>;
         }
       
-        if (!comic) {
-          return <div>Comic not found</div>;
+        if (!creator) {
+          return <div>Creator not found</div>;
         }
       
         
         return (
             <main className="h-auto bg-slate-950">
 
-            <ComicPage comic={comic} />
+            <CreatorPage creator={creator} />
 
             <div className="">
             <img src= "/images/masComics.png"
@@ -50,7 +51,7 @@ const ComicDetailPage = () => {
         )
       };
       
-      export default ComicDetailPage;
+      export default CreatorDetailPage;
 
 
 
