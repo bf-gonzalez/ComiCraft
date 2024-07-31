@@ -7,7 +7,7 @@ import { UsersRepository } from 'src/users/users.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Users } from 'src/users/users.entity';
-import { LoginUserDto } from 'src/users/dto/users.dto';
+import { CreateUserDto } from 'src/users/dto/users.dto';
 
 @Injectable()
 export class AuthService {
@@ -27,7 +27,7 @@ export class AuthService {
       const validPassword = await bcrypt.compare(password, user.password);
       if (!validPassword)
         throw new BadRequestException('Credenciales incorrectas');
-      const payload = { id: user.id, name:user.name, email: user.email };
+      const payload = { id: user.id, name:user.name, username:user.username, email: user.email, role: user.role };
       const token = this.jwtService.sign(payload);
 
       return {
@@ -40,7 +40,7 @@ export class AuthService {
     }
   }
 
-  async signUp(user: LoginUserDto) {
+  async signUp(user: CreateUserDto) {
     const { email, password } = user;
     try {
       if (!password)

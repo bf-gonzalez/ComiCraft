@@ -25,7 +25,7 @@ export class AuthController {
   @Post('signup')
   @HttpCode(201)
   @UseInterceptors(PasswordInterceptor)
-  signUp(@Body() user: LoginUserDto) {
+  signUp(@Body() user: CreateUserDto) {
     return this.authService.signUp(user);
   }
 }
