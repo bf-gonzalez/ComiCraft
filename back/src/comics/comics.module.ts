@@ -5,14 +5,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Comics } from './comics.entity';
 import { Categories } from 'src/categories/categories.entity';
 import { ComicsRepository } from './comics.repository';
-import { UsersModule } from 'src/users/users.module'; // Importa UsersModule
+import { UsersModule } from 'src/users/users.module'; 
 import { UsersRepository } from 'src/users/users.repository';
 import { Users } from 'src/users/users.entity';
 import { MailerService } from 'src/mailer/mailer.service';
+import { Comments } from 'src/comment/comment.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Comics, Categories, Users]), UsersModule], // Asegúrate de importar UsersModule
+  imports: [TypeOrmModule.forFeature([Comics, Categories, Users]), UsersModule], 
   controllers: [ComicsController],
   providers: [ComicsService, ComicsRepository, UsersRepository, MailerService]
+
 })
 export class ComicsModule {}

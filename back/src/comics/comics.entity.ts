@@ -1,6 +1,7 @@
 import { Categories } from "src/categories/categories.entity";
+import { Comments } from "src/comment/comment.entity";
 import { Users } from "src/users/users.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity()
@@ -47,6 +48,7 @@ export class Comics{
     })
     author: string;
 
+
     /**
      * Es de tipo varchar, puede usar hasta 10 caracteres no puede ser null
      * @example "1963-03-01"
@@ -63,9 +65,11 @@ export class Comics{
      * @example "https://m.media-amazon.com/images/I/81v72hqINaL._AC_UY327_FMwebp_QL65_.jpg"
      */
     @Column({
-        type: 'text',
+        type: 'varchar',
+        nullable: false,
     })
-    url: string;
+    folderName: string;
+
 
     
     @ManyToOne(() => Users, (user) => user.comics, { eager: true, nullable: true })
@@ -79,4 +83,8 @@ export class Comics{
     @ManyToOne(() => Categories, (category) => category.comics)
     @JoinColumn({name: 'category_id'})
     category: Categories;
+
+    @OneToMany(() => Comments, (comment) => comment.comic)
+    comment: Comments[];
+
 }

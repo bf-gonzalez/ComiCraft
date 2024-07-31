@@ -10,6 +10,7 @@ import { CategoriesModule } from './categories/categories.module';
 import { AuthModule } from './auth/auth.module';
 import { ComicsModule } from './comics/comics.module';
 import { JwtModule } from '@nestjs/jwt';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { JwtModule } from '@nestjs/jwt';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '60m' },
     }),
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],
