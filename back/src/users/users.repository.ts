@@ -8,7 +8,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
 import { MailerService } from 'src/mailer/mailer.service';
-import { LoginUserDto } from './dto/users.dto';
+import { CreateUserDto, LoginUserDto } from './dto/users.dto';
+import { Role } from 'src/enum/role.enum';
 
 @Injectable()
 export class UsersRepository {
@@ -68,7 +69,7 @@ export class UsersRepository {
     }
   }
 
-  async createUser(user: LoginUserDto) {
+  async createUser(user: CreateUserDto) {
     try {
       const newUser = await this.usersRepository.save(user);
 
@@ -182,13 +183,18 @@ export class UsersRepository {
         );
       } catch (mailError) {
         console.error('Error al enviar el correo:', mailError);
-        throw new InternalServerErrorException('Error al enviar el correo de bienvenida');
+        throw new InternalServerErrorException(
+          'Error al enviar el correo de bienvenida',
+        );
       }
 
       return newUser;
     } catch (error) {
       console.error('Error al crear el usuario:', error);
-      if (error instanceof BadRequestException || error instanceof InternalServerErrorException) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof InternalServerErrorException
+      ) {
         throw error;
       }
       throw new InternalServerErrorException('Error al crear el usuario');
@@ -229,5 +235,36 @@ export class UsersRepository {
 
   async getUserByEmail(email: string) {
     return await this.usersRepository.findOneBy({ email });
+  }
+
+  async updateUserRole(id: string, role: Role[]): Promise<{ message: string }> {
+    try {
+      const user = await this.usersRepository.findOneBy({ id });
+      if (!user) {
+        throw new NotFoundException(
+          `No se encontró ningún usuario con el id proporcionado`,
+        );
+      }
+
+      const validRoles = Object.values(Role);
+      const invalidRoles = role.filter((r) => !validRoles.includes(r));
+      if (invalidRoles.length > 0) {
+        throw new BadRequestException(`Rol inválido`);
+      }
+
+      user.role = role;
+      await this.usersRepository.save(user);
+      return { message: 'Rol actualizado correctamente' };
+    } catch (error) {
+      if (
+        error instanceof NotFoundException ||
+        error instanceof BadRequestException
+      ) {
+        throw error;
+      }
+      throw new InternalServerErrorException(
+        'Error al actualizar el rol del usuario',
+      );
+    }
   }
 }
