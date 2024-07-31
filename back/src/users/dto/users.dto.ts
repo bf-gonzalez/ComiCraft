@@ -1,5 +1,6 @@
 import { PickType } from '@nestjs/swagger';
-import { IsEnum, IsOptional, IsString, IsNumber, IsNotEmpty, MinLength, MaxLength, Matches, IsEmail, IsStrongPassword, Validate, IsDate } from 'class-validator';
+import { IsEnum, IsOptional, IsString, IsNumber, IsNotEmpty, MinLength, MaxLength, Matches, IsEmail, IsStrongPassword, Validate, IsDate, IsArray, IsEmpty } from 'class-validator';
+import { Transform } from 'class-transformer';
 import { MatchPassword } from 'src/decorators/matchPassword.decorator';
 import { MembershipType } from 'src/enum/membership-type.enum';
 import { Role } from 'src/enum/role.enum';
@@ -30,11 +31,25 @@ export class CreateUserDto {
   
 
   /**
+   * Debe ser un string entre 8 y 17 caracteres, puede contener letras, números y algunos caracteres especiales (guiones bajos (_), puntos (.) y guiones (-)
+   * @example 'usuario_123.test-'
+   */
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(8)
+  @MaxLength(17)
+  @Matches(/^[a-zA-Z0-9_.-]+$/, {
+    message: 'El nombre de usuario solo puede contener letras, números, guiones bajos (_), puntos (.) y guiones (-).'
+  })
+  username: string;
+
+  /**
   * Debe ser un numero
   * @example '1995-07-27'
   */
   @IsNotEmpty()
   @IsDate()
+  @Transform(({ value }) => new Date(value))
   dob: Date;
 
   /**
@@ -82,7 +97,11 @@ export class CreateUserDto {
   @IsOptional()
   @IsEnum(MembershipType)
   membershipType?: MembershipType;
+
+  
+ 
 }
+
 
 export class LoginUserDto extends PickType(CreateUserDto, ['email', 'password']){
   

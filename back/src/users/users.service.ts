@@ -1,14 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { UsersRepository } from './users.repository';
 import { Users } from './users.entity';
+import { Role } from 'src/enum/role.enum';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly userRepository: UsersRepository) {}
 
-  createUser(user: any) {
-    return this.userRepository.createUser(user);
-  }
 
   getUsers(page: number, limit: number) {
     return this.userRepository.getUsers(page, limit);
@@ -28,5 +26,9 @@ export class UsersService {
 
   deleteUser(id: string) {
     return this.userRepository.deleteUser(id);
+  }
+
+  async updateUserRole(id: string, role: Role[]) {
+    return this.userRepository.updateUserRole(id, role);
   }
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { CldImage } from 'next-cloudinary';
 import Swal from 'sweetalert2';
@@ -7,6 +7,14 @@ const ImageUpload = ({ folderName }) => {
   const [images, setImages] = useState<(File | null)[]>([null]);
   const [imageUrls, setImageUrls] = useState<(string | null)[]>([null]);
   const [previewUrls, setPreviewUrls] = useState<(string | null)[]>([null]);
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('decodedUser'));
+    if (user && user.name) {
+      setUserName(user.name);
+    }
+  }, []);
 
   const handleImageChange = (index: number) => (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -44,10 +52,9 @@ const ImageUpload = ({ folderName }) => {
       const formData = new FormData();
       formData.append('file', images[i]);
       formData.append('upload_preset', 'ml_default');
-      if (folderName) {
-        formData.append('folder', folderName);
-      }
-      formData.append('public_id', `${folderName}/${i + 1}`); // Asigna un nombre secuencial
+      const fullFolderName = `${folderName} @${userName}`;
+      formData.append('folder', fullFolderName);
+      formData.append('public_id', `${fullFolderName}/${i + 1}`); // Asigna un nombre secuencial
 
       try {
         const response = await axios.post('https://api.cloudinary.com/v1_1/dx1kqmh8v/image/upload', formData);
@@ -63,15 +70,31 @@ const ImageUpload = ({ folderName }) => {
     Swal.close();
 
     if (allUploaded) {
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Cómic subido con éxito',
-        showConfirmButton: true,
-        timer: undefined
-      }).then(() => {
-        window.location.reload();
-      });
+      try {
+        const user = JSON.parse(localStorage.getItem('decodedUser'));
+        const comicData = {
+          title: folderName,
+          author: user.name,
+          url: `${folderName} @${user.name}`
+        };
+        await axios.post('http://localhost:3000/comics', comicData);
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: 'Cómic subido con éxito',
+          showConfirmButton: true,
+          timer: undefined
+        }).then(() => {
+          window.location.reload();
+        });
+      } catch (error) {
+        console.error('Error saving comic data:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Hubo un problema al guardar los datos del cómic!',
+        });
+      }
     }
   };
 
