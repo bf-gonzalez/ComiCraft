@@ -37,7 +37,7 @@ const handleCheckout = async (product: MembershipOption) => {
     }
 };
 
-const MembershipCard = ({ name, price, description, features }: MembershipOption) => {
+const MembershipCard = ({ name, price, description, features, type }: MembershipOption) => {
     const priceInDollars = (price / 100).toFixed(2);
 
     return (
@@ -69,7 +69,7 @@ const MembershipCard = ({ name, price, description, features }: MembershipOption
             </ul>
             <button
                 type="button"
-                onClick={() => handleCheckout({ name, price, description, features })}
+                onClick={() => handleCheckout({ name, price, type, description, features })}
                 className={`${bebas.variable} font-sans login cursor-pointer text-4xl text-white hover:text-yellow-400 transition-all custom-transition duration-300`}
             >
                 Elegir plan
@@ -77,6 +77,7 @@ const MembershipCard = ({ name, price, description, features }: MembershipOption
         </div>
     );
 };
+
 
 export const MembershipCards = () => (
     <div className="flex space-x-4 overflow-x-auto">
