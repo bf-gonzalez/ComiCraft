@@ -13,11 +13,11 @@ export class Comics{
 
     /**
      * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
-     * @example "Marvel"
+     * @example "The Amazing Spider-Man"
      */
     @Column({
         type: 'varchar',
-        length: 30,
+        length: 50,
         nullable: false,
         unique: true,
 
@@ -26,11 +26,11 @@ export class Comics{
 
     /**
      * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
-     * @example "Este comic tiene mucha accion, peleas y cuanta con un gran gion"
+     * @example "The Amazing Spider-Man is a superhero comic book series published by Marvel Comics. It is the first series in the Marvel Universe and features the character Spider-Man, who was created by Stan Lee and Steve Ditko."
      */
     @Column({
         type: 'varchar',
-        length: 150,
+        length: 1000,
         nullable: false,
 
     })
@@ -38,43 +38,53 @@ export class Comics{
 
     /**
      * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
-     * @example "Batman"
+     * @example "Stan Lee"
      */
     @Column({
         type: 'varchar',
-        length: 40,
-        unique: true,
+        length: 25,
+        unique: false,
         nullable: false,
     })
-    username: string;
+    author: string;
+
 
     /**
-     * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
-     * @example "1990-07-25"
+     * Es de tipo varchar, puede usar hasta 10 caracteres no puede ser null
+     * @example "1963-03-01"
      */
     @Column({
-        type: 'date',
-        nullable: false
+        type: 'varchar',
+        length: 10,
+        nullable: true
     })
-    data_post: Date;
+    date: string;
 
     /**
      * Es de tipo text y tiene que ser una URL
-     * @example "https://res.cloudinary.com/dyeji7bvg/image/upload/v1720248068/uhzzius1h9lbjc8k3hd9.webp"
+     * @example "https://m.media-amazon.com/images/I/81v72hqINaL._AC_UY327_FMwebp_QL65_.jpg"
      */
     @Column({
         type: 'varchar',
         nullable: false,
     })
-    nombrecarpeta: string;
+    folderName: string;
 
-    @ManyToOne(() => Users, (user) => user.comics, { eager: true, nullable: false })
+
+    
+    @ManyToOne(() => Users, (user) => user.comics, { eager: true, nullable: true })
     user: Users;
-
+    
+    
+    /**
+     * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
+     * @example "Aventuras"
+     */
     @ManyToOne(() => Categories, (category) => category.comics)
     @JoinColumn({name: 'category_id'})
     category: Categories;
 
     @OneToMany(() => Comments, (comment) => comment.comic)
     comment: Comments[];
+
 }
