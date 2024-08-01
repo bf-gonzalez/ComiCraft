@@ -3,16 +3,18 @@ import axios from 'axios';
 import { CldImage } from 'next-cloudinary';
 import Swal from 'sweetalert2';
 
-const ImageUpload = ({ folderName }) => {
+const ImageUpload = ({ folderName, description }) => {
   const [images, setImages] = useState<(File | null)[]>([null]);
   const [imageUrls, setImageUrls] = useState<(string | null)[]>([null]);
   const [previewUrls, setPreviewUrls] = useState<(string | null)[]>([null]);
   const [userName, setUserName] = useState('');
+  const [userId, setUserId] = useState('');
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('decodedUser'));
-    if (user && user.name) {
+    if (user && user.name && user.id) {
       setUserName(user.name);
+      setUserId(user.id);
     }
   }, []);
 
@@ -71,13 +73,18 @@ const ImageUpload = ({ folderName }) => {
 
     if (allUploaded) {
       try {
-        const user = JSON.parse(localStorage.getItem('decodedUser'));
+        const userResponse = await axios.get(`http://localhost:3000/users/${userId}`);
+        const username = userResponse.data.username;
+
         const comicData = {
           title: folderName,
-          author: user.name,
-          url: `${folderName} @${user.name}`
+          description: description,
+          username: username,
+          data_post: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
+          nombrecarpeta: `${folderName} @${userName}`
         };
-        await axios.post('http://localhost:3000/comics', comicData);
+
+        await axios.post(`http://localhost:3000/comics/${userId}`, comicData);
         Swal.fire({
           position: 'center',
           icon: 'success',
