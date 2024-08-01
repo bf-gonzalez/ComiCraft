@@ -1,9 +1,15 @@
 import { Comics } from 'src/comics/comics.entity';
 import { Comments } from 'src/comment/comment.entity';
 import { Membership } from 'src/membership/membership.entity';
-import { Column, Entity, JoinColumn, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Role } from 'src/enum/role.enum';
-
 
 @Entity({
   name: 'users',
@@ -91,19 +97,19 @@ export class Users {
   @Column({
     type: 'enum',
     enum: Role,
-    default: [Role.Invited],
+    default: [Role.Free],
     array: true,
   })
   role?: Role[];
 
-  @OneToMany(() => Membership, (membership) => membership.user)
-  memberships: Membership[];
+  @OneToOne(() => Membership, (membership) => membership.user)
+  @JoinColumn({ name: 'membership_id' })
+  memberships: Membership;
 
   @OneToMany(() => Comics, (comic) => comic.user)
   comics: Comics[];
-  
-  @OneToMany(() => Comments, (comment) => comment.user)
-  @JoinColumn({name: 'comment_id'})
-  comments: Comments[];
 
+  @OneToMany(() => Comments, (comment) => comment.user)
+  @JoinColumn({ name: 'comment_id' })
+  comments: Comments[];
 }

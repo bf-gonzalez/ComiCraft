@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import IMembership from './membership.interface';
+import { CreateMembershipDto } from './membership.dto';
+import { MembershipsRepository } from './membership.repository';
 
-
-
-
- 
 @Injectable()
 export class MembershipService {
-    private users = [
+  constructor(private readonly membershipsRepository: MembershipsRepository) {}
+  /*  private users = [
         {
           "id": "3fdb4763-e98a-4d3b-86d1-1a54629b6b4d",
           "name": "John Doe",
@@ -46,28 +45,17 @@ export class MembershipService {
         payment_date: new Date()
       }
     
-    ];
+    ]; */
 
-    getUsers(){
-        return this.users;
-    }
+  addMembership(createMembership: CreateMembershipDto) {
+    return this.membershipsRepository.addMembership(createMembership);
+  }
 
-    getMembershipById(id: string){
-        return this.membership.find(membership => membership.id ===id);
-    }
+  getMembershipById(id: string) {}
 
-    getAllMembership(): IMembership[]{
-        return this.membership;
-    }
+  getAllMembership() {}
 
-    createMembership(){
-        //No se si haga falta 
-    }
-    updateMembership(id: string, updateMembership: any){
-        const membership = this.membership.find(m => m.id === id);
-        if(membership){
-            Object.assign(membership, updateMembership);
-        }
-        return membership;
-    }
+  createMembership() {
+    //No se si haga falta
+  }
 }
