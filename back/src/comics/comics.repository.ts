@@ -1,15 +1,17 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Comics } from "./comics.entity";
 import { Repository } from "typeorm";
 import { Users } from "src/users/users.entity";
-
+import { Categories } from 'src/categories/categories.entity';
+import data from '../utils/data.json';
 
 @Injectable()
 export class ComicsRepository {
     constructor( 
         @InjectRepository(Comics) private comicsRepository: Repository<Comics>,
-        @InjectRepository(Users) private usersRepository: Repository<Users>
+        @InjectRepository(Users) private usersRepository: Repository<Users>,
+        @InjectRepository(Categories) private categoriesRepository: Repository<Categories>
     ){}
 
     async getAllComics(){
@@ -54,9 +56,9 @@ export class ComicsRepository {
         return{
             title: savedComic.title,
             description: savedComic.description,
-            username: savedComic.username,
+            username: savedComic.author,
             data_post: savedComic.data_post,
-            nombrecarpeta: savedComic.nombrecarpeta, // Assuming this field exists in the Comic entity
+            nombrecarpeta: savedComic.folderName, // Assuming this field exists in the Comic entity
             user: {
                 id: user.id,
             },
@@ -87,5 +89,51 @@ export class ComicsRepository {
         return `El comic llamado ` + title + ` con id: ${id} fue eliminado`
         
     }
-    
+
+    async addComics(userId: string) {
+        const user = await this.usersRepository.findOne({ where: { id: userId } });
+
+        if (!user) {
+            throw new NotFoundException('Usuario no encontrado');
+        }
+
+        for (const element of data) {
+            const categoryExists = await this.categoriesRepository.findOne({ where: { name: element.category } });
+            if (!categoryExists) {
+                const newCategory = this.categoriesRepository.create({ name: element.category });
+                await this.categoriesRepository.save(newCategory);
+            }
+        }
+
+        const categories = await this.categoriesRepository.find();
+
+
+        for (const element of data) {
+            const category = categories.find(
+                (category) => category.name === element.category,
+            );
+
+            if (!category) {
+                throw new NotFoundException(`Categoría ${element.category} no encontrada`);
+            }
+
+            const comic = new Comics(); 
+            comic.title = element.title;
+            comic.author = element.author;
+            comic.description = element.description;
+            comic.folderName = element.url;
+            comic.category = category;
+            comic.data_post = new Date(element.date); 
+            comic.user = user;
+
+            await this.comicsRepository
+                .createQueryBuilder()
+                .insert()
+                .into(Comics)
+                .values(comic)
+                .orUpdate(['description', 'folderName'], ['title'])
+                .execute();
+        }
+        return 'Comics agregados';
+    }
 }
