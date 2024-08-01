@@ -42,6 +42,38 @@ export interface ILoginUser {
     credential?: ICreadential;
   }
 
+  export interface IComicTest {
+    id:number;
+    name: string;
+    image: string;
+    author: string;
+  }
+
+  export interface IComicProps {
+    comic: IComicTest;
+  }
+
+  export interface IComicListProps {
+    comics: IComicTest[];
+    limit?: number;
+  }
+
+  export interface ICreatorTest {
+    id:string;
+    username: string;
+    pfp: string;
+  }
+  
+  export interface ICreatorProps {
+    creator: ICreatorTest;
+  }
+
+  export interface ICreatorListProps {
+    creators: ICreatorTest[];
+    limit?: number;
+  }
+
+
   export interface ILoginUserResponse {
     loggin: boolean;
     user: Partial<IUser> | null;
