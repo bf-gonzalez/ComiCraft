@@ -91,19 +91,33 @@ export class ComicsRepository {
     }
 
     async addComics(userId: string) {
-        const categories = await this.categoriesRepository.find();
         const user = await this.usersRepository.findOne({ where: { id: userId } });
 
         if (!user) {
             throw new NotFoundException('Usuario no encontrado');
         }
 
-        data?.map(async (element) => {
+        for (const element of data) {
+            const categoryExists = await this.categoriesRepository.findOne({ where: { name: element.category } });
+            if (!categoryExists) {
+                const newCategory = this.categoriesRepository.create({ name: element.category });
+                await this.categoriesRepository.save(newCategory);
+            }
+        }
+
+        const categories = await this.categoriesRepository.find();
+
+
+        for (const element of data) {
             const category = categories.find(
                 (category) => category.name === element.category,
             );
 
-            const comic = new Comics();
+            if (!category) {
+                throw new NotFoundException(`Categoría ${element.category} no encontrada`);
+            }
+
+            const comic = new Comics(); 
             comic.title = element.title;
             comic.author = element.author;
             comic.description = element.description;
@@ -119,7 +133,7 @@ export class ComicsRepository {
                 .values(comic)
                 .orUpdate(['description', 'folderName'], ['title'])
                 .execute();
-        });
+        }
         return 'Comics agregados';
     }
 }

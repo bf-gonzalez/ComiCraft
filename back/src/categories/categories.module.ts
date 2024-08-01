@@ -10,6 +10,9 @@ import { Users } from 'src/users/users.entity';
 import { UsersRepository } from 'src/users/users.repository';
 import { MailerService } from 'src/mailer/mailer.service';
 import { CategoriesRepository } from './categories.repository';
+import { AuthService } from 'src/auth/auth.service';
+import { CreateUserDto } from 'src/users/dto/users.dto';
+import { UsersService } from 'src/users/users.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Categories, Comics, Users])],
@@ -20,18 +23,36 @@ import { CategoriesRepository } from './categories.repository';
     ComicsService,
     ComicsRepository,
     UsersRepository,
-    MailerService
+    MailerService,
+    AuthService,
+    UsersService,
   ],
 })
-export class CategoriesModule {
-  // constructor(    implements OnModuleInit
-  //   private readonly categoriesService: CategoriesService,
-  //   private readonly comicsService: ComicsService,
-  // ) {}
+export class CategoriesModule implements OnModuleInit {
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly authService: AuthService,
+    private readonly categoriesService: CategoriesService,
+    private readonly comicsService: ComicsService,
+  ) {}
 
-  // async onModuleInit() {
-  //   console.log('categorias y productos agregados');
-  //   await this.categoriesService.addCategories();
-  //   await this.comicsService.addComics();
-  // }
+  async onModuleInit() {
+    const mainUser: CreateUserDto = {
+      email: 'cidegeb293@leacore.com',
+      name: 'Carlos',
+      username: 'carletox',
+      dob: new Date('1999-07-27'),
+      password: 'TestPassword1$',
+      confirmPassword: 'TestPassword1$',
+      address: '123 Maple kjhk',
+      phone: 1234567890,
+    };
+
+    await this.authService.signUp(mainUser);
+    const createdUser = await this.usersRepository.getUserByEmail(
+      mainUser.email,
+    );
+    await this.categoriesService.addCategories();
+    await this.comicsService.addComics(createdUser.id);
+  }
 }
