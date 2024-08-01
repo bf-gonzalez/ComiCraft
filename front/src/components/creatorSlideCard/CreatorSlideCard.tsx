@@ -21,7 +21,7 @@ function CreatorSlideCard({ creator }: ICreatorProps) {
     };
 
     return (
-        <main className="flex flex-col items-center text-center">
+        <main className="flex flex-col items-center text-center pl-6 pr-6">
             <button onClick={handleCreatorClick}
             className="hover:scale-105 duration-300 relative">
 
@@ -35,8 +35,8 @@ function CreatorSlideCard({ creator }: ICreatorProps) {
                     />
 
             
-                    <div className="opacity-0 absolute inset-0 flex flex-col justify-end items-center p-12 bg-black bg-opacity-0 rounded-full hover:opacity-100 hover:bg-opacity-50 duration-300">
-                        <h2 className={`${bebas.variable} font-sans text-4xl text-yellow-400`}>
+                    <div className="opacity-0 absolute inset-0 flex flex-col justify-end items-center p-12 bg-black bg-opacity-0 rounded-full hover:opacity-100 hover:bg-opacity-65 duration-300">
+                        <h2 className={`${bebas.variable} font-sans text-5xl text-yellow-400 `}>
                             {creator.username}
                         </h2>
                     </div>

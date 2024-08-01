@@ -15,7 +15,7 @@ function home() {
             </div>
             
             <section>
-            <img src="/images/tendencia.png" className="max-w-xl flex ml-auto mr-6 pt-48 "/>        
+            <img src="/images/tendencia.png" className="max-w-xl flex ml-auto mr-6 pt-56 pb-10 "/>        
             <div className="flex flex-row justify-center space-x-6">
                     <TrendingComics comics={trendingPreload} />
             </div>

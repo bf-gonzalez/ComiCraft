@@ -23,14 +23,14 @@ function ComicSlideCard({ comic }: IComicProps) {
     return (
         <main className="flex flex-col items-center text-center">
             <button onClick={handleComicClick}
-            className="hover:scale-105 duration-300 relative">
+            className="hover:scale-105 duration-300 relative pl-4 pr-4">
 
                 
                 <div className="relative">
                     <img
                         src={comic.image}
                         alt={comic.name}
-                        className="rounded-xl border-2 h-[60vh] w-56 object-cover object-center border-blue-700 border-opacity-70 p-2"
+                        className="rounded-xl border-2 h-[70vh] w-56 object-cover object-center border-blue-700 border-opacity-70 p-2"
                         height={600}
                     />
 

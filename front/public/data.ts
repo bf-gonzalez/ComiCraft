@@ -151,19 +151,19 @@ export const creatorsPreload: ICreatorTest[] = [
         pfp: "https://m.media-amazon.com/images/I/91nxjwMsaZL._AC_SX679_.jpg",
         
     },
-
     {    
         id:"2c",
-        username: "DC Comics",
-        pfp: "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2020/02/dc-comics-1876595.jpg?tf=1200x",
+        username: "Dynamite Entertainment",
+        pfp: "https://megabanana.mx/wp-content/uploads/2022/10/81f1eCo3MOL-662x1024.jpg",
         
     },
     {    
         id:"3c",
-        username: "Dynamite Entertainment",
-        pfp: "https://m.media-amazon.com/images/I/61189R+UonL._SY445_SX342_.jpg",
+        username: "DC Comics",
+        pfp: "https://cdn.hobbyconsolas.com/sites/navi.axelspringer.es/public/media/image/2020/02/dc-comics-1876595.jpg?tf=1200x",
         
     },
+
 ]
 
 
