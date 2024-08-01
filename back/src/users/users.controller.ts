@@ -38,12 +38,12 @@ export class UsersController {
       return this.usersService.getUsers(Number(page), Number(limit));
   }
 
-  // @HttpCode(200)
-  // @Get(':id')
-  // @UseInterceptors(PasswordInterceptor)
-  // getUserById(@Param('id', ParseUUIDPipe) id: string) {
-  //   return this.usersService.getUserById(id);
-  // }
+  @HttpCode(200)
+  @Get(':id')
+  @UseInterceptors(PasswordInterceptor)
+  getUserById(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.getUserById(id);
+  }
 
   @HttpCode(200)
   @UseInterceptors(PasswordInterceptor)

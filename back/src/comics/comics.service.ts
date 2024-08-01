@@ -11,7 +11,6 @@ export class ComicsService {
     
   getAllComics(){
     return this.comicsRepository.getAllComics();
-
   }
   getComicById(id: string) {
      return this.comicsRepository.getComicById(id)
@@ -22,19 +21,8 @@ export class ComicsService {
     return this.comicsRepository.getComicByTitle(title)
   }
 
-
-  addComics(id: string) {
-    return this.comicsRepository.addComics(id);
-  }
-
-  postComic(comic: Comic) {
-    const newComic = { id: comics.length + 1, ...comic };
-    comics.push(newComic);
-    return newComic;
-
   createComic(id: string, comic: Partial<Comics>, ) {
    return this.comicsRepository.createComic(id, comic)
-
   }
 
   updatedComic(id: string, comic: Comics){
@@ -46,4 +34,3 @@ export class ComicsService {
     return this.comicsRepository.deleteComic(id)
   }  
 }
-

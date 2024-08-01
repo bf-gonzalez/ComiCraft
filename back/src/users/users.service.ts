@@ -12,9 +12,9 @@ export class UsersService {
     return this.userRepository.getUsers(page, limit);
   }
 
-  // getUserById(id: string) {
-  //   return this.userRepository.getUserById(id);
-  // }
+  getUserById(id: string) {
+    return this.userRepository.getUserById(id);
+  }
 
   getUserByName(name: string) {
     return this.userRepository.getUserByName(name);
