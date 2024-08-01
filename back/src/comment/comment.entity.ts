@@ -36,8 +36,8 @@ export class Comments {
     user: Users;
 
 
-    @ManyToOne(() => Comics, (comic) => comic.comment)
-    comic: Comics;
+    // @ManyToOne(() => Comics, (comic) => comic.comment)
+    // comic: Comics;
 
 }
 

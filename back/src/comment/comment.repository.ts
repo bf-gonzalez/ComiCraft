@@ -41,20 +41,20 @@ export class CommentsRepository{
         const newComment = await this.commentsRepository.save(comment)
     }
 
-     async deleteComment(id: string){
-        const comment = await this.commentsRepository.findOne({
-            where: {id},
-            relations: {
-                comic: true,
-            }
-        })
+    //  async deleteComment(id: string){
+    //     const comment = await this.commentsRepository.findOne({
+    //         where: {id},
+    //         relations: {
+    //             comic: true,
+    //         }
+    //     })
 
-        if(!comment){
-            throw new NotFoundException(`Comentario con id ${id} no encontrado`)
-        }
+    //     if(!comment){
+    //         throw new NotFoundException(`Comentario con id ${id} no encontrado`)
+    //     }
 
-        await this.commentsRepository.delete({id})
-    }
+    //     await this.commentsRepository.delete({id})
+    // }
 
     
 

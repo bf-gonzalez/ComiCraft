@@ -17,8 +17,8 @@ export class CommentService {
         return this.commentsRepository.createComment(id, comic)
     }
 
-    deleteComment(id: string){
-        return this.commentsRepository.deleteComment(id)
-    }
+    // deleteComment(id: string){
+    //     return this.commentsRepository.deleteComment(id)
+    // }
 
 }

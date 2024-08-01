@@ -19,8 +19,8 @@ export class CommentController {
 
     //@Post()
 
-    @Post(':id')
-    deleteComment(@Param('id', ParseUUIDPipe)id: string){
-        return this.commentService.deleteComment(id)
-    }
+    // @Post(':id')
+    // deleteComment(@Param('id', ParseUUIDPipe)id: string){
+    //     return this.commentService.deleteComment(id)
+    // }
 }
