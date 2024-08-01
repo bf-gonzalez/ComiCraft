@@ -19,8 +19,7 @@ export class Comics{
         type: 'varchar',
         length: 30,
         nullable: false,
-        unique: true,
-
+        unique: false,
     })
     title: string;
 
@@ -43,7 +42,7 @@ export class Comics{
     @Column({
         type: 'varchar',
         length: 40,
-        unique: true,
+        unique: false,
         nullable: false,
     })
     username: string;
