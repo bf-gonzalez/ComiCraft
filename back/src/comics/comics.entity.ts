@@ -11,21 +11,31 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class Comics {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+export class Comics{
 
-  /**
-   * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
-   * @example "Marvel"
-   */
-  @Column({
-    type: 'varchar',
-    length: 50,
-    nullable: false,
-    unique: true,
-  })
-  title: string;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+
+    /**
+     * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
+     * @example "Marvel"
+     */
+    @Column({
+        type: 'varchar',
+        length: 30,
+        nullable: false,
+        unique: false,
+    })
+    title: string;
+
+    /**
+     * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
+     * @example "Este comic tiene mucha accion, peleas y cuanta con un gran gion"
+     */
+    @Column({
+        type: 'varchar',
+        length: 150,
+        nullable: false,
 
   /**
    * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
@@ -38,17 +48,17 @@ export class Comics {
   })
   description: string;
 
-  /**
-   * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
-   * @example "Batman"
-   */
-  @Column({
-    type: 'varchar',
-    length: 25,
-    unique: false,
-    nullable: false,
-  })
-  author: string;
+    /**
+     * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
+     * @example "Batman"
+     */
+    @Column({
+        type: 'varchar',
+        length: 40,
+        unique: false,
+        nullable: false,
+    })
+    username: string;
 
   /**
    * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
