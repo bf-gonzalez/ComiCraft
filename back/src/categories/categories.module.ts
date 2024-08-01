@@ -39,8 +39,8 @@ export class CategoriesModule implements OnModuleInit {
   async onModuleInit() {
     const mainUser: CreateUserDto = {
       email: 'cidegeb293@leacore.com',
-      name: 'Carlos',
-      username: 'carletox',
+      name: 'ComiCraft',
+      username: 'ComiCraft2024',
       dob: new Date('1999-07-27'),
       password: 'TestPassword1$',
       confirmPassword: 'TestPassword1$',
@@ -52,7 +52,6 @@ export class CategoriesModule implements OnModuleInit {
     const createdUser = await this.usersRepository.getUserByEmail(
       mainUser.email,
     );
-    await this.categoriesService.addCategories();
     await this.comicsService.addComics(createdUser.id);
   }
 }
