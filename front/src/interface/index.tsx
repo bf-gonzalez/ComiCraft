@@ -3,18 +3,20 @@ import React from "react";
 export interface IRegisterUser {
 name: string;
 email:string;
+username: string;
 password:string;
 address:string;
-phone: string;
+phone: number;
 dob: string;
 }
 
 export interface IRegisterUserResponse {
   name: string;
   email:string;
+  username: string;
   password:string;
   address:string;
-  phone: string;
+  phone: number;
   dob: string;
   role: string;
   credential: ICreadential;
@@ -34,9 +36,10 @@ export interface ILoginUser {
     id: number;
     name: string;
     email:string;
+    username: string;
     password:string;
     address:string;
-    phone: string;
+    phone: number;
     dob: string;
     role?: string;
     credential?: ICreadential;
@@ -72,7 +75,6 @@ export interface ILoginUser {
     creators: ICreatorTest[];
     limit?: number;
   }
-
 
   export interface ILoginUserResponse {
     loggin: boolean;
