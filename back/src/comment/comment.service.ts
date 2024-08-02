@@ -13,8 +13,8 @@ export class CommentService {
         return this.commentsRepository.getCommentById(id)
     }
 
-    createComment(id: string, comic: any){
-        return this.commentsRepository.createComment(id, comic)
+    createComment(id: string, comicId: string, content: string){
+        return this.commentsRepository.createComment(id, comicId, content)
     }
 
     deleteComment(id: string){

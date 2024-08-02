@@ -3,18 +3,20 @@ import React from "react";
 export interface IRegisterUser {
 name: string;
 email:string;
+username: string;
 password:string;
 address:string;
-phone: string;
+phone: number;
 dob: string;
 }
 
 export interface IRegisterUserResponse {
   name: string;
   email:string;
+  username: string;
   password:string;
   address:string;
-  phone: string;
+  phone: number;
   dob: string;
   role: string;
   credential: ICreadential;
@@ -34,12 +36,44 @@ export interface ILoginUser {
     id: number;
     name: string;
     email:string;
+    username: string;
     password:string;
     address:string;
-    phone: string;
+    phone: number;
     dob: string;
     role?: string;
     credential?: ICreadential;
+  }
+
+  export interface IComicTest {
+    id:number;
+    name: string;
+    image: string;
+    author: string;
+  }
+
+  export interface IComicProps {
+    comic: IComicTest;
+  }
+
+  export interface IComicListProps {
+    comics: IComicTest[];
+    limit?: number;
+  }
+
+  export interface ICreatorTest {
+    id:string;
+    username: string;
+    pfp: string;
+  }
+  
+  export interface ICreatorProps {
+    creator: ICreatorTest;
+  }
+
+  export interface ICreatorListProps {
+    creators: ICreatorTest[];
+    limit?: number;
   }
 
   export interface ILoginUserResponse {
@@ -57,3 +91,22 @@ export interface ILoginUser {
     signUp: (user: Omit<IRegisterUser, "id">)=> Promise<boolean>,
     logOut: () => void,
   }
+
+  export interface MembershipOption {
+    name: string;
+    price: number;
+    type: string;
+    description: string;
+    features: {
+        text: string;
+        isAvailable: boolean;
+    }[];
+}
+
+export interface MembershipData {
+  email: string;
+  type: string;
+  price: number;
+  created_at: string;
+  payment_date: string;
+}

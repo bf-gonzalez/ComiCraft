@@ -29,4 +29,14 @@ export class MembershipController {
   getMerberships() {
     return this.membershipService.getMerberships();
   }
+
+  @Post('/prueba')
+  Membership(@Body() data) {
+    try {
+      console.log('membershipController=', data);
+      return data;
+    } catch (error) {
+      console.error;
+    }
+  }
 }

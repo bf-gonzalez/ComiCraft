@@ -1,4 +1,9 @@
 import Carrousel from "@/components/carrousel/Carrousell";
+import ComicList from "@/components/comicListTest/ComicListTest";
+import CreatorList from "@/components/creatorListTest/CreatorListTest";
+import TrendingComics from "@/components/trendingComics/TrendingComics";
+import TrendingCreators from "@/components/trendingCreators/TrendingCreators";
+import { comicsPreload, creatorsPreload, trendingPreload } from "public/data";
 
 function home() {
 
@@ -10,23 +15,30 @@ function home() {
             </div>
             
             <section>
-            <img src="/images/trendingAsset.png" className="w-96 flex ml-auto mr-6 pt-48 "/>        
-            <div className="flex flex-row justify-center mt-12 space-x-6 pb-28">
-                    <img src="/images/example1.png" className="w-52 hover:scale-105 custom-transition duration-500 cursor-pointer "/>
-                    <img src="/images/example2.png" className="w-52 hover:scale-105 custom-transition duration-500 cursor-pointer"/>
-                    <img src="/images/example3.png" className="w-52 hover:scale-105 custom-transition duration-500 cursor-pointer"/>
-                    <img src="/images/example4.png" className="w-52 hover:scale-105 custom-transition duration-500 cursor-pointer"/>
-                    <img src="/images/example5.png" className="w-52 hover:scale-105 custom-transition duration-500 cursor-pointer"/>
+            <img src="/images/tendencia.png" className="max-w-xl flex ml-auto mr-6 pt-48 "/>        
+            <div className="flex flex-row justify-center space-x-6">
+                    <TrendingComics comics={trendingPreload} />
             </div>
             </section>
+
             <section>
-            <img src="/images/creadoresPopulares.png" className="max-w-xl flex mr-auto ml-6 pt-2 "/>        
-            <div className="flex flex-row justify-center mt-12 space-x-6 pb-28">
-                    <img src="/images/example1.png" className="w-52 hover:scale-105 custom-transition duration-500 cursor-pointer "/>
-                    <img src="/images/example2.png" className="w-52 hover:scale-105 custom-transition duration-500 cursor-pointer"/>
-                    <img src="/images/example3.png" className="w-52 hover:scale-105 custom-transition duration-500 cursor-pointer"/>
-                    <img src="/images/example4.png" className="w-52 hover:scale-105 custom-transition duration-500 cursor-pointer"/>
-                    <img src="/images/example5.png" className="w-52 hover:scale-105 custom-transition duration-500 cursor-pointer"/>
+            <img src="/images/creadoresPopulares.png" className="max-w-xl flex mr-auto ml-6 "/>        
+            <div className="flex flex-row justify-center space-x-6">
+                    <TrendingCreators creators={creatorsPreload} />
+            </div>
+            </section>
+
+            <section id="comicsHome">
+            <img src="/images/comicsBtn.png" className="max-w-sm flex ml-auto mr-auto "/>        
+            <div className="flex flex-row justify-center space-x-6">
+            <ComicList comics={comicsPreload} />
+            </div>
+            </section>
+
+            <section id="creatorsHome">
+            <img src="/images/creadoresBtn.png" className="max-w-sm flex ml-auto mr-auto "/>        
+            <div className="flex flex-row justify-center space-x-6">
+            <CreatorList creators={creatorsPreload} />
             </div>
             </section>
 

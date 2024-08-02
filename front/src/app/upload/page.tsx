@@ -9,6 +9,7 @@ import { UserContext } from '@/context/userContext';
 export default function UploadPage() {
   const [folders, setFolders] = useState([]);
   const [folderName, setFolderName] = useState('');
+  const [description, setDescription] = useState('');
   const { user } = useContext(UserContext);
   const router = useRouter();
 
@@ -50,7 +51,13 @@ export default function UploadPage() {
             onChange={(e) => setFolderName(e.target.value)} 
             className="mb-4 p-2 border rounded text-black"
           />
-          <ImageUpload folderName={folderName} />
+          <textarea
+            placeholder="Descripción del Cómic"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="mb-4 p-2 border rounded text-black"
+          />
+          <ImageUpload folderName={folderName} description={description} />
         </div>
         <div className="grid grid-cols-3 gap-2 mt-4">
           {folders.map((folder) => (
