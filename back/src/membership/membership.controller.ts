@@ -23,9 +23,19 @@ export class MembershipController {
     return this.membershipService.addMembership(createMembership);
   }
 
-  @Get('memberships')
-  getMemberships() {
-    return this.membershipService.getAllMembership();
+  @Get()
+  getMerberships() {
+    return this.membershipService.getMerberships();
+  }
+
+  @Post('/prueba')
+  Membership(@Body() data) {
+    try {
+      console.log('membershipController=', data);
+      return data;
+    } catch (error) {
+      console.error;
+    }
   }
   /*  @Get('users')
   getUsets() {

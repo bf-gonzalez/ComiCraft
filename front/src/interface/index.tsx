@@ -95,9 +95,18 @@ export interface ILoginUser {
   export interface MembershipOption {
     name: string;
     price: number;
+    type: string;
     description: string;
     features: {
         text: string;
         isAvailable: boolean;
     }[];
+}
+
+export interface MembershipData {
+  email: string;
+  type: string;
+  price: number;
+  created_at: string;
+  payment_date: string;
 }

@@ -1,4 +1,4 @@
-import { ILoginUser, IUser } from "@/interface/index";
+import { ILoginUser, IUser , MembershipData} from "@/interface/index";
 
 export const postRegister = async (user: Omit<IUser, "id">) => {
   console.log('Datos enviados al backend:', user);
@@ -45,3 +45,24 @@ export const postLogin = async (credentials: ILoginUser) => {
     throw error;
   }
 };
+
+export async function createMembership(data: MembershipData): Promise<void> {
+  try {
+    const response = await fetch('http://localhost:3000/membership/prueba', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const result = await response.json();
+    console.log('Success:', result);
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
