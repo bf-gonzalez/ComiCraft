@@ -23,9 +23,9 @@ export class MembershipController {
     return this.membershipService.addMembership(createMembership);
   }
 
-  @Get('memberships')
-  getMemberships() {
-    return this.membershipService.getAllMembership();
+  @Get()
+  getMerberships() {
+    return this.membershipService.getMerberships();
   }
 
   @Post('/prueba')

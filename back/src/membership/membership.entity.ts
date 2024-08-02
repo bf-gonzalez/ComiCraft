@@ -10,6 +10,7 @@ import {
 import { Tipo } from '../enum/type.enum';
 import { Users } from 'src/users/users.entity';
 import { Role } from 'src/enum/role.enum';
+import { MembershipType } from 'src/enum/membership-type.enum';
 
 @Entity()
 export class Membership {
@@ -22,10 +23,9 @@ export class Membership {
    */
   @Column({
     type: 'enum',
-    enum: Role,
-    default: Role.Free,
+    enum: MembershipType,
   })
-  type: Role;
+  type: MembershipType;
 
   /**
    * Es de tipo decimal, precision de 10 y una escala de 2, no puede ser null
@@ -45,6 +45,12 @@ export class Membership {
    */
   @Column()
   created_at: Date;
+
+  @Column({
+    type: 'date',
+    nullable: false,
+  })
+  expiration_date: Date;
 
   /**
    * Fecha del pago.
