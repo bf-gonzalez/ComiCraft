@@ -11,7 +11,7 @@ export const comicsPreload: IComicTest[] = [
 },
 {
     id: 2,
-    name:"Marvel Secret Wars",
+    name:"Secret Wars",
     image: "https://m.media-amazon.com/images/I/71tlAZgcXsL._SY466_.jpg",
     author: "Marvel Comics",
 

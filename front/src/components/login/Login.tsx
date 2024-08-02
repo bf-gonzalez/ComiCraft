@@ -6,6 +6,7 @@ import { Bebas_Neue } from "next/font/google";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import { UserContext } from "@/context/userContext";
+import GLogin from "../logingGoogle/LoginGoogle";
 
 const bebas = Bebas_Neue({
     subsets: ['latin'],
@@ -90,6 +91,8 @@ export const Login = () => {
                     transition-all custom-transition duration-300`}>Iniciar Sesión</button>
                 </div>
             </form>
+
+            <GLogin />
         </div>
     );
 };

@@ -4,12 +4,13 @@ import CreatorList from "@/components/creatorListTest/CreatorListTest";
 import TrendingComics from "@/components/trendingComics/TrendingComics";
 import TrendingCreators from "@/components/trendingCreators/TrendingCreators";
 import { comicsPreload, creatorsPreload, trendingPreload } from "public/data";
+import styles from "@/components/backgrounds/experiment.module.css";
 
 function home() {
 
     return(
         
-        <main className="h-auto bg-slate-950 ">
+        <main className={styles.fondo}>
             <div className="pt-36"> 
                 <Carrousel />
             </div>
