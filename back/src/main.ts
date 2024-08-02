@@ -4,6 +4,8 @@ import { loggerGlobal } from './middlewares/logger.middleware';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+import stripe = require('stripe');
+process.env.STRIPE_SECRET;
 
 const corsOptions: CorsOptions = {
   origin: ['http://localhost:3001'], //Aca va la conexion con el front
@@ -32,4 +34,3 @@ async function bootstrap() {
   console.log('Server listening on PORT 3000');
 }
 bootstrap();
- 
