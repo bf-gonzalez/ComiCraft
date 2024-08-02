@@ -27,6 +27,16 @@ export class MembershipController {
   getMemberships() {
     return this.membershipService.getAllMembership();
   }
+
+  @Post('/prueba')
+  Membership(@Body() data) {
+    try {
+      console.log('membershipController=', data);
+      return data;
+    } catch (error) {
+      console.error;
+    }
+  }
   /*  @Get('users')
   getUsets() {
     return this.membershipService.getUsers();

@@ -5,6 +5,7 @@ export const membershipOptions: MembershipOption[] = [
     {
         name: 'Plan Estándar',
         price: 500,
+        type:"monthly_member",
         description: '¡Ideal para poca lectura!',
         features: [
             { text: 'Todos los que desees leer', isAvailable: true },
@@ -18,6 +19,7 @@ export const membershipOptions: MembershipOption[] = [
     {
         name: 'Plan Anual',
         price: 4800,
+        type: "annual_member",
         description: '¡A disposición todo el año!',
         features: [
             { text: 'Todos los que desees leer', isAvailable: true },
@@ -31,6 +33,7 @@ export const membershipOptions: MembershipOption[] = [
     {
         name: 'Plan Creador',
         price: 2000,
+        type: "creator",
         description: '¡Demuestra que eres el mejor!',
         features: [
             { text: 'Poder crear tus propios comics', isAvailable: true },
