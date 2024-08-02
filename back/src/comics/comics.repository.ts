@@ -14,8 +14,12 @@ export class ComicsRepository {
         @InjectRepository(Categories) private categoriesRepository: Repository<Categories>
     ){}
 
-    async getAllComics(){
-        return await this.comicsRepository.find()
+    async getAllComics(page: number, limit: number){
+        const skip = (page - 1) * limit;
+        return await this.comicsRepository.find({
+            skip,
+            take: limit,
+        });
     }
 
     async getComicById(id: string){

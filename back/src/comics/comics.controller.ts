@@ -6,21 +6,22 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ComicsService } from './comics.service';
 import { Comic } from './interfaces/comic.interface';
 import { title } from 'process';
 import { Comics } from './comics.entity';
 import { ApiTags } from '@nestjs/swagger';
-
+ 
 @ApiTags('comic')
 @Controller('comics')
 export class ComicsController {
   constructor(private readonly comicsService: ComicsService) {}
 
   @Get()
-  getComics() {
-    return this.comicsService.getAllComics();
+  getComics(@Query('page') page?: number, @Query('limit') limit?: number) {
+    return this.comicsService.getAllComics(page, limit);
   }
 
   @Get('seeder/:id')
