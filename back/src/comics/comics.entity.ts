@@ -33,7 +33,7 @@ export class Comics {
    */
   @Column({
     type: 'varchar',
-    length: 150,
+    length: 256,
     nullable: false,
   })
   description: string;
@@ -49,6 +49,16 @@ export class Comics {
     nullable: false,
   })
   author: string;
+
+  /**
+   * Es la categoria que le da el usuario al crear su comic
+   * @example "Aventura"
+   */
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  categoryname: string
 
   /**
    * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
