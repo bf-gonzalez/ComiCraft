@@ -19,7 +19,13 @@ export class ComicsRepository {
     }
 
     async getComicById(id: string){
-        const comic = await this.comicsRepository.findOneBy({id})
+        const comic = await this.comicsRepository.findOne({
+            where: {id},
+            relations: {
+                comment: true
+                
+            }
+        })
         if(!comic){
             return `El comic con id ${id} no se encuentra`;
         }
