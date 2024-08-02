@@ -23,7 +23,13 @@ export class ComicsRepository {
     }
 
     async getComicById(id: string){
-        const comic = await this.comicsRepository.findOneBy({id})
+        const comic = await this.comicsRepository.findOne({
+            where: {id},
+            relations: {
+                comment: true
+                
+            }
+        })
         if(!comic){
             return `El comic con id ${id} no se encuentra`;
         }
@@ -44,15 +50,15 @@ export class ComicsRepository {
             return `Usuario con id ${id} no encontrado`
         }
 
-       /* const category = await this.categoriesRepository.findOneBy({ name: comicData.category });
-        if (!category) {
-         category = this.categoriesRepository.create({ name: comicData.category });
-         await this.categoriesRepository.save(category);
-        */
+        let category = await this.categoriesRepository.findOneBy({name: comic.categoryname })
+        if(!category){
+            category = this.categoriesRepository.create({name: comic.categoryname});
+            await this.categoriesRepository.save(category);
+        }
         const newComic =  this.comicsRepository.create({
             ...comic,
             user,
-          //category, 
+          category, 
             });
 
         const savedComic= await this.comicsRepository.save(newComic);
@@ -66,11 +72,11 @@ export class ComicsRepository {
             user: {
                 id: user.id,
             },
-            /*category: {
+            category: {
                 id: savedComic.category.id,
                 name: savedComic.category.name,  // Assuming `name` is a property in `Categories`
               }
-           */
+           
         }
     }
 

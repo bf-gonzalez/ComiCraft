@@ -1,5 +1,3 @@
-// type, price, created_at, payment_date
-
 import { Type } from 'class-transformer';
 import {
   IsDate,
@@ -8,6 +6,7 @@ import {
   IsNumber,
   IsString,
 } from 'class-validator';
+import { MembershipType } from 'src/enum/membership-type.enum';
 import { Role } from 'src/enum/role.enum';
 
 export class CreateMembershipDto {
@@ -16,8 +15,8 @@ export class CreateMembershipDto {
   email: string;
 
   @IsNotEmpty()
-  @IsEnum(Role)
-  type: Role;
+  @IsEnum(MembershipType)
+  type: MembershipType;
 
   @IsNotEmpty()
   @IsNumber()

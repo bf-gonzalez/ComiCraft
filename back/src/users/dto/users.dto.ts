@@ -36,7 +36,7 @@ export class CreateUserDto {
    */
   @IsNotEmpty()
   @IsString()
-  @MinLength(8)
+  @MinLength(4)
   @MaxLength(17)
   @Matches(/^[a-zA-Z0-9_.-]+$/, {
     message: 'El nombre de usuario solo puede contener letras, números, guiones bajos (_), puntos (.) y guiones (-).'

@@ -1,7 +1,6 @@
 'use client'
 import { Bebas_Neue } from "next/font/google"
 import { usePathname, useRouter } from "next/navigation"
-import SearchBar from "../searchBar/SearchBar";
 import { useContext } from "react";
 import { UserContext } from "@/context/userContext";
 
@@ -35,7 +34,6 @@ function Navbar() {
                     duration-500 hover:scale-105 cursor-pointer h-24"
                     />
                 </button>
-                <SearchBar placeholder="Buscar" />
                 </section>
 
                 <section className="flex flex-row align-middle space-x-12 mr-4">
