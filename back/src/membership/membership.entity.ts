@@ -18,7 +18,7 @@ export class Membership {
   id: string;
 
   /**
-   * El tipo de usuario. Debe ser uno de los siguientes: annual, monthly, creator.
+   * El tipo de usuario. Debe ser uno de los siguientes: monthly_member, annual_member, creator.
    * @example annual
    */
   @Column({
@@ -46,6 +46,10 @@ export class Membership {
   @Column()
   created_at: Date;
 
+  /**
+   * Fecha de expiración del registro.
+   * @example 2024-08-25T12:34:56.789Z
+   */
   @Column({
     type: 'date',
     nullable: false,

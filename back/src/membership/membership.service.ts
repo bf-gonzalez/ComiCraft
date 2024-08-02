@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import IMembership from './membership.interface';
 import { CreateMembershipDto } from './membership.dto';
 import { MembershipsRepository } from './membership.repository';
 
@@ -14,8 +13,4 @@ export class MembershipService {
   getMerberships() {
     return this.membershipsRepository.getMerberships();
   }
-
-  getMembershipById(id: string) {}
-
-  getAllMembership() {}
 }
