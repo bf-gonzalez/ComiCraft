@@ -38,7 +38,7 @@ export class CategoriesModule implements OnModuleInit {
 
   async onModuleInit() {
     const mainUser: CreateUserDto = {
-      email: 'Comicraft@gmail.com',
+      email: 'comicraft2024@gmail.com',
       name: 'ComiCraft',
       username: 'ComiCraft2024',
       dob: new Date('1999-07-27'),
