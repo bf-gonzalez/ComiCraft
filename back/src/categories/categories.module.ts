@@ -38,13 +38,13 @@ export class CategoriesModule implements OnModuleInit {
 
   async onModuleInit() {
     const mainUser: CreateUserDto = {
-      email: 'cidegeb293@leacore.com',
+      email: 'Comicraft@gmail.com',
       name: 'ComiCraft',
       username: 'ComiCraft2024',
       dob: new Date('1999-07-27'),
       password: 'TestPassword1$',
       confirmPassword: 'TestPassword1$',
-      address: '123 Maple kjhk',
+      address: 'Calle capitan america',
       phone: 1234567890,
     };
 
