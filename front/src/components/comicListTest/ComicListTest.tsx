@@ -11,7 +11,7 @@ const josefin = Josefin_Sans({
 function ComicList ({comics}: IComicListProps) {
     return(
         <main className="pt-12 pb-24 ml-12 mr-12 max-w-8xl">
-            <section className="flex flex-row flex-wrap space-x-12 space-y-12 justify-evenly">
+            <section className="flex flex-row flex-wrap justify-evenly">
                 {comics.map((comic: IComicTest) => (
                     <ComicCard comic={comic} key={comic.id} />
                 ))}

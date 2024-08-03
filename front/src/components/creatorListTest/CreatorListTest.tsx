@@ -12,7 +12,7 @@ const josefin = Josefin_Sans({
 function CreatorList ({creators}: ICreatorListProps) {
     return(
         <main className="pt-12 pb-24 ml-12 mr-12 max-w-8xl">
-            <section className="flex flex-row flex-wrap space-x-12 space-y-12 justify-evenly">
+            <section className="flex flex-row flex-wrap justify-evenly">
                 {creators.map((creator: ICreatorTest) => (
                     <CreatorCard creator={creator} key={creator.id} />
                 ))}

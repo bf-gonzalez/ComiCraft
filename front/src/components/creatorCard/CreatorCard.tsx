@@ -25,7 +25,7 @@ function CreatorCard({creator}: ICreatorProps) {
     };
 
     return (
-        <main className="flex flex-col text-center">
+        <main className="flex flex-col text-center pl-6 pr-6 pb-10">
             <button onClick={handleCreatorClick}
             className="hover:scale-105 duration-300">
 
