@@ -1,14 +1,19 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
   HttpCode,
+  Param,
+  ParseUUIDPipe,
   Post,
+  Put,
   UseInterceptors,
 } from '@nestjs/common';
 import { MembershipService } from './membership.service';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateMembershipDto } from './membership.dto';
+import { CreateMembershipDto, UpdateMembershipDto } from './membership.dto';
 import { PasswordInterceptor } from 'src/interceptors/password.interceptor';
 
 @ApiTags('membership')
@@ -25,8 +30,27 @@ export class MembershipController {
 
   @Get()
   @HttpCode(200)
-  @UseInterceptors(PasswordInterceptor)
+  @UseInterceptors(ClassSerializerInterceptor, PasswordInterceptor)
   getMerberships() {
     return this.membershipService.getMerberships();
+  }
+
+  @Get(':id')
+  @UseInterceptors(ClassSerializerInterceptor, PasswordInterceptor)
+  getMembreshipById(@Param('id', ParseUUIDPipe) id: string) {
+    return this.membershipService.getMembershipById(id);
+  }
+
+  @Delete('id')
+  deletedMembership(@Param('id', ParseUUIDPipe) id: string) {
+    return this.membershipService.deletedMembership(id);
+  }
+
+  @Put(':id')
+  updateMembership(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateMembershipDto: UpdateMembershipDto,
+  ) {
+    return this.membershipService.updateMembership(id, updateMembershipDto);
   }
 }
