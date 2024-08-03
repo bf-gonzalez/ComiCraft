@@ -32,8 +32,13 @@ export const Register = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setSignUp({ ...signUpValues, [name]: value });
-        const newErrors = validateRegister({ ...signUpValues, [name]: value });
-        setErrors(newErrors);
+
+        
+        const fieldErrors = validateRegister({ ...signUpValues, [name]: value });
+        setErrors(prevErrors => ({
+            ...prevErrors,
+            [name]: fieldErrors[name] || ""
+        }));
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,7 +54,7 @@ export const Register = () => {
                 confirmPassword: signUpValues.confirmPassword,
                 name: signUpValues.name,
                 address: signUpValues.address,
-                phone: Number(signUpValues.phone),  // Convertir a número
+                phone: Number(signUpValues.phone),  
                 dob: signUpValues.dob,
             };
             console.log('Datos del formulario:', user);
@@ -74,6 +79,7 @@ export const Register = () => {
                 console.error("Error durante el registro:", error);
             }
         } else {
+            setErrors(validationErrors);
             console.log("Errores en el formulario:", validationErrors);
         }
     };
@@ -166,7 +172,7 @@ export const Register = () => {
                     {errors.address && <p className="text-red-500 text-xs italic">{errors.address}</p>}
                 </div>
                 <div className="mb-4">
-                <label htmlFor="dob" className="block text-yellow-600 text-sm font-bold mb-2">Fecha de nacimiento:</label>
+                    <label htmlFor="dob" className="block text-yellow-600 text-sm font-bold mb-2">Fecha de nacimiento:</label>
                     <input
                         type="date"
                         id="dob"
