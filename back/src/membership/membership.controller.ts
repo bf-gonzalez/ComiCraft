@@ -53,4 +53,14 @@ export class MembershipController {
   ) {
     return this.membershipService.updateMembership(id, updateMembershipDto);
   }
+
+  @Post('/prueba')
+  Membership(@Body() data) {
+    try {
+      console.log('membershipController=', data);
+      return data;
+    } catch (error) {
+      console.error;
+    }
+  }
 }

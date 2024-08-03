@@ -23,6 +23,11 @@ export class ComicsController {
     return this.comicsService.getAllComics();
   }
 
+  @Get('seeder/:id')
+  addComics(@Param('id') id: string) {
+    return this.comicsService.addComics(id);
+  }
+  
   @Get(':id')
   getComicById(@Param('id') id: string) {
     return this.comicsService.getComicById(id);
@@ -34,9 +39,7 @@ export class ComicsController {
   }
 
   @Post(':id')
-  createComic(@Param('id') id: string,
-              @Body() comic: Partial<Comics>,
-              ) {
+  createComic(@Param('id') id: string, @Body() comic: Partial<Comics>) {
     return this.comicsService.createComic(id, comic);
   }
 
