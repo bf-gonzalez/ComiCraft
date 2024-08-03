@@ -12,9 +12,10 @@ export class ComicsService {
     return this.comicsRepository.addComics(id);
   }
 
-  getAllComics() {
-    return this.comicsRepository.getAllComics();
+  getAllComics(page: number, limit: number) {
+    return this.comicsRepository.getAllComics(page, limit);
   }
+
   getComicById(id: string) {
     return this.comicsRepository.getComicById(id);
   }
