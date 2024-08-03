@@ -3,12 +3,13 @@ import axios from 'axios';
 import { CldImage } from 'next-cloudinary';
 import Swal from 'sweetalert2';
 
-const ImageUpload = ({ folderName, description }) => {
+const ImageUpload = ({ folderName, description, onComicDataChange }) => {
   const [images, setImages] = useState<(File | null)[]>([null]);
   const [imageUrls, setImageUrls] = useState<(string | null)[]>([null]);
   const [previewUrls, setPreviewUrls] = useState<(string | null)[]>([null]);
   const [userName, setUserName] = useState('');
   const [userId, setUserId] = useState('');
+  const [category, setCategory] = useState('Acción'); // Estado para la categoría seleccionada
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('decodedUser'));
@@ -79,10 +80,14 @@ const ImageUpload = ({ folderName, description }) => {
         const comicData = {
           title: folderName,
           description: description,
-          username: username,
+          author: username, // Cambiado de username a author
           data_post: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
-          nombrecarpeta: `${folderName} @${userName}`
+          folderName: `${folderName} @${userName}`, // Cambiado de nombrecarpeta a folderName
+          categoryname: category // Agregar la categoría seleccionada
         };
+
+        // Llamar a la función onComicDataChange con el objeto comicData
+        onComicDataChange(comicData);
 
         await axios.post(`http://localhost:3000/comics/${userId}`, comicData);
         Swal.fire({
@@ -139,6 +144,11 @@ const ImageUpload = ({ folderName, description }) => {
             )}
           </div>
         ))}
+      </div>
+      <div className="mt-4">
+        <button onClick={() => setCategory('Acción')} className={`px-4 py-2 rounded ${category === 'Acción' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-800'} transition-colors duration-300`}>Acción</button>
+        <button onClick={() => setCategory('Drama')} className={`ml-2 px-4 py-2 rounded ${category === 'Drama' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-800'} transition-colors duration-300`}>Drama</button>
+        <button onClick={() => setCategory('Romance')} className={`ml-2 px-4 py-2 rounded ${category === 'Romance' ? 'bg-blue-700 text-white' : 'bg-gray-200 text-gray-800'} transition-colors duration-300`}>Romance</button>
       </div>
       <button onClick={handleUpload} className="mt-4 px-4 py-2 bg-[#F5C702] text-gray-800 rounded hover:bg-blue-700 hover:text-white transition-colors duration-300">Subir Cómic</button>
     </div>
