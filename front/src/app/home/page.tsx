@@ -4,18 +4,19 @@ import CreatorList from "@/components/creatorListTest/CreatorListTest";
 import TrendingComics from "@/components/trendingComics/TrendingComics";
 import TrendingCreators from "@/components/trendingCreators/TrendingCreators";
 import { comicsPreload, creatorsPreload, trendingPreload } from "public/data";
+import styles from "@/components/backgrounds/experiment.module.css";
 
 function home() {
 
     return(
         
-        <main className="h-auto bg-slate-950 ">
+        <main className={styles.fondo}>
             <div className="pt-36"> 
                 <Carrousel />
             </div>
             
             <section>
-            <img src="/images/tendencia.png" className="max-w-xl flex ml-auto mr-6 pt-48 "/>        
+            <img src="/images/tendencia.png" className="max-w-xl flex ml-auto mr-6 pt-56 pb-10 "/>        
             <div className="flex flex-row justify-center space-x-6">
                     <TrendingComics comics={trendingPreload} />
             </div>

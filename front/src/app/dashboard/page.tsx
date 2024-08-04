@@ -4,6 +4,7 @@ import { UserContext } from "@/context/userContext";
 import { Bebas_Neue, Josefin_Sans } from "next/font/google";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
+import { useEffect, useState } from "react";
 
 const  josefin = Josefin_Sans({
     subsets:['latin'],
@@ -20,6 +21,15 @@ export default function dashboard() {
 
     const {isLogged, user} = useContext(UserContext);
     const router = useRouter();
+    const [userName, setUserName] = useState<string | null>(null);
+
+    useEffect(() => {
+        const decodedUser = localStorage.getItem("decodedUser");
+        if (decodedUser) {
+          const user = JSON.parse(decodedUser);
+          setUserName(user.name);
+        }
+      }, []);
 
 
     return (
@@ -32,18 +42,19 @@ export default function dashboard() {
 <section className="flex flex-row-reverse justify-evenly items-center">
 
 <div className="flex flex-col flex-wrap max-w-screen-xl items-end ">
-<h1 className={`${josefin.variable} font-sans 
-            text-7xl text-white pb-4
-            `}>BIENVENIDO/A</h1>
-<h2 className={`${josefin.variable} font-sans 
-            text-7xl text-white border-slate-400 border-4 
-            
-            `}> {user?.user?.name} </h2>
-
 <p className={`${bebas.variable} font-sans 
             text-4xl text-rose-800
-            self-center
+            self-center pb-6
             `}>CREADOR (CONDICIONAL)</p>
+<h1 className={`${josefin.variable} font-sans 
+            text-7xl text-white pb-1
+            `}>BIENVENIDO/A</h1>
+<h2 className={`${josefin.variable} font-sans 
+            text-7xl text-white uppercase self-center
+            
+            `}> {userName} </h2>
+
+
 </div>
 
 <div className="flex flex-col items-center">
@@ -60,13 +71,13 @@ export default function dashboard() {
 
 </section>
 
-<section className="flex flex-row pt-12 space-x-12 justify-end mr-12 ">
+<section className="flex flex-row pt-12 space-x-12 self-end text-center">
 <p className={`${bebas.variable} font-sans 
             text-3xl text-yellow-400 max-w-96
-`}>NÚMERO DE SEGUIDORES</p>    
+`}>(NÚMERO) SEGUIDORES</p>    
 <p className={`${bebas.variable} font-sans 
             text-3xl text-yellow-400 max-w-96
-`}>NÚMERO DE ARCHIVOS SUBIDOS</p>    
+`}>(NÚMERO) COMICS</p>    
 </section>                    
 
 {/* EXCLUSIVO DE CREADORES: */}

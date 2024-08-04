@@ -10,6 +10,7 @@ export default function UploadPage() {
   const [folders, setFolders] = useState([]);
   const [folderName, setFolderName] = useState('');
   const [description, setDescription] = useState('');
+  const [comicData, setComicData] = useState(null); // Estado para almacenar el objeto comicData
   const { user } = useContext(UserContext);
   const router = useRouter();
 
@@ -40,6 +41,10 @@ export default function UploadPage() {
     router.push(`/upload/${folder}`);
   };
 
+  const handleComicDataChange = (data) => {
+    setComicData(data);
+  };
+
   return (
     <main className={styles.fondo}>
       <div className="flex flex-col items-start justify-start mt-48 p-4">
@@ -57,7 +62,7 @@ export default function UploadPage() {
             onChange={(e) => setDescription(e.target.value)}
             className="mb-4 p-2 border rounded text-black"
           />
-          <ImageUpload folderName={folderName} description={description} />
+          <ImageUpload folderName={folderName} description={description} onComicDataChange={handleComicDataChange} />
         </div>
         <div className="grid grid-cols-3 gap-2 mt-4">
           {folders.map((folder) => (
@@ -67,6 +72,12 @@ export default function UploadPage() {
             </div>
           ))}
         </div>
+        {comicData && (
+          <div className="mt-4 p-4 border rounded bg-gray-100">
+            <h3 className="text-lg font-bold">Objeto enviado al backend:</h3>
+            <pre className="text-sm">{JSON.stringify(comicData, null, 2)}</pre>
+          </div>
+        )}
       </div>
     </main>
   );
