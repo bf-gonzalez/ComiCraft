@@ -103,9 +103,10 @@ export class MembershipsRepository {
         where: { user: { id: userId } },
       });
       if (!membership) {
-        throw new NotFoundException(
-          `Membresía con el id ${userId} no encontrada`,
+        console.log(
+          `No se encontró membresía para el usuario con id: ${userId}`,
         );
+        return null;
       }
       return membership;
     } catch (error) {
