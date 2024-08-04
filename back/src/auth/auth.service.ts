@@ -58,6 +58,7 @@ export class AuthService {
         email: user.email,
         role: user.role,
         MembershipType: userMembership ? userMembership.type : null,
+        profilePicture: user.profilePicture
       };
       const token = this.jwtService.sign(payload);
 
