@@ -48,10 +48,14 @@ export class CategoriesModule implements OnModuleInit {
       phone: 1234567890,
     };
 
+    const existingUser = await this.usersRepository.getUserByEmail(mainUser.email);
+    if (existingUser) {
+      console.log(`El usuario con el correo ${mainUser.email} ya existe.`);
+      return;
+    }
+
     await this.authService.signUp(mainUser);
-    const createdUser = await this.usersRepository.getUserByEmail(
-      mainUser.email,
-    );
+    const createdUser = await this.usersRepository.getUserByEmail(mainUser.email);
     await this.comicsService.addComics(createdUser.id);
   }
 }
