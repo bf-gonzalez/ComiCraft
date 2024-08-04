@@ -123,6 +123,7 @@ export const trendingPreload: IComicTest[] = [
       "https://pbs.twimg.com/media/E_fTA0EWQAM5Vys?format=jpg&name=4096x4096",
     author: " Marvel Comics",
   },
+
 ];
 
 export const creatorsPreload: ICreatorTest[] = [

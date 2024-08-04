@@ -3,6 +3,9 @@
 import { membershipOptions } from '@/helpers/membrecias';
 import { MembershipOption } from '@/interface';
 import { Bebas_Neue } from 'next/font/google';
+import { useContext } from 'react';
+import { UserContext } from '@/context/userContext';
+import Swal from 'sweetalert2';
 
 const bebas = Bebas_Neue({
     subsets: ['latin'],
@@ -10,7 +13,27 @@ const bebas = Bebas_Neue({
     variable: '--font-bebas',
 });
 
-const handleCheckout = async (product: MembershipOption) => {
+const handleCheckout = async (product: MembershipOption, isLogged: boolean) => {
+    if (!isLogged) {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Tienes que iniciar sesión para continuar.",
+            showCancelButton: true,
+            confirmButtonText: "Login",
+            cancelButtonText: "Cancelar",
+            customClass: {
+                confirmButton: 'swal2-confirm-btn',
+                cancelButton: 'swal2-cancel-btn'
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/login';
+            }
+        });
+        return;
+    }
+
     try {
         const res = await fetch("/api/checkout", {
             method: "POST",
@@ -39,7 +62,8 @@ const handleCheckout = async (product: MembershipOption) => {
 
 const MembershipCard = ({ name, price, description, features, type }: MembershipOption) => {
     const priceInDollars = (price / 100).toFixed(2);
-
+    const { isLogged } = useContext(UserContext);
+    
     return (
         <div className="w-80 p-4 rounded-lg shadow bg-custom-transparent">
             <h5 className="mb-4 text-xl font-medium text-custom-input text-yellow-500">{name}</h5>
@@ -69,7 +93,7 @@ const MembershipCard = ({ name, price, description, features, type }: Membership
             </ul>
             <button
                 type="button"
-                onClick={() => handleCheckout({ name, price, type, description, features })}
+                onClick={() => handleCheckout({ name, price, type, description, features }, isLogged)}
                 className={`${bebas.variable} font-sans login cursor-pointer text-4xl text-white hover:text-yellow-400 transition-all custom-transition duration-300`}
             >
                 Elegir plan
@@ -78,7 +102,6 @@ const MembershipCard = ({ name, price, description, features, type }: Membership
     );
 };
 
-
 export const MembershipCards = () => (
     <div className="flex space-x-4 overflow-x-auto">
         {membershipOptions.map((option, index) => (
@@ -86,4 +109,3 @@ export const MembershipCards = () => (
         ))}
     </div>
 );
-
