@@ -104,7 +104,45 @@ export const comicsPreload: IComicTest[] = [
 
 ]
 
-//export const trendingPreload: IComicTest[] 
+export const trendingPreload: IComicTest[] = [
+
+    {
+        id: 10,
+        name:"BATMAN BEYOND",
+        image: "https://m.media-amazon.com/images/I/51GfFmlDuGL._SY445_SX342_.jpg",
+        author: " DC Comics",
+
+    },
+    {
+        id: 11,
+        name:"THE BOYS HEROGASM",
+        image: "https://m.media-amazon.com/images/I/81aXHtxv7pL._SY466_.jpg",
+        author: " Dynamite Entertainment",
+
+    },
+    {
+        id: 12,
+        name:"MILES MORALES #1",
+        image: "https://i.redd.it/y6psp2bbh0821.jpg",
+        author: " Marvel Comics",
+
+    },
+    {
+        id: 13,
+        name:"JUJUTSU KAISEN #5",
+        image: "https://preview.redd.it/ka8zimxbfrq71.jpg?width=1526&format=pjpg&auto=webp&s=837cae6d596d034de77f9d259e9ee863fd868af5",
+        author: "Gege Akutami",
+
+    },
+    {
+        id: 14,
+        name:"DAREDEVIL DEVIL'S REIGN",
+        image: "https://pbs.twimg.com/media/E_fTA0EWQAM5Vys?format=jpg&name=4096x4096",
+        author: " Marvel Comics",
+
+    },
+
+];
 
 export const creatorsPreload: ICreatorTest[] = [
     {    
