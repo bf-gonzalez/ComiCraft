@@ -28,6 +28,7 @@ import { UsersService } from 'src/users/users.service';
     UsersService,
   ],
 })
+
 export class CategoriesModule implements OnModuleInit {
   constructor(
     private readonly usersRepository: UsersRepository,

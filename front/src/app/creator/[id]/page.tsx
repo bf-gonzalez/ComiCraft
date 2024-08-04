@@ -7,6 +7,7 @@ import { IComicTest, ICreatorTest } from "@/interface";
 import { comicsPreload, creatorsPreload } from "public/data";
 import ComicListRectangles from "@/components/comicListRectangles/ComicListRectangles";
 import CreatorPage from "@/components/creatorPage/CreatorPage";
+import styles from "@/components/backgrounds/experiment.module.css";
 
 const CreatorDetailPage = () => {
     const router = useRouter();
@@ -36,7 +37,7 @@ const CreatorDetailPage = () => {
       
         
         return (
-            <main className="h-auto bg-slate-950">
+            <main className={styles.fondo}>
 
             <CreatorPage creator={creator} />
 
@@ -44,7 +45,7 @@ const CreatorDetailPage = () => {
             <img src= "/images/masComics.png"
             className="max-w-sm ml-auto mr-auto "
             height={400} />
-            <ComicListRectangles comics={comicsPreload} limit={6} />
+            <ComicListRectangles comics={comics} limit={6} />
             </div>
 
             </main>

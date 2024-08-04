@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import styles from '../../components/regularBackground/RegularBackground.module.css';
+import styles from "@/components/backgrounds/experiment.module.css";
 import { Bebas_Neue } from "next/font/google";
 import Pagination from '../../components/Pagination';
 import SearchBar from '../../components/searchBar/SearchBar';
@@ -100,8 +100,8 @@ const AllComicsPage = () => {
   const currentComics = filteredComics.slice(indexOfFirstComic, indexOfLastComic);
 
   return (
-    <main className={styles.fondo} style={{ marginTop: '100px' }}>
-      <section className="flex flex-col items-center justify-center h-screen">
+    <main className={styles.fondo}>
+      <section className="flex flex-col items-center justify-center h-screen ">
         <SearchBar onSearch={handleSearch} />
         <DateFilter onFilterChange={handleFilterChange} />
         <CategoryFilter onCategoryChange={handleCategoryChange} />
