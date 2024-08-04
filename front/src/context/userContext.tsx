@@ -56,6 +56,10 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
             setUser(data);
             localStorage.setItem("user", JSON.stringify(data));
             localStorage.setItem("token", data.token);
+            const token = localStorage.getItem("token") || "";
+            const decoded = decodeToken(token);
+            localStorage.setItem("decodedUser", JSON.stringify(decoded));
+            setIsLogged(true);
             return true;
         } catch (error) {
             console.error(error);

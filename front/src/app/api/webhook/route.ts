@@ -4,7 +4,7 @@ import Stripe from "stripe";
 const stripe = new Stripe("sk_test_51PiMFr2K8akoQqIvjArZrVIvHRopS1FPhmswV0QQsiRtBWr8IBH94SQ4KeoIggm5UJm8fzCKNuN57sHsxLlVTEHQ00Was5x0Vv", {
   apiVersion: "2024-06-20",
 });
-const endpointSecret = "whsec_1SyaV7ArqIf8ebAMh9bDycekhhYR8nir";
+const endpointSecret = "whsec_sMemg80peAlDlaN7bzUsI94Al78sWBMn";
 
 export async function POST(request: Request) {
   const body = await request.text();
@@ -22,7 +22,6 @@ export async function POST(request: Request) {
     case "checkout.session.completed":
       const checkoutComplete = event.data.object as Stripe.Checkout.Session;
 
-      // Prepare the data to send to your backend
       const membershipData = {
         email: checkoutComplete.customer_details?.email || "",
         type: (checkoutComplete.metadata && checkoutComplete.metadata.typeProduct) || "unknown",
@@ -31,9 +30,9 @@ export async function POST(request: Request) {
         payment_date: new Date().toISOString(),
       };
 
-      // Send the data to your backend
+     
       try {
-        const response = await fetch("http://localhost:3000/membership/prueba", {
+        const response = await fetch("http://localhost:3000/membership", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
