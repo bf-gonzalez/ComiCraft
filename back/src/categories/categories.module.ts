@@ -13,9 +13,13 @@ import { CategoriesRepository } from './categories.repository';
 import { AuthService } from 'src/auth/auth.service';
 import { CreateUserDto } from 'src/users/dto/users.dto';
 import { UsersService } from 'src/users/users.service';
+import { MembershipModule } from 'src/membership/membership.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Categories, Comics, Users])],
+  imports: [
+    TypeOrmModule.forFeature([Categories, Comics, Users]),
+    MembershipModule,
+  ],
   controllers: [CategoriesController],
   providers: [
     CategoriesService,
