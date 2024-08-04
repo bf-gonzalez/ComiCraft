@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { CreateMembershipDto } from './membership.dto';
+import { CreateMembershipDto, UpdateMembershipDto } from './membership.dto';
 import { MembershipsRepository } from './membership.repository';
+import { Membership } from './membership.entity';
 
 @Injectable()
 export class MembershipService {
@@ -12,5 +13,17 @@ export class MembershipService {
 
   getMerberships() {
     return this.membershipsRepository.getMerberships();
+  }
+
+  getMembershipById(id: string) {
+    return this.membershipsRepository.getMembershipById(id);
+  }
+
+  deletedMembership(id: string) {
+    return this.membershipsRepository.deletedMembership(id);
+  }
+
+  updateMembership(id: string, updateMembershipDto: UpdateMembershipDto) {
+    return this.membershipsRepository.updateMembership(id, updateMembershipDto);
   }
 }

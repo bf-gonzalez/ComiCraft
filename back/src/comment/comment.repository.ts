@@ -19,12 +19,25 @@ export class CommentsRepository{
     }
 
     async getCommentById(id: string){
-        const comment = await this.commentsRepository.findOneBy({id})
+        const comment = await this.commentsRepository.findOne({
+            where: {id},
+            relations: {
+                user: true,
+            }
+        })
 
         if(!comment){
             return `Comentario con id ${id} no encontrado`
         }
-        return comment;
+        return {
+            id: comment.id,
+            content: comment.content,
+            created_at: comment.created_at,
+            user: {
+                id: comment.user.id,
+                username: comment.user.username,
+            }
+        }
     }
 
     async createComment(userId: string, comicId: string, content: string){
