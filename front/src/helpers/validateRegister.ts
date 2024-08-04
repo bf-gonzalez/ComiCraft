@@ -15,6 +15,12 @@ export const validateRegister = (values: { [key: string]: string }) => {
         errors.password = "La contraseña es requerida";
     } else if (values.password.length < 6) {
         errors.password = "La contraseña debe tener al menos 6 caracteres";
+    } else if (!/[A-Z]/.test(values.password)) {
+        errors.password = "La contraseña debe contener al menos una letra mayúscula";
+    } else if (!/[0-9]/.test(values.password)) {
+        errors.password = "La contraseña debe contener al menos un número";
+    } else if (!/[!@#$%^&*(),.?":{}|<>]/.test(values.password)) {
+        errors.password = "La contraseña debe contener al menos un símbolo";
     }
   
     if (values.password !== values.confirmPassword) {
