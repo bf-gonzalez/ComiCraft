@@ -1,3 +1,4 @@
+import { PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
   IsDate,
@@ -61,3 +62,5 @@ export class CreateMembershipDto {
   @Type(() => Date)
   payment_date: Date;
 }
+
+export class UpdateMembershipDto extends PartialType(CreateMembershipDto) {}

@@ -15,11 +15,15 @@ export class ComicsRepository {
     ){}
 
     async getAllComics(page: number, limit: number){
-        const skip = (page - 1) * limit;
-        return await this.comicsRepository.find({
-            skip,
-            take: limit,
-        });
+        if(page && limit){
+            const skip = (page - 1) * limit;
+            return await this.comicsRepository.find({
+                skip: skip,
+                take: limit,
+            });
+        }else{
+            return await this.comicsRepository.find()
+        }
     }
 
     async getComicById(id: string){
