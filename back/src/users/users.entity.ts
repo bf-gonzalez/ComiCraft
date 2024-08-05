@@ -109,7 +109,7 @@ export class Users {
   @Column({
     type: 'varchar',
     nullable: false,
-    default: 'none'
+    default: 'none',
   })
   profilePicture: string;
 

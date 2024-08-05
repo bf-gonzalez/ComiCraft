@@ -77,7 +77,11 @@ export class MembershipsRepository {
 
   async getMerberships() {
     try {
-      const memberships = await this.membershipsRepository.find();
+      const memberships = await this.membershipsRepository
+        .createQueryBuilder('membership')
+        .leftJoinAndSelect('membership.user', 'user')
+        .select(['membership', 'user.id'])
+        .getMany();
       return memberships;
     } catch (error) {
       throw new InternalServerErrorException('Error al obtener las membresías');
@@ -86,7 +90,13 @@ export class MembershipsRepository {
 
   async getMembershipById(id: string) {
     try {
-      const membership = await this.membershipsRepository.findOneBy({ id });
+      const membership = await this.membershipsRepository
+        .createQueryBuilder('membership')
+        .leftJoinAndSelect('membership.user', 'user')
+        .select(['membership', 'user.id'])
+        .where('membership.id = :id', { id })
+        .getOne();
+
       if (!membership) {
         throw new NotFoundException(`Membresía con el id ${id} no encontrada`);
       }
@@ -99,9 +109,12 @@ export class MembershipsRepository {
 
   async getUserMembershipById(userId: string) {
     try {
-      const membership = await this.membershipsRepository.findOne({
-        where: { user: { id: userId } },
-      });
+      const membership = await this.membershipsRepository
+        .createQueryBuilder('membership')
+        .leftJoinAndSelect('membership.user', 'user')
+        .select(['membership', 'user.id'])
+        .where('user.id = :userId', { userId })
+        .getOne();
       if (!membership) {
         console.log(
           `No se encontró membresía para el usuario con id: ${userId}`,
@@ -116,16 +129,28 @@ export class MembershipsRepository {
   }
 
   async deletedMembership(id: string) {
+    const membership = await this.membershipsRepository.findOneBy({ id });
+    if (!membership) {
+      throw new NotFoundException(`Membresía con el id ${id} no encontrada`);
+    }
     try {
-      const membership = await this.membershipsRepository.findOneBy({ id });
-      if (!membership) {
-        throw new NotFoundException(`Membresía con el id ${id} no encontrada`);
+      const user = await this.usersRepositorySave.findOne({
+        where: { memberships: { id } },
+      });
+      if (user) {
+        user.memberships = null;
+        await this.usersRepositorySave.save(user);
       }
-      await this.membershipsRepository.delete(id);
+      await this.membershipsRepository
+        .createQueryBuilder()
+        .delete()
+        .from(Membership)
+        .where('id = :id', { id })
+        .execute();
       return 'Membersía eliminada con éxito';
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new BadRequestException();
+      throw new InternalServerErrorException('No se pudo elimar la membresía');
     }
   }
 
