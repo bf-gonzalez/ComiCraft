@@ -38,6 +38,25 @@ function Navbar() {
 
                 <section className="flex flex-row align-middle space-x-12 mr-4">
 
+
+                {pathname !== '/membership' && isLogged && (
+                <button type="button" className="flex flex-row self-center border-2
+                border-yellow-400 rounded-2xl items-center w-60 h-16
+                bg-black bg-opacity-0 hover:bg-opacity-80 p-6"
+                onClick={() => router.push('/membership')}>
+                <img
+                src="/images/crown.png"
+                className="w-10 flex h-8 "
+                alt="crown"
+                />
+                    <h1 className={`${bebas.variable} font-sans 
+                login cursor-pointer
+                text-4xl text-white hover:text-yellow-400
+                transition-all custom-transition duration-300 pl-2`}>SUSCRIBIRSE</h1>
+                </button>
+                )}
+                
+
                 {pathname !== '/all-comics' &&  (
                     <button type="button" onClick={() => router.push('/all-comics')}>
                     <h1 className={`${bebas.variable} font-sans 
