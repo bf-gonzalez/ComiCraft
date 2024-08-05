@@ -1,8 +1,10 @@
+
 "use client";
-import React from 'react'
-import styles from "../../components/backgrounds/cyclops.module.css"
-import { Bebas_Neue } from 'next/font/google';
+import React, { useContext, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import styles from "../../components/backgrounds/cyclops.module.css";
+import { Bebas_Neue } from 'next/font/google';
+import { UserContext } from '@/context/userContext';
 
 const bebas = Bebas_Neue({
     subsets: ['latin'],
@@ -12,9 +14,15 @@ const bebas = Bebas_Neue({
 
 export default function Success() {
     const router = useRouter();
+    const { logOut } = useContext(UserContext);
+
+    useEffect(() => {
+        
+        logOut();
+    }, [logOut]);
 
     const handleGoHome = () => {
-        router.push('/'); 
+        router.push('/login');
     }
 
     return (
@@ -31,7 +39,7 @@ export default function Success() {
                         onClick={handleGoHome}
                         className="mt-4 px-4 py-2 transition-all duration-300"
                     >
-                        Volver a inicio
+                        Volver a iniciar sesión
                     </button>
                 </div>
             </div>

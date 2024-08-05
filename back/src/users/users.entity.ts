@@ -102,6 +102,17 @@ export class Users {
   })
   role?: Role[];
 
+  /**
+   * Es de tipo text y tiene que ser una URL
+   * @example "https://res.cloudinary.com/dyeji7bvg/image/upload/v1720248068/uhzzius1h9lbjc8k3hd9.webp"
+   */
+  @Column({
+    type: 'varchar',
+    nullable: false,
+    default: 'none'
+  })
+  profilePicture: string;
+
   @OneToOne(() => Membership, (membership) => membership.user)
   @JoinColumn({ name: 'membership_id' })
   memberships: Membership;

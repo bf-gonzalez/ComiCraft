@@ -14,7 +14,7 @@ export default function Success() {
     const router = useRouter();
 
     const handleGoHome = () => {
-        router.push('/'); 
+        router.push('/membership'); 
     }
 
     return (
@@ -31,7 +31,7 @@ export default function Success() {
                         onClick={handleGoHome}
                         className="mt-4 px-4 py-2 transition-all duration-300"
                     >
-                        Volver a inicio
+                        Volver a comprar
                     </button>
                 </div>
             </div>

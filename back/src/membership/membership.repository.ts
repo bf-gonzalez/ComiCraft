@@ -80,7 +80,7 @@ export class MembershipsRepository {
       const memberships = await this.membershipsRepository.find();
       return memberships;
     } catch (error) {
-      throw new InternalServerErrorException('Error al obtener los usuarios');
+      throw new InternalServerErrorException('Error al obtener las membresías');
     }
   }
 
@@ -89,6 +89,24 @@ export class MembershipsRepository {
       const membership = await this.membershipsRepository.findOneBy({ id });
       if (!membership) {
         throw new NotFoundException(`Membresía con el id ${id} no encontrada`);
+      }
+      return membership;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new BadRequestException();
+    }
+  }
+
+  async getUserMembershipById(userId: string) {
+    try {
+      const membership = await this.membershipsRepository.findOne({
+        where: { user: { id: userId } },
+      });
+      if (!membership) {
+        console.log(
+          `No se encontró membresía para el usuario con id: ${userId}`,
+        );
+        return null;
       }
       return membership;
     } catch (error) {
