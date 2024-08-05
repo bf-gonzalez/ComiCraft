@@ -109,11 +109,13 @@ export class Users {
   @Column({
     type: 'varchar',
     nullable: false,
-    default: 'none'
+    default: 'none',
   })
   profilePicture: string;
 
-  @OneToOne(() => Membership, (membership) => membership.user)
+  @OneToOne(() => Membership, (membership) => membership.user, {
+    cascade: ['remove'],
+  })
   @JoinColumn({ name: 'membership_id' })
   memberships: Membership;
 

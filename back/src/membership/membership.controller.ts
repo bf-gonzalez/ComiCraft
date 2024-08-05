@@ -41,8 +41,9 @@ export class MembershipController {
     return this.membershipService.getMembershipById(id);
   }
 
-  @Delete('id')
+  @Delete(':id')
   deletedMembership(@Param('id', ParseUUIDPipe) id: string) {
+    console.log('controller borrar membresia', id);
     return this.membershipService.deletedMembership(id);
   }
 

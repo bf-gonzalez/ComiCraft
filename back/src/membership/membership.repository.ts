@@ -116,16 +116,28 @@ export class MembershipsRepository {
   }
 
   async deletedMembership(id: string) {
+    const membership = await this.membershipsRepository.findOneBy({ id });
+    if (!membership) {
+      throw new NotFoundException(`Membresía con el id ${id} no encontrada`);
+    }
     try {
-      const membership = await this.membershipsRepository.findOneBy({ id });
-      if (!membership) {
-        throw new NotFoundException(`Membresía con el id ${id} no encontrada`);
+      const user = await this.usersRepositorySave.findOne({
+        where: { memberships: { id } },
+      });
+      if (user) {
+        user.memberships = null;
+        await this.usersRepositorySave.save(user);
       }
-      await this.membershipsRepository.delete(id);
+      await this.membershipsRepository
+        .createQueryBuilder()
+        .delete()
+        .from(Membership)
+        .where('id = :id', { id })
+        .execute();
       return 'Membersía eliminada con éxito';
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new BadRequestException();
+      throw new InternalServerErrorException('No se pudo elimar la membresía');
     }
   }
 
