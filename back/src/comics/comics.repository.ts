@@ -96,11 +96,11 @@ export class ComicsRepository {
 
         if(!comic) return `El comic ${id} no existe`
 
-        this.comicsRepository.recover(comic)
+        this.comicsRepository.delete(comic.id)
 
         const { title } = comic;
 
-        return `El comic llamado ` + title + ` con id: ${id} fue eliminado`
+        return `El Comic ${title} fue eliminado`
         
     }
 
