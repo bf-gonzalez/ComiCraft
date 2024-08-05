@@ -14,7 +14,7 @@ const DateFilter: React.FC<DateFilterProps> = ({ onFilterChange }) => {
   };
 
   return (
-    <button onClick={handleToggle} className="py-2 px-4 bg-blue-500 text-white rounded">
+    <button onClick={handleToggle} className="w-48 py-2 px-4 bg-blue-800 text-white rounded border-2 border-gray-400">
       {order === 'newest' ? 'Mostrar más viejos' : 'Mostrar más nuevos'}
     </button>
   );

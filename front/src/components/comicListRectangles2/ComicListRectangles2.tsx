@@ -16,7 +16,7 @@ const bebas = Bebas_Neue({
   variable: "--font-bebas",
 });
 
-const AllComicsPage = () => {
+export default function comicListRectangles2 () {
   const [comics, setComics] = useState([]);
   const [images, setImages] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
@@ -104,12 +104,6 @@ const AllComicsPage = () => {
   return (
     <main className={styles.fondo}>
       <section className="flex flex-col items-center pt-36 pb-40 ">
-        <div className="flex flex-col self-start pl-12">
-        <SearchBar onSearch={handleSearch} />
-        <CategoryFilter onCategoryChange={handleCategoryChange} />
-        <DateFilter onFilterChange={handleFilterChange} />
-        </div>
-                            
         <div className="flex flex-row flex-wrap justify-center mt-20 w-screen">
           {currentComics.map((comic, index) => (
             <div key={index} className="flex flex-col items-center mb-8 mx-6">
@@ -148,5 +142,3 @@ const AllComicsPage = () => {
     </main>
   );
 };
-
-export default AllComicsPage;

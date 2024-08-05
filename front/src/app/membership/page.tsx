@@ -4,7 +4,7 @@ import styles from "../../components/regularBackground/RegularBackground.module.
 export default function Checkout() {
     return (
         <main className={styles.fondo}>
-            <div className="flex items-center justify-center min-h-screen">
+            <div className="flex items-center justify-center min-h-screen pt-16">
                 <div className="flex space-x-4 overflow-x-auto">
                     <MembershipCards />
                 </div>

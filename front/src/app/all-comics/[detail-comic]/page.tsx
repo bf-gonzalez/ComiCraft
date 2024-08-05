@@ -3,6 +3,23 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
+import styles from "@/components/backgrounds/experiment.module.css";
+import { Bebas_Neue, Josefin_Sans } from 'next/font/google';
+
+const josefin = Josefin_Sans({
+  subsets:['latin'],
+  weight: ['600'],
+  variable: '--font-josefin',
+})
+
+const bebas = Bebas_Neue({
+  subsets: ["latin"],
+  weight: ["400"],
+  variable: "--font-bebas",
+});
+
+
+
 
 const ComicDetailPage = () => {
   const params = useParams();
@@ -102,26 +119,41 @@ const ComicDetailPage = () => {
   }
 
   return (
-    <main className="pt-36 flex flex-col items-start p-4">
-      <div className="flex">
+    <main className={styles.fondo}>
+    <section className="pt-36 flex flex-col items-center p-4 ">
+      <div className="flex flex-row pb-16 ">
         {images.length > 0 && (
           <img 
             src={images[0].secure_url} 
             alt={comic.title} 
-            className="rounded-xl border-2 h-[36vh] border-rose-900 p-2 object-cover object-top w-[12.5vw]" 
+            className=" ml-auto rounded-xl border-2 h-[72vh] border-rose-900 p-2 object-cover object-center w-[24vw]" 
             height={350} 
           />
         )}
-        <div className="ml-4">
-          <h1 className="text-2xl font-bold">{comic.title}</h1>
-          <p className="mt-2">{comic.description}</p>
-          <p className="mt-2">Autor: {comic.author}</p>
-          <p className="mt-2">Categoria: {comic.categoryname || 'N/A'}</p>
-          <p className="mt-2">Fecha de publicación: {comic.data_post}</p>
+        <div className="self-center w-[50vw] ml-20">
+          
+          <h1 className={`${bebas.variable} font-sans text-8xl text-yellow-400 text-center`}>{comic.title}</h1>
+          <p className={`${josefin.variable} font-sans text-4xl text-white text-end pb-10`}>{comic.description}</p>
+
+          <div className='flex flex-row'>
+          <p className={`${bebas.variable} font-sans text-5xl text-rose-700 pr-3`}>Autor:</p>
+          <p className={`${bebas.variable} font-sans text-5xl text-white`}>{comic.author}</p>
+          </div>
+
+          <div className='flex flex-row'>
+          <p className={`${bebas.variable} font-sans text-5xl text-rose-700 pr-3`}>Categoria:</p>
+          <p className={`${bebas.variable} font-sans text-5xl text-white`}>{comic.categoryname || 'N/A'}</p>
+          </div>
+
+          <div className='flex flex-row'>
+          <p className={`${bebas.variable} font-sans text-5xl text-rose-700 pr-3`}>Fecha de publicación:</p>
+          <p className={`${bebas.variable} font-sans text-5xl text-white`}>{comic.data_post}</p>
+          </div>
+
         </div>
       </div>
       {images.length > 0 && (
-        <div className={`mt-4 grid grid-cols-10 gap-2 border-2 border-rose-900 p-2 rounded-xl`}>
+        <div className={`mt-4 grid grid-cols-10 gap-2 border-2 border-yellow-400 border-opacity-60 p-2 rounded-xl`}>
           {images.map((image, index) => (
             <img 
               key={index} 
@@ -133,18 +165,18 @@ const ComicDetailPage = () => {
           ))}
         </div>
       )}
-      <div className="mt-8 w-full">
+      <div className="mt-8 w-full flex flex-col pl-8 pb-16">
         <h2 className="text-xl font-bold mb-4">Comentarios</h2>
         <input
           type="text"
           placeholder="Escribe tu comentario"
           value={newComment}
           onChange={(e) => setNewComment(e.target.value)}
-          className="w-full p-4 mb-4 border-2 border-rose-900 rounded bg-[#01061A] text-white placeholder-gray-500"
+          className="p-4 mb-4 border-2 border-rose-900 rounded bg-[#01061A] text-white placeholder-gray-500 w-[30vw] h-[12vh]"
         />
         <button
           onClick={handleCommentSubmit}
-          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 transition-colors duration-300 self-end"
+          className="mt-2 bg-blue-500 text-white hover:bg-blue-700 transition-colors duration-300 w-[10vw] h-[8vh] rounded-xl"
         >
           Enviar Comentario
         </button>
@@ -157,9 +189,16 @@ const ComicDetailPage = () => {
             </div>
           ))
         ) : (
-          <p>No hay comentarios aún.</p>
+          <p className='text-center text-3xl pt-8'>No hay comentarios aún.</p>
         )}
       </div>
+
+      <img src= "/images/masComics.png"
+            className="max-w-sm ml-auto mr-auto pb-48 "
+            height={400} />
+            
+
+    </section>
     </main>
   );
 };
