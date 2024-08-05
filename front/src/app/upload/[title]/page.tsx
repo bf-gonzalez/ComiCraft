@@ -1,15 +1,17 @@
-"use client";
+"use client"
 
 import { useEffect, useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import styles from '../../../components/regularBackground/RegularBackground.module.css';
 
 export default function FolderPage() {
   const [images, setImages] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [comic, setComic] = useState(null);
-  const router = useRouter();
   const { title: folderName } = useParams();
+  const searchParams = useSearchParams();
+  const page = searchParams.get('page');
+  const router = useRouter();
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -20,29 +22,18 @@ export default function FolderPage() {
         }
         const data = await response.json();
         setImages(data);
+        if (page) {
+          setCurrentIndex(Number(page) - 1);
+        }
       } catch (error) {
         console.error('Error fetching images:', error);
       }
     };
 
-    const fetchComic = async () => {
-      try {
-        const response = await fetch(`http://localhost:3000/comics?folder=${folderName}`);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setComic(data);
-      } catch (error) {
-        console.error('Error fetching comic:', error);
-      }
-    };
-
     if (folderName) {
       fetchImages();
-      fetchComic();
     }
-  }, [folderName]);
+  }, [folderName, page]);
 
   const handleNext = () => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -52,25 +43,69 @@ export default function FolderPage() {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
+  const handleFitToScreen = () => {
+    const img = document.getElementById('currentImage');
+    if (img) {
+      img.style.maxWidth = '50%';
+      img.style.height = 'auto';
+    }
+  };
+
+  const handleZoomIn = () => {
+    const img = document.getElementById('currentImage');
+    if (img) {
+      img.style.maxWidth = 'none';
+      img.style.width = '100%';
+      img.style.height = 'auto';
+    }
+  };
+
+  const handleZoomOut = () => {
+    const img = document.getElementById('currentImage');
+    if (img) {
+      img.style.maxWidth = 'none';
+      img.style.width = '30%';
+      img.style.height = 'auto';
+    }
+  };
+
+  const handleGoHome = () => {
+    router.push('/home');
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
+
   return (
-    <main className={styles.fondo} style={{ paddingTop: '5%', paddingBottom: '10px' }}>
-      <div className="flex justify-center items-center min-h-screen">
-        {comic && (
-          <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold">{comic.title}</h1>
-            <p className="text-gray-700">{comic.username}</p>
-            <p className="text-gray-500 mt-4">{comic.description}</p>
-            <p className="text-gray-500">{comic.data_post}</p>
-          </div>
-        )}
-        {images.length > 0 && (
-          <div className="relative">
-            <button onClick={handlePrev} className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded">Prev</button>
-            <img src={images[currentIndex].secure_url} alt={images[currentIndex].public_id} className="w-full h-auto" />
-            <button onClick={handleNext} className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded">Next</button>
-          </div>
-        )}
-      </div>
-    </main>
+    <div className="flex flex-col items-center min-h-screen bg-black">
+      <nav className="w-full bg-gray-800 p-4 flex justify-between items-center mt-32">
+        <div className="flex space-x-4">
+          <button onClick={handleFitToScreen} className="border-red-800 text-white p-2 rounded">Ajustar a la Pantalla</button>
+          <button onClick={handleZoomIn} className="border-red-800 text-white p-2 rounded">Acercar</button>
+          <button onClick={handleZoomOut} className="border-red-800 text-white p-2 rounded">Alejar</button>
+          <button onClick={handleGoHome} className="border-red-800 text-white p-2 rounded">Inicio</button>
+        </div>
+        <div className="relative">
+          <button onClick={toggleDropdown} className="border-red-800 text-white p-2 rounded">Páginas</button>
+          {dropdownOpen && (
+            <ul className="absolute bg-white text-black mt-2 rounded shadow-lg max-h-40 overflow-y-auto">
+              {images.map((image, index) => (
+                <li key={index} className="p-2 hover:bg-gray-200 cursor-pointer" onClick={() => setCurrentIndex(index)}>
+                  Página {index + 1}
+                </li>
+              )).slice(0, 5)}
+            </ul>
+          )}
+        </div>
+      </nav>
+      {images.length > 0 && (
+        <div className="relative mt-4 w-full flex justify-center">
+          <button onClick={handlePrev} className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded">Anterior</button>
+          <img id="currentImage" src={images[currentIndex].secure_url} alt={images[currentIndex].public_id} className="w-full h-auto" />
+          <button onClick={handleNext} className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded">Siguiente</button>
+        </div>
+      )}
+    </div>
   );
 }
