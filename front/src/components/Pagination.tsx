@@ -1,4 +1,11 @@
+import { Bebas_Neue } from 'next/font/google';
 import React from 'react';
+
+const bebas = Bebas_Neue({
+  subsets: ['latin'],
+  weight: ['400'],
+  variable: '--font-bebas',
+});
 
 interface PaginationProps {
   currentPage: number;
@@ -24,15 +31,14 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       <button 
         onClick={handlePrevious} 
         disabled={currentPage === 1}
-        className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
-      >
+        className={`${bebas.variable} font-sans text-3xl px-4 py-2 bg-yellow-400 rounded disabled:opacity-50 uppercase text-black`}>
         Anterior
       </button>
       <span>{currentPage} de {totalPages}</span>
       <button 
         onClick={handleNext} 
         disabled={currentPage === totalPages}
-        className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
+        className={`${bebas.variable} font-sans text-3xl px-4 py-2 bg-rose-700 rounded disabled:opacity-50 uppercase text-white`}
       >
         Siguiente
       </button>

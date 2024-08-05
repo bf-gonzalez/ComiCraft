@@ -51,13 +51,23 @@ export interface ILoginUser {
     image: string;
     author: string;
   }
+  
+export interface IComic {
+  title: string;
+  author: string;
+  description: string;
+  category: string;
+  date: string; 
+  url: string;  
+}
+
 
   export interface IComicProps {
-    comic: IComicTest;
+    comic: IComic;
   }
 
   export interface IComicListProps {
-    comics: IComicTest[];
+    comics: IComic[];
     limit?: number;
   }
 

@@ -3,21 +3,23 @@
 import { useRouter, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import ComicPage from "@/components/comicPage/ComicPage";
-import { IComicTest } from "@/interface";
+import { IComic, IComicTest } from "@/interface";
 import { comicsPreload } from "public/data";
 import ComicListRectangles from "@/components/comicListRectangles/ComicListRectangles";
+import styles from "@/components/backgrounds/experiment.module.css";
+import { title } from "process";
 
 const ComicDetailPage = () => {
     const router = useRouter();
     const params = useParams();
     const id = params?.id
-    const [comic, setComic] = useState<IComicTest | null>(null);
+    const [comic, setComic] = useState<IComic | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         if (id) {
             const selectedComic = comicsPreload.find(
-                (comic) => comic.id === Number(id)
+                (comic) => comic.title === String(title)
             );
 
             setComic(selectedComic || null);
@@ -35,7 +37,7 @@ const ComicDetailPage = () => {
       
         
         return (
-            <main className="h-auto bg-slate-950">
+            <main className={styles.fondo}>
 
             <ComicPage comic={comic} />
 
@@ -43,7 +45,7 @@ const ComicDetailPage = () => {
             <img src= "/images/masComics.png"
             className="max-w-sm ml-auto mr-auto "
             height={400} />
-            <ComicListRectangles comics={comicsPreload} limit={6} />
+            <ComicListRectangles comics={comics} limit={6} />
             </div>
 
             </main>

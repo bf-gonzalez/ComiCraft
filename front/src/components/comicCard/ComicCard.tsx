@@ -1,5 +1,5 @@
 'use client'
-import { IComicProps, IComicTest } from "@/interface";
+import { IComic, IComicProps, IComicTest } from "@/interface";
 import { useRouter } from "next/navigation";
 import { Bebas_Neue, Josefin_Sans } from "next/font/google";
 
@@ -15,13 +15,13 @@ const  bebas = Bebas_Neue({
 });
 
 interface ComicPageProps {
-    comic: IComicTest;
+    comic: IComic;
   }
 
 function ComicCard({comic}: IComicProps) {
     const router = useRouter();
     const handleComicClick = () => {
-        router.push(`/comic/${comic.id}`);
+        router.push(`/comic/${comic.title}`);
     };
 
     return (
@@ -29,7 +29,7 @@ function ComicCard({comic}: IComicProps) {
             <button onClick={handleComicClick}
             className="hover:scale-105 duration-300">
 
-            <img src= {comic.image} alt={comic.name}
+            <img src= {comic.url} alt={comic.title}
             className="rounded-xl border-2 h-96 border-rose-900 p-2
             object-cover object-center w-64"
             height={400} />
@@ -39,7 +39,7 @@ function ComicCard({comic}: IComicProps) {
             <h2 className={`${bebas.variable} font-sans 
             text-3xl text-yellow-400 pt-4 max-w-64 flex-wrap
             `}>
-                {comic.name}
+                {comic.title}
             </h2>
             <p className={`${bebas.variable} font-sans 
             text-xl text-white  max-w-64 flex-wrap
