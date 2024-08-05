@@ -267,4 +267,21 @@ export class UsersRepository {
       );
     }
   }
+
+  async updateProfilePicture(id: string, url: string) {
+    try {
+      const user = await this.usersRepository.findOneBy({ id });
+      if (!user) {
+        throw new NotFoundException(`No se encontro usuario con el id proporcionado`);
+      }
+
+      user.profilePicture = url;
+      await this.usersRepository.save(user);
+
+      return user;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new InternalServerErrorException('Error al actualizar la foto de perfil');
+    }
+  }
 }

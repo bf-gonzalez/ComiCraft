@@ -75,4 +75,14 @@ export class UsersController {
   ) {
     return this.usersService.updateUserRole(id, [role]);
   }
+
+  @HttpCode(200)
+  @UseInterceptors(PasswordInterceptor)
+  @Put(':id/profile-picture')
+  async updateProfilePicture(
+    @Param('id') id: string,
+    @Body('url') url: string,
+  ) {
+    return this.usersService.updateProfilePicture(id, url);
+  }
 }

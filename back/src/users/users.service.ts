@@ -31,4 +31,8 @@ export class UsersService {
   async updateUserRole(id: string, role: Role[]) {
     return this.userRepository.updateUserRole(id, role);
   }
+
+  async updateProfilePicture(id: string, url: string) {
+    return this.userRepository.updateProfilePicture(id, url);
+  }
 }
