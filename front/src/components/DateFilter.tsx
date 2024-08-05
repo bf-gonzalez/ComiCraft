@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 
 interface DateFilterProps {
   onFilterChange: (order: 'newest' | 'oldest') => void;
+  initialOrder: 'newest' | 'oldest';
 }
 
-const DateFilter: React.FC<DateFilterProps> = ({ onFilterChange }) => {
-  const [order, setOrder] = useState<'newest' | 'oldest'>('newest');
+const DateFilter: React.FC<DateFilterProps> = ({ onFilterChange, initialOrder }) => {
+  const [order, setOrder] = useState<'newest' | 'oldest'>(initialOrder);
 
   const handleToggle = () => {
     const newOrder = order === 'newest' ? 'oldest' : 'newest';
