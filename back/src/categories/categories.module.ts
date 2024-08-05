@@ -29,30 +29,31 @@ import { UsersService } from 'src/users/users.service';
   ],
 })
 
-export class CategoriesModule implements OnModuleInit {
-  constructor(
-    private readonly usersRepository: UsersRepository,
-    private readonly authService: AuthService,
-    private readonly categoriesService: CategoriesService,
-    private readonly comicsService: ComicsService,
-  ) {}
+// export class CategoriesModule implements OnModuleInit {
+export class CategoriesModule {
+  // constructor(
+  //   private readonly usersRepository: UsersRepository,
+  //   private readonly authService: AuthService,
+  //   private readonly categoriesService: CategoriesService,
+  //   private readonly comicsService: ComicsService,
+  // ) {}
 
-  async onModuleInit() {
-    const mainUser: CreateUserDto = {
-      email: 'comicraft2024@gmail.com',
-      name: 'ComiCraft',
-      username: 'ComiCraft2024',
-      dob: new Date('1999-07-27'),
-      password: 'TestPassword1$',
-      confirmPassword: 'TestPassword1$',
-      address: 'Calle capitan america',
-      phone: 1234567890,
-    };
+  // async onModuleInit() {
+  //   const mainUser: CreateUserDto = {
+  //     email: 'comicraft2024@gmail.com',
+  //     name: 'ComiCraft',
+  //     username: 'ComiCraft2024',
+  //     dob: new Date('1999-07-27'),
+  //     password: 'TestPassword1$',
+  //     confirmPassword: 'TestPassword1$',
+  //     address: 'Calle capitan america',
+  //     phone: 1234567890,
+  //   };
 
-    await this.authService.signUp(mainUser);
-    const createdUser = await this.usersRepository.getUserByEmail(
-      mainUser.email,
-    );
-    await this.comicsService.addComics(createdUser.id);
-  }
+  //   await this.authService.signUp(mainUser);
+  //   const createdUser = await this.usersRepository.getUserByEmail(
+  //     mainUser.email,
+  //   );
+  //   await this.comicsService.addComics(createdUser.id);
+  // }
 }

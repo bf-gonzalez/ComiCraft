@@ -31,7 +31,9 @@ const AllComicsPage = () => {
       try {
         const response = await axios.get('http://localhost:3000/comics');
         setComics(response.data);
+        console.log("Fetched Comics:", response.data)
         response.data.forEach(comic => {
+          console.log("FolderName:", comic.folderName)
           if (isValidUrl(comic.folderName)) {
             setImages(prevImages => ({ ...prevImages, [comic.id]: [{ secure_url: comic.folderName }] }));
           } else {
