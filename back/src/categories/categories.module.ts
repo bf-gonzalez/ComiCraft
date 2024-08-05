@@ -13,9 +13,13 @@ import { CategoriesRepository } from './categories.repository';
 import { AuthService } from 'src/auth/auth.service';
 import { CreateUserDto } from 'src/users/dto/users.dto';
 import { UsersService } from 'src/users/users.service';
+import { MembershipModule } from 'src/membership/membership.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Categories, Comics, Users])],
+  imports: [
+    TypeOrmModule.forFeature([Categories, Comics, Users]),
+    MembershipModule,
+  ],
   controllers: [CategoriesController],
   providers: [
     CategoriesService,
@@ -28,32 +32,34 @@ import { UsersService } from 'src/users/users.service';
     UsersService,
   ],
 })
+export class CategoriesModule implements OnModuleInit {
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private readonly authService: AuthService,
+    private readonly categoriesService: CategoriesService,
+    private readonly comicsService: ComicsService,
+  ) {}
 
-// export class CategoriesModule implements OnModuleInit {
-export class CategoriesModule {
-  // constructor(
-  //   private readonly usersRepository: UsersRepository,
-  //   private readonly authService: AuthService,
-  //   private readonly categoriesService: CategoriesService,
-  //   private readonly comicsService: ComicsService,
-  // ) {}
+  async onModuleInit() {
+    const mainUser: CreateUserDto = {
+      email: 'comicraft2024@gmail.com',
+      name: 'ComiCraft',
+      username: 'ComiCraft2024',
+      dob: new Date('1999-07-27'),
+      password: 'TestPassword1$',
+      confirmPassword: 'TestPassword1$',
+      address: 'Calle capitan america',
+      phone: 1234567890,
+    };
 
-  // async onModuleInit() {
-  //   const mainUser: CreateUserDto = {
-  //     email: 'comicraft2024@gmail.com',
-  //     name: 'ComiCraft',
-  //     username: 'ComiCraft2024',
-  //     dob: new Date('1999-07-27'),
-  //     password: 'TestPassword1$',
-  //     confirmPassword: 'TestPassword1$',
-  //     address: 'Calle capitan america',
-  //     phone: 1234567890,
-  //   };
+    const existingUser = await this.usersRepository.getUserByEmail(mainUser.email);
+    if (existingUser) {
+      console.log(`El usuario con el correo ${mainUser.email} ya existe.`);
+      return;
+    }
 
-  //   await this.authService.signUp(mainUser);
-  //   const createdUser = await this.usersRepository.getUserByEmail(
-  //     mainUser.email,
-  //   );
-  //   await this.comicsService.addComics(createdUser.id);
-  // }
+    await this.authService.signUp(mainUser);
+    const createdUser = await this.usersRepository.getUserByEmail(mainUser.email);
+    await this.comicsService.addComics(createdUser.id);
+  }
 }
