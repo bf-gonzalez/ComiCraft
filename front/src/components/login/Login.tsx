@@ -84,15 +84,22 @@ export const Login = () => {
                     />
                     {errors.password && <p className="text-red-500 text-xs italic">{errors.password}</p>}
                 </div>
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between w-[32vw]">
                     <button type="submit" className={`${bebas.variable} font-sans 
                     login cursor-pointer
                     text-4xl text-white hover:text-yellow-400
                     transition-all custom-transition duration-300`}>Iniciar Sesión</button>
+                <div className="flex flex-col w-[20vw] mr-4">
+                <p className="text-base text-center">No tienes una cuenta?</p>
+                <button type="button"
+                className="text-blue-600 text-base"
+                onClick={() => router.push('/register')} >Registrate aquí!</button>
+                </div>
                 </div>
             </form>
-
+            <div className="">
             <GLogin />
+            </div>
         </div>
     );
 };

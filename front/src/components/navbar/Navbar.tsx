@@ -66,7 +66,7 @@ function Navbar() {
 
                 <section className="flex flex-row align-middle space-x-12 mr-4">
 
-                {pathname !== '/membership' && !['annual_member', 'monthly_member', 'creator'].includes(membershipType) && (
+                {pathname !== '/membership' || '/login' || 'register' && !['annual_member', 'monthly_member', 'creator'].includes(membershipType) && (
                 <button type="button" className="flex flex-row self-center border-2
                 border-yellow-400 rounded-2xl items-center w-60 h-16
                 bg-black bg-opacity-0 hover:bg-opacity-80 p-6"

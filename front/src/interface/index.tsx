@@ -43,6 +43,7 @@ export interface ILoginUser {
     dob: string;
     role?: string;
     credential?: ICreadential;
+    token?: string;
   }
 
   export interface IComicTest {

@@ -62,3 +62,37 @@ export const validateRegister = (values: { [key: string]: string }) => {
   
     return errors;
 };
+
+export const validateCompleteProfile = (values: { [key: string]: string }) => {
+    const errors: { [key: string]: string } = {};
+  
+  
+    if (!/^\d{10,}$/.test(values.phone)) {
+        errors.phone = "El teléfono debe tener al menos 10 dígitos";
+    }
+  
+    if (!values.address) {
+        errors.address = "La dirección es requerida";
+    }
+  
+    if (!values.dob) {
+        errors.dob = "La fecha de nacimiento es requerida";
+    } else {
+        const today = new Date();
+        const dob = new Date(values.dob);
+        if (dob > today) {
+            errors.dob = "La fecha de nacimiento no puede ser futura";
+        } else {
+            let age = today.getFullYear() - dob.getFullYear();
+            const monthDifference = today.getMonth() - dob.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+            if (age < 18) {
+                errors.dob = "Debes tener al menos 18 años";
+            }
+        }
+    }
+  
+    return errors;
+  };
