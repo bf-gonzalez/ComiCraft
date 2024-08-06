@@ -83,7 +83,7 @@ function Navbar() {
                 </button>
                 )}
 
-                {pathname !== '/all-comics' || '/profile-complete' &&  (
+                {pathname !== '/all-comics' && pathname === 'profile-complete' && (
                     <button type="button" onClick={() => router.push('/all-comics')}>
                     <h1 className={`${bebas.variable} font-sans 
                 login cursor-pointer
@@ -92,16 +92,16 @@ function Navbar() {
                 </button>
                 )}
 
-                {pathname === '/home' &&  (
+                {/* {pathname === '/home' &&  (
                     <a href="#creatorsHome" className="self-center">
                         <h1 className={`${bebas.variable} font-sans 
                     login cursor-pointer
                     text-4xl text-white hover:text-yellow-400
                     transition-all custom-transition duration-300`}>CREADORES</h1>
                     </a>
-                )}
+                )} */}
 
-                {pathname !== '/register' || '/profile-complete' && !isLogged && (
+                {pathname !== '/register' && pathname !== '/profile-complete' && !isLogged && (
                     <button type="button" onClick={() => router.push('/register')} 
                     className="">
                         <h1 className={`${bebas.variable} font-sans 
@@ -110,7 +110,7 @@ function Navbar() {
                     transition-all custom-transition duration-300`}>REGISTRARSE</h1>
                     </button>
                 )}
-                {pathname !== '/login' || '/profile-complete' && !isLogged && (
+                {pathname !== '/login' && pathname !== '/profile-complete' && !isLogged && (
                     <button type="button" onClick={() => router.push('/login')}>
                         <h1 className={`${bebas.variable} font-sans 
                     login cursor-pointer

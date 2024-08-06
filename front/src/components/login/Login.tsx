@@ -99,6 +99,7 @@ export const Login = () => {
             </form>
             <div className="">
             <GLogin />
+            
             </div>
         </div>
     );
