@@ -1,8 +1,9 @@
 'use client'
 import { Bebas_Neue } from "next/font/google"
 import { usePathname, useRouter } from "next/navigation"
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/context/userContext";
+import Swal from 'sweetalert2';
 
 const  bebas = Bebas_Neue({
     subsets:['latin'],
@@ -12,14 +13,41 @@ const  bebas = Bebas_Neue({
 
 function Navbar() {
     const {isLogged, logOut} = useContext(UserContext);
+    const [membershipType, setMembershipType] = useState<string | null>(null);
     
     const router = useRouter();
-
     const pathname = usePathname();
+
+    useEffect(() => {
+        const decodedUser = localStorage.getItem("decodedUser");
+        if (decodedUser) {
+            const user = JSON.parse(decodedUser);
+            setMembershipType(user.MembershipType);
+        }
+    }, []);
 
     const handleLogOut= () => {
         logOut();
         router.push("/")
+    }
+
+    const handleMembershipClick = () => {
+        if (!isLogged) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "¡Debes iniciar sesión para comprar una membresía!",
+                confirmButtonText: "Iniciar sesión",
+                cancelButtonText: "Cancelar",
+                showCancelButton: true,
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    router.push('/login');
+                }
+            });
+        } else {
+            router.push('/membership');
+        }
     }
 
     return(
@@ -38,12 +66,11 @@ function Navbar() {
 
                 <section className="flex flex-row align-middle space-x-12 mr-4">
 
-
-                {pathname !== '/membership' && isLogged && (
+                {pathname !== '/membership' && !['annual_member', 'monthly_member', 'creator'].includes(membershipType) && (
                 <button type="button" className="flex flex-row self-center border-2
                 border-yellow-400 rounded-2xl items-center w-60 h-16
                 bg-black bg-opacity-0 hover:bg-opacity-80 p-6"
-                onClick={() => router.push('/membership')}>
+                onClick={handleMembershipClick}>
                 <img
                 src="/images/crown.png"
                 className="w-10 flex h-8 "
@@ -55,7 +82,6 @@ function Navbar() {
                 transition-all custom-transition duration-300 pl-2`}>SUSCRIBIRSE</h1>
                 </button>
                 )}
-                
 
                 {pathname !== '/all-comics' &&  (
                     <button type="button" onClick={() => router.push('/all-comics')}>

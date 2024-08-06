@@ -21,12 +21,20 @@ const AllComicsPage = () => {
   const [images, setImages] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [comicsPerPage] = useState(8); // Número de cómics por página
-  const [searchQuery, setSearchQuery] = useState('');
-  const [dateOrder, setDateOrder] = useState<'newest' | 'oldest'>('newest');
-  const [categoryFilter, setCategoryFilter] = useState('');
+  const [searchQuery, setSearchQuery] = useState(localStorage.getItem('searchQuery') || '');
+  const [dateOrder, setDateOrder] = useState<'newest' | 'oldest'>(localStorage.getItem('dateOrder') || 'newest');
+  const [categoryFilter, setCategoryFilter] = useState<string[]>(JSON.parse(localStorage.getItem('categoryFilter')) || []);
   const router = useRouter();
 
   useEffect(() => {
+    const savedSearchQuery = localStorage.getItem('searchQuery');
+    const savedDateOrder = localStorage.getItem('dateOrder');
+    const savedCategoryFilter = localStorage.getItem('categoryFilter');
+
+    if (savedSearchQuery) setSearchQuery(savedSearchQuery);
+    if (savedDateOrder) setDateOrder(savedDateOrder);
+    if (savedCategoryFilter) setCategoryFilter(JSON.parse(savedCategoryFilter));
+
     const fetchComics = async () => {
       try {
         const response = await axios.get('http://localhost:3000/comics');
@@ -72,19 +80,27 @@ const AllComicsPage = () => {
 
   const handleSearch = (query) => {
     setSearchQuery(query.toLowerCase());
+    localStorage.setItem('searchQuery', query.toLowerCase());
   };
 
   const handleFilterChange = (order) => {
     setDateOrder(order);
+    localStorage.setItem('dateOrder', order);
   };
 
-  const handleCategoryChange = (category) => {
-    setCategoryFilter(category);
+  const handleCategoryChange = (categories) => {
+    setCategoryFilter(categories);
+    localStorage.setItem('categoryFilter', JSON.stringify(categories));
   };
 
   const filteredComics = comics
     .filter(comic => comic.title.toLowerCase().includes(searchQuery.toLowerCase()))
-    .filter(comic => !categoryFilter || comic.categoryname === categoryFilter)
+    .map(comic => {
+      const categoryMatches = categoryFilter.filter(category => (comic.categoryname || '').includes(category)).length;
+      return { ...comic, categoryMatches };
+    })
+    .sort((a, b) => b.categoryMatches - a.categoryMatches)
+    .filter(comic => categoryFilter.length === 0 || comic.categoryMatches > 0)
     .sort((a, b) => {
       if (dateOrder === 'newest') {
         return new Date(b.data_post) - new Date(a.data_post);
@@ -105,9 +121,9 @@ const AllComicsPage = () => {
     <main className={styles.fondo}>
       <section className="flex flex-col items-center pt-36 pb-40 ">
         <div className="flex flex-col self-start pl-12">
-        <SearchBar onSearch={handleSearch} />
-        <CategoryFilter onCategoryChange={handleCategoryChange} />
-        <DateFilter onFilterChange={handleFilterChange} />
+          <SearchBar onSearch={handleSearch} initialQuery={searchQuery} />
+          <CategoryFilter onCategoryChange={handleCategoryChange} initialCategories={categoryFilter} />
+          <DateFilter onFilterChange={handleFilterChange} initialOrder={dateOrder} />
         </div>
                             
         <div className="flex flex-row flex-wrap justify-center mt-20 w-screen">
@@ -138,11 +154,11 @@ const AllComicsPage = () => {
           ))}
         </div>
         <div className='flex self-end ml-auto pr-8'>
-        <Pagination 
-          currentPage={currentPage} 
-          totalPages={totalPages} 
-          onPageChange={setCurrentPage} 
-        />
+          <Pagination 
+            currentPage={currentPage} 
+            totalPages={totalPages} 
+            onPageChange={setCurrentPage} 
+          />
         </div>
       </section>
     </main>
