@@ -28,7 +28,8 @@ export class UsersRepository {
       if (users.length < 1) {
         throw new NotFoundException('No se encontraron usuarios');
       }
-      return users;
+      const activeUsers = users.filter((user) => user.isDeleted === false);
+      return activeUsers;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new InternalServerErrorException('Error al buscar los usuarios');
@@ -48,6 +49,9 @@ export class UsersRepository {
         throw new NotFoundException(
           `No se encontró nigún usuario con el id ${id}`,
         );
+      }
+      if (user.isDeleted) {
+        return `Usuario con el id ${id} está bloqueado`;
       }
 
       return user;
@@ -217,7 +221,7 @@ export class UsersRepository {
     }
   }
 
-  async deleteUser(id: string) {
+  async removeUser(id: string) {
     try {
       const deletedUser = await this.usersRepository.findOneBy({ id });
       if (!deletedUser) {
@@ -230,6 +234,28 @@ export class UsersRepository {
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new BadRequestException('No se pudo eliminar al usuario');
+    }
+  }
+
+  async deleteUser(id: string) {
+    try {
+      const user = await this.usersRepository.findOneBy({ id });
+      if (!user) {
+        throw new NotFoundException(`Usuario con el ${id} no encontrado`);
+      }
+
+      await this.usersRepository
+        .createQueryBuilder()
+        .update(Users)
+        .set({
+          isDeleted: !user.isDeleted,
+        })
+        .where('id = :id', { id })
+        .execute();
+      return { message: `Usuario con el id ${id} bloqueado con éxito` };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new BadRequestException();
     }
   }
 
@@ -272,7 +298,9 @@ export class UsersRepository {
     try {
       const user = await this.usersRepository.findOneBy({ id });
       if (!user) {
-        throw new NotFoundException(`No se encontro usuario con el id proporcionado`);
+        throw new NotFoundException(
+          `No se encontro usuario con el id proporcionado`,
+        );
       }
 
       user.profilePicture = url;
@@ -281,7 +309,9 @@ export class UsersRepository {
       return user;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new InternalServerErrorException('Error al actualizar la foto de perfil');
+      throw new InternalServerErrorException(
+        'Error al actualizar la foto de perfil',
+      );
     }
   }
 }

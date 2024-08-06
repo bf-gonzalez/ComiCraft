@@ -14,6 +14,7 @@ import {
   IsDate,
   IsArray,
   IsEmpty,
+  IsBoolean,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { MatchPassword } from 'src/decorators/matchPassword.decorator';
@@ -106,6 +107,10 @@ export class CreateUserDto {
   @IsNotEmpty()
   @IsNumber()
   phone: number;
+
+  @IsOptional()
+  @IsBoolean()
+  isDeleted: boolean;
 }
 
 export class LoginUserDto extends PickType(CreateUserDto, [
