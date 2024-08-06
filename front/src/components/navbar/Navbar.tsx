@@ -83,7 +83,7 @@ function Navbar() {
                 </button>
                 )}
 
-                {pathname !== '/all-comics' &&  (
+                {pathname !== '/all-comics' || '/profile-complete' &&  (
                     <button type="button" onClick={() => router.push('/all-comics')}>
                     <h1 className={`${bebas.variable} font-sans 
                 login cursor-pointer
@@ -101,7 +101,7 @@ function Navbar() {
                     </a>
                 )}
 
-                {pathname !== '/register' && !isLogged && (
+                {pathname !== '/register' || '/profile-complete' && !isLogged && (
                     <button type="button" onClick={() => router.push('/register')} 
                     className="">
                         <h1 className={`${bebas.variable} font-sans 
@@ -110,7 +110,7 @@ function Navbar() {
                     transition-all custom-transition duration-300`}>REGISTRARSE</h1>
                     </button>
                 )}
-                {pathname !== '/login' && !isLogged && (
+                {pathname !== '/login' || '/profile-complete' && !isLogged && (
                     <button type="button" onClick={() => router.push('/login')}>
                         <h1 className={`${bebas.variable} font-sans 
                     login cursor-pointer

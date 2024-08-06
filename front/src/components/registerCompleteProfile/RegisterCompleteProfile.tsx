@@ -51,7 +51,7 @@ export const CompleteProfile = ({ token }: IRegisterCompleteProfileProps) => {
             setProfileValues((prevValues) => ({
                 ...prevValues,
                 email: userData.payload?.email || "",
-                name: userData.payload?.name || `${userData.payload?.given_name || ""} ${userData.payload?.family_name || ""}`,
+                name: userData.payload?.name || `${userData.payload?.given_name || ""}`,
                 password: userData.userId || "",
                 confirmPassword: userData.userId || "",
             }));
