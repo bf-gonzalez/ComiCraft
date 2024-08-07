@@ -1,6 +1,6 @@
 "use client";
 import { ILoginUser, ILoginUserResponse, IUser, IUserContext } from "@/interface/index";
-import { postRegister, postLogin } from "@/lib/server/fetchUser";
+import { postRegister, postLogin, postGoogleRegister } from "@/lib/server/fetchUser";
 import React, { createContext, useEffect, useState } from "react";
 import { jwtDecode , JwtPayload } from 'jwt-decode';
 
@@ -27,6 +27,7 @@ export const UserContext = createContext<IUserContext>({
     setIsLogged: () => {},
     signIn: async () => false,
     signUp: async () => false,
+    signUpGoogle: async () => false,
     logOut: () => {},
 });
 
@@ -39,6 +40,22 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         
         try {
             const data = await postRegister(user);
+            if (data.id) {
+                signIn({ email: user.email, password: user.password });
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    };
+
+    const signUpGoogle = async (user: Omit<IUser, "id">) => {
+        console.log('entró');
+        
+        try {
+            const data = await postGoogleRegister(user);
             if (data.id) {
                 signIn({ email: user.email, password: user.password });
                 return true;
@@ -106,6 +123,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 setIsLogged,
                 signIn,
                 signUp,
+                signUpGoogle,
                 logOut,
             }}
         >

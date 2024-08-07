@@ -100,6 +100,7 @@ export interface IComic {
     setIsLogged: (isLogged: boolean) => void,
     signIn: (credentials: ILoginUser) => Promise<boolean>,
     signUp: (user: Omit<IRegisterUser, "id">)=> Promise<boolean>,
+    signUpGoogle: (user: Omit<IRegisterUser, "id">)=> Promise<boolean>,
     logOut: () => void,
   }
 

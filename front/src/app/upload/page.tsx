@@ -24,23 +24,30 @@ export default function UploadPage() {
 
   return (
     <main className={styles.fondo}>
-      <div className="flex flex-col items-center justify-center mt-48 p-4">
-        <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center justify-center mt-[9vw]">
+        <div className="flex flex-col items-center ">
+          <section className='flex flex-row-reverse '>
+        <img src="/images/subirInstrucc1.png" alt="instrucciones"
+                    className="instrucciones h-[40vh] pl-[42vw]"
+                    />
+          <div className='flex flex-col items-center'>
           <input 
             type="text" 
             placeholder="Nombre del Cómic" 
             value={folderName} 
             onChange={(e) => setFolderName(e.target.value)} 
-            className="mb-4 p-2 border rounded text-black"
+            className="py-2 px-4 border-2 rounded-lg text-white border-rose-800 bg-black bg-opacity-30"
           />
           <textarea
             placeholder="Descripción del Cómic"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="mb-4 p-2 border rounded text-black resize-none"
+            className="py-2 px-4 border-2 rounded-lg text-white border-rose-800 bg-black bg-opacity-30 "
             maxLength={256}
           />
           <div className="text-right text-sm text-gray-500">{description.length}/256</div>
+          </div>
+          </section>
           <ImageUpload folderName={folderName} description={description} onComicDataChange={handleComicDataChange} onUploadSuccess={resetFields} />
         </div>
         {comicData && (

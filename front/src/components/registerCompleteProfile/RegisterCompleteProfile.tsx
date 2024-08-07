@@ -21,7 +21,7 @@ interface IRegisterCompleteProfileProps {
 
 export const CompleteProfile = ({ token }: IRegisterCompleteProfileProps) => {
     const router = useRouter();
-    const { signUp } = useContext(UserContext);
+    const { signUpGoogle } = useContext(UserContext);
     const [profileValues, setProfileValues] = useState({
         email: "",
         username: "",
@@ -51,7 +51,7 @@ export const CompleteProfile = ({ token }: IRegisterCompleteProfileProps) => {
             setProfileValues((prevValues) => ({
                 ...prevValues,
                 email: userData.payload?.email || "",
-                name: userData.payload?.name || `${userData.payload?.given_name || ""}`,
+                name: userData.payload?.given_name || "",
                 password: userData.userId || "",
                 confirmPassword: userData.userId || "",
             }));
@@ -86,7 +86,7 @@ export const CompleteProfile = ({ token }: IRegisterCompleteProfileProps) => {
             console.log('Datos del formulario:', user);
             try {
                 
-                const success = await signUp(user); 
+                const success = await signUpGoogle(user); 
 
                 if (success) {
                     Swal.fire({
