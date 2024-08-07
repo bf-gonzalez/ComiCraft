@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
 import { MailerService } from 'src/mailer/mailer.service';
-import { CreateUserDto, LoginUserDto } from './dto/users.dto';
+import { CreateUserDto, LoginUserDto, CreateGoogleUserDto } from './dto/users.dto';
 import { Role } from 'src/enum/role.enum';
 
 @Injectable()
@@ -69,8 +69,13 @@ export class UsersRepository {
     }
   }
 
-  async createUser(user: CreateUserDto) {
+  async createUser(user: CreateUserDto | CreateGoogleUserDto) {
     try {
+      const existingUser = await this.usersRepository.findOneBy({ phone: user.phone });
+      if (existingUser) {
+        throw new BadRequestException('El número de teléfono ya está registrado');
+      }
+
       const newUser = await this.usersRepository.save(user);
 
       // Intentar enviar el correo
@@ -165,7 +170,7 @@ export class UsersRepository {
                 <p>¡Gracias por registrarte en ComiCraft! Estamos emocionados de tenerte con nosotros en esta aventura de cómics.</p>
                 <p>En ComiCraft, podrás disfrutar de una amplia variedad de cómics y mangas. No dudes en explorar y descubrir nuevas historias.</p>
                 <p>Si tienes alguna pregunta, no dudes en contactarnos. ¡Disfruta de la magia de los cómics!</p>
-    
+  
                 <div class="contenedorimg">
                   <p>También queremos invitarte a que ¡TÚ!</p>
                   <img class="batman" src="https://res.cloudinary.com/dyeji7bvg/image/upload/v1722142238/Group_4_1_lvwly7.png">
@@ -188,7 +193,8 @@ export class UsersRepository {
         );
       }
 
-      return newUser;
+      const { password, ...userWithoutPassword } = newUser;
+      return userWithoutPassword;
     } catch (error) {
       console.error('Error al crear el usuario:', error);
       if (
