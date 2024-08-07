@@ -6,7 +6,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto, LoginUserDto } from 'src/users/dto/users.dto';
+import { CreateUserDto, LoginUserDto, CreateGoogleUserDto } from 'src/users/dto/users.dto';
 import { PasswordInterceptor } from 'src/interceptors/password.interceptor';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -26,6 +26,12 @@ export class AuthController {
   @HttpCode(201)
   @UseInterceptors(PasswordInterceptor)
   signUp(@Body() user: CreateUserDto) {
+    return this.authService.signUp(user);
+  }
+
+  @Post('signup-google')
+  @HttpCode(201)
+  signUpGoogle(@Body() user: CreateGoogleUserDto) {
     return this.authService.signUp(user);
   }
 }

@@ -7,7 +7,7 @@ import { UsersRepository } from 'src/users/users.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 
-import { CreateUserDto } from 'src/users/dto/users.dto';
+import { CreateGoogleUserDto, CreateUserDto } from 'src/users/dto/users.dto';
 import { MembershipsRepository } from 'src/membership/membership.repository';
 import { MembershipType } from 'src/enum/membership-type.enum';
 
@@ -72,7 +72,7 @@ export class AuthService {
     }
   }
 
-  async signUp(user: CreateUserDto) {
+  async signUp(user: CreateUserDto | CreateGoogleUserDto) {
     const { email, password } = user;
     try {
       if (!password)
