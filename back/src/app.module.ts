@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { ComicsModule } from './comics/comics.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CommentModule } from './comment/comment.module';
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { CommentModule } from './comment/comment.module';
       signOptions: { expiresIn: '60m' },
     }),
     CommentModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
