@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
 import { MailerService } from 'src/mailer/mailer.service';
-import { CreateUserDto, LoginUserDto } from './dto/users.dto';
+import { CreateUserDto, LoginUserDto, CreateGoogleUserDto } from './dto/users.dto';
 import { Role } from 'src/enum/role.enum';
 
 @Injectable()
@@ -28,7 +28,8 @@ export class UsersRepository {
       if (users.length < 1) {
         throw new NotFoundException('No se encontraron usuarios');
       }
-      return users;
+      const activeUsers = users.filter((user) => user.isDeleted === false);
+      return activeUsers;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new InternalServerErrorException('Error al buscar los usuarios');
@@ -48,6 +49,9 @@ export class UsersRepository {
         throw new NotFoundException(
           `No se encontró nigún usuario con el id ${id}`,
         );
+      }
+      if (user.isDeleted) {
+        return `Usuario con el id ${id} está bloqueado`;
       }
 
       return user;
@@ -69,8 +73,13 @@ export class UsersRepository {
     }
   }
 
-  async createUser(user: CreateUserDto) {
+  async createUser(user: CreateUserDto | CreateGoogleUserDto) {
     try {
+      const existingUser = await this.usersRepository.findOneBy({ phone: user.phone });
+      if (existingUser) {
+        throw new BadRequestException('El número de teléfono ya está registrado');
+      }
+
       const newUser = await this.usersRepository.save(user);
 
       // Intentar enviar el correo
@@ -165,7 +174,7 @@ export class UsersRepository {
                 <p>¡Gracias por registrarte en ComiCraft! Estamos emocionados de tenerte con nosotros en esta aventura de cómics.</p>
                 <p>En ComiCraft, podrás disfrutar de una amplia variedad de cómics y mangas. No dudes en explorar y descubrir nuevas historias.</p>
                 <p>Si tienes alguna pregunta, no dudes en contactarnos. ¡Disfruta de la magia de los cómics!</p>
-    
+  
                 <div class="contenedorimg">
                   <p>También queremos invitarte a que ¡TÚ!</p>
                   <img class="batman" src="https://res.cloudinary.com/dyeji7bvg/image/upload/v1722142238/Group_4_1_lvwly7.png">
@@ -188,7 +197,8 @@ export class UsersRepository {
         );
       }
 
-      return newUser;
+      const { password, ...userWithoutPassword } = newUser;
+      return userWithoutPassword;
     } catch (error) {
       console.error('Error al crear el usuario:', error);
       if (
@@ -217,7 +227,7 @@ export class UsersRepository {
     }
   }
 
-  async deleteUser(id: string) {
+  async removeUser(id: string) {
     try {
       const deletedUser = await this.usersRepository.findOneBy({ id });
       if (!deletedUser) {
@@ -230,6 +240,28 @@ export class UsersRepository {
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new BadRequestException('No se pudo eliminar al usuario');
+    }
+  }
+
+  async deleteUser(id: string) {
+    try {
+      const user = await this.usersRepository.findOneBy({ id });
+      if (!user) {
+        throw new NotFoundException(`Usuario con el ${id} no encontrado`);
+      }
+
+      await this.usersRepository
+        .createQueryBuilder()
+        .update(Users)
+        .set({
+          isDeleted: !user.isDeleted,
+        })
+        .where('id = :id', { id })
+        .execute();
+      return { message: `Usuario con el id ${id} bloqueado con éxito` };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new BadRequestException();
     }
   }
 
@@ -272,7 +304,9 @@ export class UsersRepository {
     try {
       const user = await this.usersRepository.findOneBy({ id });
       if (!user) {
-        throw new NotFoundException(`No se encontro usuario con el id proporcionado`);
+        throw new NotFoundException(
+          `No se encontro usuario con el id proporcionado`,
+        );
       }
 
       user.profilePicture = url;
@@ -281,7 +315,9 @@ export class UsersRepository {
       return user;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new InternalServerErrorException('Error al actualizar la foto de perfil');
+      throw new InternalServerErrorException(
+        'Error al actualizar la foto de perfil',
+      );
     }
   }
 }
