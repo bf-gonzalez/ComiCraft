@@ -55,6 +55,13 @@ export class UsersController {
   @HttpCode(200)
   @UseInterceptors(PasswordInterceptor)
   @Delete(':id')
+  removeUser(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.removeUser(id);
+  }
+
+  @HttpCode(201)
+  @UseInterceptors(PasswordInterceptor)
+  @Put('deleted/:id')
   deleteUser(@Param('id', ParseUUIDPipe) id: string) {
     return this.usersService.deleteUser(id);
   }

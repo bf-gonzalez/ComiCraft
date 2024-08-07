@@ -1,10 +1,12 @@
 import { PartialType } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import {
+  IsBoolean,
   IsDate,
   IsEnum,
   IsNotEmpty,
   IsNumber,
+  IsOptional,
   IsString,
 } from 'class-validator';
 import { MembershipType } from 'src/enum/membership-type.enum';
@@ -61,6 +63,10 @@ export class CreateMembershipDto {
   @IsDate()
   @Type(() => Date)
   payment_date: Date;
+
+  @IsOptional()
+  @IsBoolean()
+  isDeleted: boolean;
 }
 
 export class UpdateMembershipDto extends PartialType(CreateMembershipDto) {}
