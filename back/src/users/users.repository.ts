@@ -188,7 +188,12 @@ export class UsersRepository {
         );
       }
 
-      return newUser;
+      const formattedUser = {
+        ...newUser,
+        dob: newUser.dob.toISOString().split('T')[0],
+      };
+
+      return formattedUser;
     } catch (error) {
       console.error('Error al crear el usuario:', error);
       if (
@@ -272,7 +277,9 @@ export class UsersRepository {
     try {
       const user = await this.usersRepository.findOneBy({ id });
       if (!user) {
-        throw new NotFoundException(`No se encontro usuario con el id proporcionado`);
+        throw new NotFoundException(
+          `No se encontro usuario con el id proporcionado`,
+        );
       }
 
       user.profilePicture = url;
@@ -281,7 +288,9 @@ export class UsersRepository {
       return user;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new InternalServerErrorException('Error al actualizar la foto de perfil');
+      throw new InternalServerErrorException(
+        'Error al actualizar la foto de perfil',
+      );
     }
   }
 }
