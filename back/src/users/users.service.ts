@@ -38,4 +38,7 @@ export class UsersService {
   async updateProfilePicture(id: string, url: string) {
     return this.userRepository.updateProfilePicture(id, url);
   }
+  async getUserToken(id: string){
+    return this.userRepository.getUserToken(id)
+  }
 }
