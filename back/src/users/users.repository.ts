@@ -229,8 +229,13 @@ export class UsersRepository {
           'Error al enviar el correo de bienvenida',
         );
       }
-
-      const { password, ...userWithoutPassword } = newUser;
+      const formattedUser = {
+        ...newUser,
+        dob: newUser.dob.toISOString().split('T')[0],
+      };
+      
+      const { password, ...userWithoutPassword } = formattedUser;
+      
       return userWithoutPassword;
     } catch (error) {
       console.error('Error al crear el usuario:', error);
@@ -340,6 +345,9 @@ export class UsersRepository {
         throw new NotFoundException(
           `No se encontro usuario con el id proporcionado`,
         );
+        throw new NotFoundException(
+          `No se encontro usuario con el id proporcionado`,
+        );
       }
 
       user.profilePicture = url;
@@ -351,6 +359,10 @@ export class UsersRepository {
       throw new InternalServerErrorException(
         'Error al actualizar la foto de perfil',
       );
+      throw new InternalServerErrorException(
+        'Error al actualizar la foto de perfil',
+      );
     }
   }
 }
+
