@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -17,6 +19,7 @@ export class MembershipsRepository {
   constructor(
     @InjectRepository(Membership)
     private readonly membershipsRepository: Repository<Membership>,
+    @Inject(forwardRef(() => UsersRepository))
     private readonly usersRepository: UsersRepository,
     @InjectRepository(Users)
     private readonly usersRepositorySave: Repository<Users>,

@@ -92,4 +92,8 @@ export class UsersController {
   ) {
     return this.usersService.updateProfilePicture(id, url);
   }
+  @Get('token/:id')
+  getUserToken(@Param('id', ParseUUIDPipe) id: string){
+    return this.usersService.getUserToken(id)
+  }
 }
