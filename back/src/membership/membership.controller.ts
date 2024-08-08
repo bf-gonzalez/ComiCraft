@@ -42,9 +42,9 @@ export class MembershipController {
   }
 
   @Delete(':id')
-  deletedMembership(@Param('id', ParseUUIDPipe) id: string) {
+  removeMembership(@Param('id', ParseUUIDPipe) id: string) {
     console.log('controller borrar membresia', id);
-    return this.membershipService.deletedMembership(id);
+    return this.membershipService.removeMembership(id);
   }
 
   @Put(':id')
@@ -53,6 +53,11 @@ export class MembershipController {
     @Body() updateMembershipDto: UpdateMembershipDto,
   ) {
     return this.membershipService.updateMembership(id, updateMembershipDto);
+  }
+
+  @Put('deleted/:id')
+  deleteMembership(@Param('id', ParseUUIDPipe) id: string) {
+    return this.membershipService.deleteMembership(id);
   }
 
   @Post('/prueba')

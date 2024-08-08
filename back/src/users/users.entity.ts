@@ -10,6 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Role } from 'src/enum/role.enum';
+import { Chats } from 'src/chats/chats.entity';
 
 @Entity({
   name: 'users',
@@ -102,6 +103,12 @@ export class Users {
   })
   role?: Role[];
 
+  @Column({
+    type: 'boolean',
+    default: false,
+  })
+  isDeleted: boolean;
+
   /**
    * Es de tipo text y tiene que ser una URL
    * @example "https://res.cloudinary.com/dyeji7bvg/image/upload/v1720248068/uhzzius1h9lbjc8k3hd9.webp"
@@ -123,4 +130,8 @@ export class Users {
   @OneToMany(() => Comments, (comment) => comment.user)
   @JoinColumn({ name: 'comment_id' })
   comments: Comments[];
+
+  @OneToMany(() => Chats, (chat) => chat.user)
+  @JoinColumn({name: 'chat_id'})
+  chats: Chats[];
 }

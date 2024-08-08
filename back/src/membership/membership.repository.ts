@@ -82,7 +82,11 @@ export class MembershipsRepository {
         .leftJoinAndSelect('membership.user', 'user')
         .select(['membership', 'user.id'])
         .getMany();
-      return memberships;
+      const activeMemberships = memberships.filter(
+        (membership) => membership.isDeleted === false,
+      );
+
+      return activeMemberships;
     } catch (error) {
       throw new InternalServerErrorException('Error al obtener las membresías');
     }
@@ -99,6 +103,9 @@ export class MembershipsRepository {
 
       if (!membership) {
         throw new NotFoundException(`Membresía con el id ${id} no encontrada`);
+      }
+      if (membership.isDeleted) {
+        return `Membresía con el id ${id} está bloqueada`;
       }
       return membership;
     } catch (error) {
@@ -128,7 +135,7 @@ export class MembershipsRepository {
     }
   }
 
-  async deletedMembership(id: string) {
+  async removeMembership(id: string) {
     const membership = await this.membershipsRepository.findOneBy({ id });
     if (!membership) {
       throw new NotFoundException(`Membresía con el id ${id} no encontrada`);
@@ -151,6 +158,28 @@ export class MembershipsRepository {
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new InternalServerErrorException('No se pudo elimar la membresía');
+    }
+  }
+
+  async deleteMembership(id: string) {
+    try {
+      const membership = await this.membershipsRepository.findOneBy({ id });
+      if (!membership) {
+        throw new NotFoundException(`Membresía con el ${id} no encontrada`);
+      }
+
+      await this.membershipsRepository
+        .createQueryBuilder()
+        .update(Membership)
+        .set({
+          isDeleted: !membership.isDeleted,
+        })
+        .where('id = :id', { id })
+        .execute();
+      return { message: `Membresía con el id ${id} bloqueada con éxito` };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new BadRequestException();
     }
   }
 
