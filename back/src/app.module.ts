@@ -11,9 +11,13 @@ import { AuthModule } from './auth/auth.module';
 import { ComicsModule } from './comics/comics.module';
 import { JwtModule } from '@nestjs/jwt';
 import { CommentModule } from './comment/comment.module';
+
+import { EventsModule } from './events/events.module';
+
 import { ChatsModule } from './chats/chats.module';
 import { CronService } from './cron/cron.service';
 import { MailerService } from './mailer/mailer.service';
+
 
 @Module({
   imports: [
@@ -37,7 +41,11 @@ import { MailerService } from './mailer/mailer.service';
       signOptions: { expiresIn: '60m' },
     }),
     CommentModule,
+
+    EventsModule,
+
     ChatsModule,
+
   ],
   controllers: [AppController],
   providers: [AppService, CronService, MailerService],

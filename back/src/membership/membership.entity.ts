@@ -1,9 +1,7 @@
 import {
   Column,
-  CreateDateColumn,
   Entity,
   JoinColumn,
-  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -65,6 +63,12 @@ export class Membership {
     nullable: false,
   })
   payment_date: Date;
+
+  @Column({
+    type: 'boolean',
+    default: false,
+  })
+  isDeleted: boolean;
 
   @OneToOne(() => Users, (user) => user.memberships, {
     eager: true,

@@ -1,8 +1,8 @@
 "use client";
 import { ILoginUser, ILoginUserResponse, IUser, IUserContext } from "@/interface/index";
-import { postRegister, postLogin } from "@/lib/server/fetchUser";
+import { postRegister, postLogin, postGoogleRegister } from "@/lib/server/fetchUser";
 import React, { createContext, useEffect, useState } from "react";
-import { jwtDecode , JwtPayload } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
 interface DecodedToken extends JwtPayload {
   id: string;
@@ -27,7 +27,9 @@ export const UserContext = createContext<IUserContext>({
     setIsLogged: () => {},
     signIn: async () => false,
     signUp: async () => false,
+    signUpGoogle: async () => false,
     logOut: () => {},
+    updateToken: async () => {} 
 });
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
@@ -35,10 +37,24 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const [isLogged, setIsLogged] = useState(false);
 
     const signUp = async (user: Omit<IUser, "id">) => {
+        try {
+            const data = await postRegister(user);
+            if (data.id) {
+                await signIn({ email: user.email, password: user.password });
+                return true;
+            }
+            return false;
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+    };
+
+    const signUpGoogle = async (user: Omit<IUser, "id">) => {
         console.log('entró');
         
         try {
-            const data = await postRegister(user);
+            const data = await postGoogleRegister(user);
             if (data.id) {
                 signIn({ email: user.email, password: user.password });
                 return true;
@@ -75,12 +91,42 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         setIsLogged(false);
     };
 
+    const updateToken = async () => {
+        try {
+            const decodedUserStr = localStorage.getItem("decodedUser");
+            if (decodedUserStr) {
+                const decodedUser = JSON.parse(decodedUserStr);
+                const userId = decodedUser.id;
+
+                const response = await fetch(`http://localhost:3000/users/token/${userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                if (!response.ok) {
+                    throw new Error('Error al obtener el token');
+                }
+
+                const result = await response.json();
+                if (result.token) {
+                    localStorage.setItem("token", result.token);
+                    const newDecoded = decodeToken(result.token);
+                    localStorage.setItem("decodedUser", JSON.stringify(newDecoded));
+                    setUser(newDecoded as Partial<ILoginUserResponse>);
+                }
+            }
+        } catch (error) {
+            console.error('Error al actualizar el token:', error);
+        }
+    };
+
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
             const decoded = decodeToken(token);
             if (decoded) {
-                console.log('Datos del token desencriptados:', decoded);
                 localStorage.setItem("decodedUser", JSON.stringify(decoded));
                 setUser(decoded as Partial<ILoginUserResponse>);
                 setIsLogged(true);
@@ -92,9 +138,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
         const user = localStorage.getItem("user");
         if (user) {
             setUser(JSON.parse(user));
-            return;
         }
-        setUser(null);
     }, []);
 
     return (
@@ -106,7 +150,9 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
                 setIsLogged,
                 signIn,
                 signUp,
+                signUpGoogle,
                 logOut,
+                updateToken
             }}
         >
             {children}

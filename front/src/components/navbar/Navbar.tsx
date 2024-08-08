@@ -66,7 +66,7 @@ function Navbar() {
 
                 <section className="flex flex-row align-middle space-x-12 mr-4">
 
-                {pathname !== '/membership' && !['annual_member', 'monthly_member', 'creator'].includes(membershipType) && (
+                {pathname !== '/membership' || '/login' || 'register' && !['annual_member', 'monthly_member', 'creator'].includes(membershipType) && (
                 <button type="button" className="flex flex-row self-center border-2
                 border-yellow-400 rounded-2xl items-center w-60 h-16
                 bg-black bg-opacity-0 hover:bg-opacity-80 p-6"
@@ -83,7 +83,7 @@ function Navbar() {
                 </button>
                 )}
 
-                {pathname !== '/all-comics' &&  (
+                {pathname !== '/all-comics' && pathname === 'profile-complete' && (
                     <button type="button" onClick={() => router.push('/all-comics')}>
                     <h1 className={`${bebas.variable} font-sans 
                 login cursor-pointer
@@ -92,16 +92,16 @@ function Navbar() {
                 </button>
                 )}
 
-                {pathname === '/home' &&  (
+                {/* {pathname === '/home' &&  (
                     <a href="#creatorsHome" className="self-center">
                         <h1 className={`${bebas.variable} font-sans 
                     login cursor-pointer
                     text-4xl text-white hover:text-yellow-400
                     transition-all custom-transition duration-300`}>CREADORES</h1>
                     </a>
-                )}
+                )} */}
 
-                {pathname !== '/register' && !isLogged && (
+                {pathname !== '/register' && pathname !== '/profile-complete' && !isLogged && (
                     <button type="button" onClick={() => router.push('/register')} 
                     className="">
                         <h1 className={`${bebas.variable} font-sans 
@@ -110,7 +110,7 @@ function Navbar() {
                     transition-all custom-transition duration-300`}>REGISTRARSE</h1>
                     </button>
                 )}
-                {pathname !== '/login' && !isLogged && (
+                {pathname !== '/login' && pathname !== '/profile-complete' && !isLogged && (
                     <button type="button" onClick={() => router.push('/login')}>
                         <h1 className={`${bebas.variable} font-sans 
                     login cursor-pointer
