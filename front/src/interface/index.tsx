@@ -100,6 +100,7 @@ export interface IComic {
     signIn: (credentials: ILoginUser) => Promise<boolean>,
     signUp: (user: Omit<IRegisterUser, "id">)=> Promise<boolean>,
     logOut: () => void,
+    updateToken: () => Promise<void>,
   }
 
   export interface MembershipOption {
