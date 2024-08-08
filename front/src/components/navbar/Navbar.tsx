@@ -83,7 +83,7 @@ function Navbar() {
                 </button>
                 )}
 
-                {pathname !== '/all-comics' && pathname === 'profile-complete' && (
+                {pathname !== '/all-comics' && pathname !== 'profile-complete' && (
                     <button type="button" onClick={() => router.push('/all-comics')}>
                     <h1 className={`${bebas.variable} font-sans 
                 login cursor-pointer
