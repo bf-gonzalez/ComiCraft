@@ -8,7 +8,7 @@ import stripe = require('stripe');
 process.env.STRIPE_SECRET;
 
 const corsOptions: CorsOptions = {
-  origin: ['http://localhost:3001'], //Aca va la conexion con el front
+  origin: '*', //Aca va la conexion con el front
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 };
 async function bootstrap() {
