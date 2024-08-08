@@ -8,7 +8,7 @@ import stripe = require('stripe');
 process.env.STRIPE_SECRET;
 
 const corsOptions: CorsOptions = {
-  origin: ['https://front-ohtjfblo4-dgdiegogallos-projects.vercel.app'], //Aca va la conexion con el front
+  origin: ['https://front-7fezs5144-dgdiegogallos-projects.vercel.app'], //Aca va la conexion con el front
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 };
 async function bootstrap() {
