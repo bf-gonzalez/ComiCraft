@@ -29,7 +29,7 @@ export class AuthController {
     return this.authService.signUp(user);
   }
 
-  @Post('signup-google')
+  @Post('signupGoogle')
   @HttpCode(201)
   signUpGoogle(@Body() user: CreateGoogleUserDto) {
     return this.authService.signUp(user);

@@ -1,5 +1,7 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -10,14 +12,21 @@ import { Repository } from 'typeorm';
 import { MailerService } from 'src/mailer/mailer.service';
 import { CreateUserDto, LoginUserDto, CreateGoogleUserDto } from './dto/users.dto';
 import { Role } from 'src/enum/role.enum';
+import { Membership } from 'src/membership/membership.entity';
+import { MembershipType } from 'src/enum/membership-type.enum';
+import { MembershipsRepository } from 'src/membership/membership.repository';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersRepository {
   constructor(
     @InjectRepository(Users) private usersRepository: Repository<Users>,
     private readonly mailerService: MailerService,
+    @Inject(forwardRef(() => MembershipsRepository))
+    private readonly membershipsRepository: MembershipsRepository,
+    private readonly jwtService: JwtService,
   ) {}
-
+ 
   async getUsers(page: number, limit: number) {
     const skip = (page - 1) * limit;
     try {
@@ -28,7 +37,8 @@ export class UsersRepository {
       if (users.length < 1) {
         throw new NotFoundException('No se encontraron usuarios');
       }
-      return users;
+      const activeUsers = users.filter((user) => user.isDeleted === false);
+      return activeUsers;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new InternalServerErrorException('Error al buscar los usuarios');
@@ -49,11 +59,38 @@ export class UsersRepository {
           `No se encontró nigún usuario con el id ${id}`,
         );
       }
+      if (user.isDeleted) {
+        return `Usuario con el id ${id} está bloqueado`;
+      }
 
       return user;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new BadRequestException('Error al buscar el usuario');
+    }
+  }
+  async getUserToken(id: string){
+    const user = await this.usersRepository.findOneBy({id})
+
+    if(!user){
+      throw new NotFoundException(`El usuario con id ${id} no fue encontrado`)
+    }
+    const userMembership = await this.membershipsRepository.getUserMembershipById(user.id)
+
+    const payload = {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      role: user.role,
+      profilePicture: user.profilePicture,
+      MembershipType: userMembership ? userMembership.type : null, 
+    }
+    const token = this.jwtService.sign(payload);
+
+    return{
+      message: "Nuevo token",
+      token,
     }
   }
 
@@ -223,7 +260,7 @@ export class UsersRepository {
     }
   }
 
-  async deleteUser(id: string) {
+  async removeUser(id: string) {
     try {
       const deletedUser = await this.usersRepository.findOneBy({ id });
       if (!deletedUser) {
@@ -236,6 +273,28 @@ export class UsersRepository {
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new BadRequestException('No se pudo eliminar al usuario');
+    }
+  }
+
+  async deleteUser(id: string) {
+    try {
+      const user = await this.usersRepository.findOneBy({ id });
+      if (!user) {
+        throw new NotFoundException(`Usuario con el ${id} no encontrado`);
+      }
+
+      await this.usersRepository
+        .createQueryBuilder()
+        .update(Users)
+        .set({
+          isDeleted: !user.isDeleted,
+        })
+        .where('id = :id', { id })
+        .execute();
+      return { message: `Usuario con el id ${id} bloqueado con éxito` };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new BadRequestException();
     }
   }
 
@@ -278,7 +337,9 @@ export class UsersRepository {
     try {
       const user = await this.usersRepository.findOneBy({ id });
       if (!user) {
-        throw new NotFoundException(`No se encontro usuario con el id proporcionado`);
+        throw new NotFoundException(
+          `No se encontro usuario con el id proporcionado`,
+        );
       }
 
       user.profilePicture = url;
@@ -287,7 +348,9 @@ export class UsersRepository {
       return user;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new InternalServerErrorException('Error al actualizar la foto de perfil');
+      throw new InternalServerErrorException(
+        'Error al actualizar la foto de perfil',
+      );
     }
   }
 }

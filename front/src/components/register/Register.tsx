@@ -188,6 +188,13 @@ export const Register = () => {
                     login cursor-pointer
                     text-4xl text-white hover:text-yellow-400
                     transition-all custom-transition duration-300`}>Registrarse</button>
+                <div className="flex flex-col">
+                <p className="ml-12 text-base ">Ya tienes una cuenta?</p>
+                <button type="button"
+                className="text-blue-600 text-base text-end ml-4"
+                onClick={() => router.push('/login')} >Inicia sesión!</button>
+                </div>
+
                 </div>
             </form>
         </div>
