@@ -8,7 +8,7 @@ import stripe = require('stripe');
 process.env.STRIPE_SECRET;
 
 const corsOptions: CorsOptions = {
-  origin: ['http://localhost:3001'], //Aca va la conexion con el front
+  origin: ['https://front-ohtjfblo4-dgdiegogallos-projects.vercel.app'], //Aca va la conexion con el front
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
 };
 async function bootstrap() {
@@ -24,7 +24,7 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.use(loggerGlobal);
-  app.enableCors();
+  app.enableCors(corsOptions);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,

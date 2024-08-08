@@ -21,9 +21,9 @@ const AllComicsPage = () => {
   const [images, setImages] = useState({});
   const [currentPage, setCurrentPage] = useState(1);
   const [comicsPerPage] = useState(8); // Número de cómics por página
-  const [searchQuery, setSearchQuery] = useState(localStorage.getItem('searchQuery') || '');
-  const [dateOrder, setDateOrder] = useState<'newest' | 'oldest'>(localStorage.getItem('dateOrder') || 'newest');
-  const [categoryFilter, setCategoryFilter] = useState<string[]>(JSON.parse(localStorage.getItem('categoryFilter')) || []);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [dateOrder, setDateOrder] = useState<'newest' | 'oldest'>('newest');
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const AllComicsPage = () => {
 
     const fetchComics = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/comics');
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/comics`);
         setComics(response.data);
         console.log("Fetched Comics:", response.data)
         response.data.forEach(comic => {
@@ -55,7 +55,7 @@ const AllComicsPage = () => {
 
     const fetchImages = async (folderName, comicId) => {
       try {
-        const response = await axios.get(`/api/images?folder=${folderName}`);
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/images?folder=${folderName}`);
         setImages(prevImages => ({ ...prevImages, [comicId]: response.data }));
       } catch (error) {
         console.error('Error fetching images:', error);
