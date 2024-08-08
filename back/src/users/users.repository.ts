@@ -10,7 +10,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
 import { MailerService } from 'src/mailer/mailer.service';
-import { CreateUserDto, LoginUserDto, CreateGoogleUserDto } from './dto/users.dto';
+import {
+  CreateUserDto,
+  LoginUserDto,
+  CreateGoogleUserDto,
+} from './dto/users.dto';
 import { Role } from 'src/enum/role.enum';
 import { Membership } from 'src/membership/membership.entity';
 import { MembershipType } from 'src/enum/membership-type.enum';
@@ -26,8 +30,9 @@ export class UsersRepository {
     private readonly membershipsRepository: MembershipsRepository,
     private readonly jwtService: JwtService,
   ) {}
- 
-  async getUsers(page: number, limit: number) {
+
+  async getUsers(page?: number, limit?: number) {
+
     const skip = (page - 1) * limit;
     try {
       const users = await this.usersRepository.find({
@@ -108,9 +113,13 @@ export class UsersRepository {
 
   async createUser(user: CreateUserDto | CreateGoogleUserDto) {
     try {
-      const existingUser = await this.usersRepository.findOneBy({ phone: user.phone });
+      const existingUser = await this.usersRepository.findOneBy({
+        phone: user.phone,
+      });
       if (existingUser) {
-        throw new BadRequestException('El número de teléfono ya está registrado');
+        throw new BadRequestException(
+          'El número de teléfono ya está registrado',
+        );
       }
 
       const newUser = await this.usersRepository.save(user);
@@ -229,8 +238,13 @@ export class UsersRepository {
           'Error al enviar el correo de bienvenida',
         );
       }
-
-      const { password, ...userWithoutPassword } = newUser;
+      const formattedUser = {
+        ...newUser,
+        dob: newUser.dob.toISOString().split('T')[0],
+      };
+      
+      const { password, ...userWithoutPassword } = formattedUser;
+      
       return userWithoutPassword;
     } catch (error) {
       console.error('Error al crear el usuario:', error);
@@ -354,3 +368,4 @@ export class UsersRepository {
     }
   }
 }
+
