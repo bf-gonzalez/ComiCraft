@@ -7,6 +7,7 @@ import { uploadImages } from './ImageUploadHelper/uploadImages';
 import { FaRegPlusSquare, FaFolderPlus } from "react-icons/fa";
 import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { useRouter } from 'next/navigation';
 
 const ImageUpload = ({ folderName, description, onComicDataChange, onUploadSuccess, uploadMode }) => {
   const [images, setImages] = useState<(File | null)[]>([]);
@@ -15,6 +16,7 @@ const ImageUpload = ({ folderName, description, onComicDataChange, onUploadSucce
   const [userName, setUserName] = useState('');
   const [userId, setUserId] = useState('');
   const [categories, setCategories] = useState<string[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('decodedUser'));
@@ -87,6 +89,7 @@ const ImageUpload = ({ folderName, description, onComicDataChange, onUploadSucce
         onComicDataChange(comicData);
 
         await axios.post(`http://localhost:3000/comics/${userId}`, comicData);
+
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -98,6 +101,7 @@ const ImageUpload = ({ folderName, description, onComicDataChange, onUploadSucce
             onUploadSuccess();
           }
           resetFields();
+          router.push('/dashboard'); // Redirigir al dashboard
         });
       } catch (error) {
         console.error('Error saving comic data:', error);
