@@ -19,8 +19,12 @@ export class MembershipService {
     return this.membershipsRepository.getMembershipById(id);
   }
 
-  deletedMembership(id: string) {
-    return this.membershipsRepository.deletedMembership(id);
+  removeMembership(id: string) {
+    return this.membershipsRepository.removeMembership(id);
+  }
+
+  deleteMembership(id: string) {
+    return this.membershipsRepository.deleteMembership(id);
   }
 
   updateMembership(id: string, updateMembershipDto: UpdateMembershipDto) {
