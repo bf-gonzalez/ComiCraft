@@ -7,8 +7,7 @@ import { Role } from 'src/enum/role.enum';
 export class UsersService {
   constructor(private readonly userRepository: UsersRepository) {}
 
-
-  getUsers(page: number, limit: number) {
+  getUsers(page?: number, limit?: number) {
     return this.userRepository.getUsers(page, limit);
   }
 

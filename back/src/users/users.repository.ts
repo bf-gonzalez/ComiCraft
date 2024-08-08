@@ -8,7 +8,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Users } from './users.entity';
 import { Repository } from 'typeorm';
 import { MailerService } from 'src/mailer/mailer.service';
-import { CreateUserDto, LoginUserDto, CreateGoogleUserDto } from './dto/users.dto';
+import {
+  CreateUserDto,
+  LoginUserDto,
+  CreateGoogleUserDto,
+} from './dto/users.dto';
 import { Role } from 'src/enum/role.enum';
 
 @Injectable()
@@ -18,7 +22,7 @@ export class UsersRepository {
     private readonly mailerService: MailerService,
   ) {}
 
-  async getUsers(page: number, limit: number) {
+  async getUsers(page?: number, limit?: number) {
     const skip = (page - 1) * limit;
     try {
       const users = await this.usersRepository.find({
@@ -71,9 +75,13 @@ export class UsersRepository {
 
   async createUser(user: CreateUserDto | CreateGoogleUserDto) {
     try {
-      const existingUser = await this.usersRepository.findOneBy({ phone: user.phone });
+      const existingUser = await this.usersRepository.findOneBy({
+        phone: user.phone,
+      });
       if (existingUser) {
-        throw new BadRequestException('El número de teléfono ya está registrado');
+        throw new BadRequestException(
+          'El número de teléfono ya está registrado',
+        );
       }
 
       const newUser = await this.usersRepository.save(user);
@@ -278,7 +286,9 @@ export class UsersRepository {
     try {
       const user = await this.usersRepository.findOneBy({ id });
       if (!user) {
-        throw new NotFoundException(`No se encontro usuario con el id proporcionado`);
+        throw new NotFoundException(
+          `No se encontro usuario con el id proporcionado`,
+        );
       }
 
       user.profilePicture = url;
@@ -287,7 +297,9 @@ export class UsersRepository {
       return user;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
-      throw new InternalServerErrorException('Error al actualizar la foto de perfil');
+      throw new InternalServerErrorException(
+        'Error al actualizar la foto de perfil',
+      );
     }
   }
 }
