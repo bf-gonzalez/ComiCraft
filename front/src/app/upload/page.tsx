@@ -46,13 +46,13 @@ export default function UploadPage() {
             placeholder="Nombre del Cómic" 
             value={folderName} 
             onChange={(e) => setFolderName(e.target.value)} 
-            className="mb-4 p-2 border rounded text-black"
+            className="py-2 px-4 border-2 rounded-lg text-white border-rose-800 bg-black bg-opacity-30"
           />
           <textarea
             placeholder="Descripción del Cómic"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="mb-4 p-2 border rounded text-black resize-none"
+            className="py-2 px-4 border-2 rounded-lg text-white border-rose-800 bg-black bg-opacity-30 "
             maxLength={256}
           />
           <div className="text-right text-sm text-gray-500">{description.length}/256</div>

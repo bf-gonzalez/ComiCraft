@@ -153,22 +153,22 @@ const ComicDetailPage = () => {
           )}
           <div className="self-center w-[50vw] ml-20">
             <h1 className={`${bebas.variable} font-sans text-8xl text-yellow-400 text-center`}>{comic.title}</h1>
-            <p className={`${josefin.variable} font-sans text-4xl text-white text-end pb-10`}>{comic.description}</p>
+            <p className={`${josefin.variable} font-sans text-4xl text-white pb-14 pt-6 text-center uppercase`}>{comic.description}</p>
             <div className='flex flex-row'>
-              <p className={`${bebas.variable} font-sans text-5xl text-rose-700 pr-3`}>Autor:</p>
-              <p className={`${bebas.variable} font-sans text-5xl text-white`}>{comic.author}</p>
+              <p className={`${bebas.variable} font-sans text-4xl text-rose-700 pr-3`}>Autor:</p>
+              <p className={`${bebas.variable} font-sans text-4xl text-white`}>{comic.author}</p>
             </div>
             <div className='flex flex-row'>
-              <p className={`${bebas.variable} font-sans text-5xl text-rose-700 pr-3`}>Categoria:</p>
-              <p className={`${bebas.variable} font-sans text-5xl text-white`}>{comic.categoryname || 'N/A'}</p>
+              <p className={`${bebas.variable} font-sans text-4xl text-rose-700 pr-3`}>Categoria:</p>
+              <p className={`${bebas.variable} font-sans text-4xl text-white`}>{comic.categoryname || 'N/A'}</p>
             </div>
             <div className='flex flex-row'>
-              <p className={`${bebas.variable} font-sans text-5xl text-rose-700 pr-3`}>Fecha de publicación:</p>
-              <p className={`${bebas.variable} font-sans text-5xl text-white`}>{comic.data_post}</p>
+              <p className={`${bebas.variable} font-sans text-4xl text-rose-700 pr-3`}>Fecha de publicación:</p>
+              <p className={`${bebas.variable} font-sans text-4xl text-white`}>{comic.data_post}</p>
             </div>
             {isLimitedUser && (
-              <p className={`${bebas.variable} font-sans text-6xl text-red-500 text-center mt-8`}>
-                Para disfrutar de nuestro contenido compra una subscripción
+              <p className={`${bebas.variable} font-sans text-4xl text-yellow-400 text-center mt-16`}>
+                Para disfrutar de este contenido compra una subscripción!
               </p>
             )}
           </div>
@@ -218,10 +218,10 @@ const ComicDetailPage = () => {
           )}
         </div>
         <img src= "/images/masComics.png"
-              className="max-w-sm ml-auto mr-auto pb-48 "
+              className="max-w-sm ml-auto mr-auto pb-4 "
               height={400} />
         <div className="flex flex-row flex-wrap justify-center mt-20 w-screen">
-          {topComics.slice(0, 5).map((comic, index) => (
+          {topComics.slice(0, 8).map((comic, index) => (
             <div key={index} className="flex flex-col items-center mb-8 mx-6">
               <div 
                 className="relative p-2 border-4 border-red-800 border-opacity-60 shadow-lg w-72 h-96 cursor-pointer overflow-hidden rounded-2xl"
