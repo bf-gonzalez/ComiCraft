@@ -11,6 +11,7 @@ import decodeGJwt from "@/utils/decodeGJWT";
 import BanUserButton from "@/components/banUserBtn/BanUserBtn";
 import AllComicsComponent from "../../components/allComicsComponent/AllComicsComponent";
 import AllUsersComponent from "@/components/allUsersComponent/AllUsersComponent";
+import AllPendingComicsComponent from "@/components/allPendingComics/AllPendingComics";
 
 const josefin = Josefin_Sans({
     subsets:['latin'],
@@ -205,12 +206,21 @@ export default function AdminDashboard() {
     alt="Usuarios"
   />
 
-  {/* EXCLUSIVO PARA ADMINISTRADORES  */}
+
   <AllUsersComponent />
 </section>
 
 
-{/* EXCLUSIVO PARA ADMINISTRADORES  */}
+<section className="flex flex-col items-center">
+
+  <img 
+    src="/images/pendingComics.png" 
+    className="max-w-[60vw] pt-12 pb mx-auto" 
+    alt="PENDING-COMICS"
+  />
+  <AllPendingComicsComponent />
+</section>
+
 <section className="flex flex-col items-center">
 
   <img 
