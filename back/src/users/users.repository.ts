@@ -277,7 +277,7 @@ export class UsersRepository {
     }
   }
 
-  async updateUser(id: string, user: Users) {
+  async updateUser(id: string, user: Partial<Users>) {
     try {
       await this.usersRepository.update(id, user);
       const updateUser = await this.usersRepository.findOneBy({ id });

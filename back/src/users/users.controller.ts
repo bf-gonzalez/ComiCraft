@@ -86,7 +86,7 @@ export class UsersController {
   @HttpCode(201)
   @UseInterceptors(PasswordInterceptor)
   @Put(':id')
-  updateUser(@Param('id', ParseUUIDPipe) id: string, @Body() user: Users) {
+  updateUser(@Param('id', ParseUUIDPipe) id: string, @Body() user: Partial<Users>) {
     return this.usersService.updateUser(id, user);
   }
 
