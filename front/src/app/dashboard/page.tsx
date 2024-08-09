@@ -125,7 +125,7 @@ export default function dashboard() {
             text-4xl text-rose-800
             self-center pb-6
             `}>
-  {membershipType === 'monthly_member' ? 'Miembro Mensual' : membershipType === 'annual_member' ? 'Miembro Anual' : 'CREADOR'}
+  {membershipType === 'monthly_member' ? 'Miembro Mensual' : membershipType === 'annual_member' ? 'Miembro Anual' : membershipType === 'creator' ? 'CREADOR' : 'Miembro sin membresía'}
 </p>
 <h1 className={`${josefin.variable} font-sans 
             text-7xl text-white pb-1
@@ -135,7 +135,7 @@ export default function dashboard() {
             
             `}> {userName} </h2>
 
-{membershipType === 'creator' && (
+{['monthly_member', 'annual_member', 'creator'].includes(membershipType) && (
   <section className="flex flex-row space-x-12 self-center pt-6">
     <p className={`${bebas.variable} font-sans 
                 text-3xl text-yellow-400 max-w-96
@@ -149,18 +149,23 @@ export default function dashboard() {
 </div>
 
 <div className="flex flex-col items-center">
-{/* SUSTITUIR H1 POR EL BOTÓN DE SUBIR ARCHIVO:                    */}
 <img src={profilePicture || "/images/userIcon2.png"} className="w-32 h-32 rounded-full object-cover pb-8" />  
 
-<button onClick={handleOpenModal}>
-<p className={`${josefin.variable} font-sans uppercase text-white max-w-60 hover:text-blue-500 duration-300 self-center text-3xl`}>Cambiar foto de perfil</p>
-</button>
+{['monthly_member', 'annual_member', 'creator'].includes(membershipType) && (
+  <button onClick={handleOpenModal}>
+    <p className={`${josefin.variable} font-sans uppercase text-white max-w-60 hover:text-blue-500 duration-300 self-center text-3xl`}>Cambiar foto de perfil</p>
+  </button>
+)}
+
+{!['monthly_member', 'annual_member', 'creator'].includes(membershipType) && (
+  <p className={`${josefin.variable} font-sans text-white text-2xl text-center mt-4`}>Necesitas una membresía para disfrutar de todo nuestro contenido disponible.</p>
+)}
 
 </div>
 
 </section>
 
-{membershipType === 'creator' && (
+{['monthly_member', 'annual_member', 'creator'].includes(membershipType) && (
   <section className="">
     <img src="/images/contenidoSubido.png" className="max-w-lg flex ml-auto mr-auto pt-12 "/>   
 
