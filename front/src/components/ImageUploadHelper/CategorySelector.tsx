@@ -65,7 +65,6 @@ const CategorySelector = ({ onChange }) => {
     <Select
       closeMenuOnSelect={false}
       components={animatedComponents}
-      defaultValue={[categoryOptions[0], categoryOptions[1]]}
       isMulti
       options={categoryOptions}
       styles={customStyles}
