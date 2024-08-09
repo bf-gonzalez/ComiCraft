@@ -41,6 +41,68 @@ export class ComicsRepository {
         return comic
     }
 
+    async getComicByIdioma(idioma: string){
+        if(!idioma){
+            return `El idioma ${idioma} que busca no se ah encontrado`
+        }
+        const comicIdioma = await this.comicsRepository.findOne({
+            where: {idioma},
+            relations: {
+                user: true,
+            }
+        });
+
+        if(!comicIdioma){
+            return `No se encontraron comic con el idioma ${idioma}`
+        }
+        return{
+            id: comicIdioma.id,
+            title: comicIdioma.title,
+            description: comicIdioma.description,
+            categoryname: comicIdioma.categoryname,
+            idioma: comicIdioma.idioma,
+            typecomic: comicIdioma.typecomic,
+            author: comicIdioma.author,
+            data_post: comicIdioma.data_post,
+            folderName: comicIdioma.folderName,
+            user: {
+                id: comicIdioma.user.id,
+                username: comicIdioma.user.username,
+            }
+        }
+    }
+
+    async getComicByTyoe(typecomic: string){
+        if(!typecomic){
+            return `El typo ${typecomic} no se encontraron `
+        }
+
+        const comicType = await this.comicsRepository.findOne({
+            where: {typecomic},
+            relations: {
+                user: true,
+            }
+        })
+        if(!comicType){
+            return `Comic con typo ${typecomic} no encontrados `
+        }
+        return{
+            id:comicType.id,
+            title:comicType.title,
+            description:comicType.description,
+            categoryname:comicType.categoryname,
+            idioma:comicType.idioma,
+            typecomic:comicType.typecomic,
+            author:comicType.author,
+            data_post:comicType.data_post,
+            folderName:comicType.folderName,
+            user: {
+                id:comicType.user.id,
+                username:comicType.user.username,
+            }
+        }
+    }
+
     async getComicByTitle(title: string){
         if(!title){
             return `El comic con el ${title} que busca no existe `
@@ -71,6 +133,8 @@ export class ComicsRepository {
             title: savedComic.title,
             description: savedComic.description,
             username: savedComic.author,
+            idioma: savedComic.idioma,
+            typecomic: savedComic.typecomic,
             data_post: savedComic.data_post,
             nombrecarpeta: savedComic.folderName, // Assuming this field exists in the Comic entity
             user: {
