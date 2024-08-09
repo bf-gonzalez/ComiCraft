@@ -32,7 +32,6 @@ export class UsersRepository {
   ) {}
 
   async getUsers(page?: number, limit?: number) {
-
     const skip = (page - 1) * limit;
     try {
       const users = await this.usersRepository.find({
@@ -42,8 +41,27 @@ export class UsersRepository {
       if (users.length < 1) {
         throw new NotFoundException('No se encontraron usuarios');
       }
-      const activeUsers = users.filter((user) => user.isDeleted === false);
-      return activeUsers;
+      /*  const activeUsers = users.filter((user) => user.isDeleted === false); */
+      return users;
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      throw new InternalServerErrorException('Error al buscar los usuarios');
+    }
+  }
+
+  async getDeletedUsers(page?: number, limit?: number) {
+    const skip = (page - 1) * limit;
+    try {
+      const users = await this.usersRepository.find({
+        take: limit,
+        skip: skip,
+      });
+      if (users.length < 1) {
+        throw new NotFoundException('No se encontraron usuarios');
+      }
+      const deletedUsers = users.filter((user) => user.isDeleted);
+      /*  const activeUsers = users.filter((user) => user.isDeleted === false); */
+      return deletedUsers;
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new InternalServerErrorException('Error al buscar los usuarios');
@@ -74,13 +92,14 @@ export class UsersRepository {
       throw new BadRequestException('Error al buscar el usuario');
     }
   }
-  async getUserToken(id: string){
-    const user = await this.usersRepository.findOneBy({id})
+  async getUserToken(id: string) {
+    const user = await this.usersRepository.findOneBy({ id });
 
-    if(!user){
-      throw new NotFoundException(`El usuario con id ${id} no fue encontrado`)
+    if (!user) {
+      throw new NotFoundException(`El usuario con id ${id} no fue encontrado`);
     }
-    const userMembership = await this.membershipsRepository.getUserMembershipById(user.id)
+    const userMembership =
+      await this.membershipsRepository.getUserMembershipById(user.id);
 
     const payload = {
       id: user.id,
@@ -89,14 +108,14 @@ export class UsersRepository {
       email: user.email,
       role: user.role,
       profilePicture: user.profilePicture,
-      MembershipType: userMembership ? userMembership.type : null, 
-    }
+      MembershipType: userMembership ? userMembership.type : null,
+    };
     const token = this.jwtService.sign(payload);
 
-    return{
-      message: "Nuevo token",
+    return {
+      message: 'Nuevo token',
       token,
-    }
+    };
   }
 
   async getUserByName(name?: string) {
@@ -242,9 +261,9 @@ export class UsersRepository {
         ...newUser,
         dob: newUser.dob.toISOString().split('T')[0],
       };
-      
+
       const { password, ...userWithoutPassword } = formattedUser;
-      
+
       return userWithoutPassword;
     } catch (error) {
       console.error('Error al crear el usuario:', error);
@@ -305,7 +324,12 @@ export class UsersRepository {
         })
         .where('id = :id', { id })
         .execute();
-      return { message: `Usuario con el id ${id} bloqueado con éxito` };
+
+      if (!user.isDeleted) {
+        return { message: `Usuario con el id ${id} bloqueado con éxito` };
+      } else {
+        return { message: `Usuario con el id ${id} desbloqueado con éxito` };
+      }
     } catch (error) {
       if (error instanceof NotFoundException) throw error;
       throw new BadRequestException();
@@ -368,4 +392,3 @@ export class UsersRepository {
     }
   }
 }
-
