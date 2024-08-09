@@ -39,6 +39,23 @@ export class UsersController {
   }
 
   @HttpCode(200)
+  @UseInterceptors(PasswordInterceptor)
+  @Get('deleted')
+  getDeletedUsers(
+    @Query('name') name?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    if (name) {
+      return this.usersService.getDeletedUsers();
+    }
+    !page ? (page = '1') : page;
+    !limit ? (limit = '5') : limit;
+    if (page && limit)
+      return this.usersService.getDeletedUsers(Number(page), Number(limit));
+  }
+
+  @HttpCode(200)
   @Get(':id')
   @UseInterceptors(PasswordInterceptor)
   getUserById(@Param('id', ParseUUIDPipe) id: string) {
@@ -93,7 +110,7 @@ export class UsersController {
     return this.usersService.updateProfilePicture(id, url);
   }
   @Get('token/:id')
-  getUserToken(@Param('id', ParseUUIDPipe) id: string){
-    return this.usersService.getUserToken(id)
+  getUserToken(@Param('id', ParseUUIDPipe) id: string) {
+    return this.usersService.getUserToken(id);
   }
 }
