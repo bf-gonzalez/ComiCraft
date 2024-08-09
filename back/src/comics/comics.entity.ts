@@ -58,7 +58,7 @@ export class Comics {
     type: 'varchar',
     nullable: true,
   })
-  categoryname: string
+  categoryname: string;
 
   /**
    * Es el tipo de comic ya sea manga,occidental,etc
@@ -99,6 +99,9 @@ export class Comics {
     nullable: false,
   })
   folderName: string;
+
+  @Column({ type: 'boolean', default: false })
+  isActive: boolean;
 
   @ManyToOne(() => Users, (user) => user.comics, {
     eager: true,
