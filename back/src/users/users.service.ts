@@ -23,7 +23,7 @@ export class UsersService {
     return this.userRepository.getUserByName(name);
   }
 
-  updateUser(id: string, user: Users) {
+  updateUser(id: string, user: Partial<Users>) {
     return this.userRepository.updateUser(id, user);
   }
 
