@@ -11,32 +11,29 @@ import DateFilter from '../../components/DateFilter';
 import CategoryFilter from '../../components/CategoryFilter';
 import DeleteComicButton from '../deleteComicBtn/DeleteComicBtn';
 
-// Importing the Bebas Neue font from Google Fonts
 const bebas = Bebas_Neue({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-bebas",
 });
 
-// Define the AllComicsComponent as a React functional component
 const AllComicsComponent: React.FC = () => {
-  const [comics, setComics] = useState<any[]>([]); // State for storing comic data
-  const [images, setImages] = useState<{ [key: string]: any[] }>({}); // State for storing images
-  const [currentPage, setCurrentPage] = useState<number>(1); // Current pagination page
-  const [comicsPerPage] = useState<number>(12); // Number of comics per page
+  const [comics, setComics] = useState<any[]>([]); 
+  const [images, setImages] = useState<{ [key: string]: any[] }>({}); 
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [comicsPerPage] = useState<number>(12); 
   const [searchQuery, setSearchQuery] = useState<string>(
     localStorage.getItem('searchQuery') || ''
-  ); // Search query for filtering comics
+  ); 
   const [dateOrder, setDateOrder] = useState<'newest' | 'oldest'>(
     (localStorage.getItem('dateOrder') as 'newest' | 'oldest') || 'newest'
-  ); // Order of comics by date
+  ); 
   const [categoryFilter, setCategoryFilter] = useState<string[]>(
     JSON.parse(localStorage.getItem('categoryFilter') || '[]')
-  ); // Categories for filtering comics
-  const router = useRouter(); // Next.js router for navigation
+  ); 
+  const router = useRouter();
 
   useEffect(() => {
-    // Load saved state from localStorage if available
     const savedSearchQuery = localStorage.getItem('searchQuery');
     const savedDateOrder = localStorage.getItem('dateOrder');
     const savedCategoryFilter = localStorage.getItem('categoryFilter');
@@ -45,7 +42,6 @@ const AllComicsComponent: React.FC = () => {
     if (savedDateOrder) setDateOrder(savedDateOrder as 'newest' | 'oldest');
     if (savedCategoryFilter) setCategoryFilter(JSON.parse(savedCategoryFilter));
 
-    // Fetch comics data from API
     const fetchComics = async () => {
       try {
         const response = await axios.get('http://localhost:3000/comics');
@@ -67,7 +63,6 @@ const AllComicsComponent: React.FC = () => {
       }
     };
 
-    // Fetch images based on folder name and comic ID
     const fetchImages = async (folderName: string, comicId: string) => {
       try {
         const response = await axios.get(`/api/images?folder=${folderName}`);
@@ -80,7 +75,6 @@ const AllComicsComponent: React.FC = () => {
     fetchComics();
   }, []);
 
-  // Function to validate URLs
   const isValidUrl = (string: string): boolean => {
     try {
       new URL(string);
@@ -90,30 +84,27 @@ const AllComicsComponent: React.FC = () => {
     }
   };
 
-  // Handle clicking on a comic to navigate to its page
+
   const handleComicClick = (comicId: string) => {
     router.push(`/all-comics/${comicId}`);
   };
 
-  // Handle search query input
+
   const handleSearch = (query: string) => {
     setSearchQuery(query.toLowerCase());
     localStorage.setItem('searchQuery', query.toLowerCase());
   };
 
-  // Handle change in date order filter
   const handleFilterChange = (order: 'newest' | 'oldest') => {
     setDateOrder(order);
     localStorage.setItem('dateOrder', order);
   };
 
-  // Handle change in category filter
   const handleCategoryChange = (categories: string[]) => {
     setCategoryFilter(categories);
     localStorage.setItem('categoryFilter', JSON.stringify(categories));
   };
 
-  // Filter and sort comics based on current filters
   const filteredComics = comics
     .filter((comic) =>
       comic.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -134,10 +125,9 @@ const AllComicsComponent: React.FC = () => {
       }
     });
 
-  // Calculate the total number of pages for pagination
+  
   const totalPages = Math.ceil(filteredComics.length / comicsPerPage);
 
-  // Get the comics for the current page
   const indexOfLastComic = currentPage * comicsPerPage;
   const indexOfFirstComic = indexOfLastComic - comicsPerPage;
   const currentComics = filteredComics.slice(
@@ -146,17 +136,17 @@ const AllComicsComponent: React.FC = () => {
   );
 
   return (
-    <main className={styles.fondo}>
+    <main >
       <section className="flex flex-col items-center pt-16 pb-12 ">
-        <div className="flex flex-col self-start pl-12">
+        <div className="flex flex-col self-center pl-12">
           <SearchBar onSearch={handleSearch} initialQuery={searchQuery} />
         </div>
         
 
         
-        <div className="flex flex-row flex-wrap justify-center mt-20 w-screen">
+        <div className="flex flex-row flex-wrap justify-center mt-10 w-screen">
           {currentComics.map((comic, index) => (
-            <div key={index} className="flex flex-row items-center mb-8 bg-gray-800 bg-opacity-80 rounded-3xl mx-4 my-4 ">
+            <div key={index} className="flex flex-row items-center mb-8 bg-gray-800 bg-opacity-60 rounded-3xl mx-4 my-4 ">
               <div 
                 className="relative p-2 border-opacity-60 shadow-lg w-44 h-52 cursor-pointer overflow-hidden hover:scale-105 duration-300 "
                 onClick={() => handleComicClick(comic.id)}
