@@ -9,7 +9,7 @@ const bebas = Bebas_Neue({
   variable: '--font-bebas',
 });
 
-function BanUserButton({ userId }) {
+function UnBanUserButton({ userId }) {
   // Función para verificar si el ID es un UUID válido
   const isValidUUID = (id) => {
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -40,11 +40,11 @@ function BanUserButton({ userId }) {
         onClick={handleBanUser} // Llama a la función handleBanUser al hacer clic
         className={`${bebas.variable} font-sans bg-red-700 text-black uppercase w-[10vw] h-[10vh] rounded-2xl text-2xl flex flex-col items-center border-black border-2 hover:text-white hover:scale-105 hover:border-white duration-300 self-center`}
       >
-        BLOQUEAR USUARIO
+        DESBLOQUEAR USUARIO
         <GoAlert className='size-[3vw]' />
       </button>
     </>
   );
 }
 
-export default BanUserButton;
+export default UnBanUserButton;

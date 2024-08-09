@@ -139,7 +139,8 @@ const AllComicsComponent: React.FC = () => {
     <main >
       <section className="flex flex-col items-center pt-16 pb-12 ">
         <div className="flex flex-col self-center pl-12">
-          <SearchBar onSearch={handleSearch} initialQuery={searchQuery} />
+          <SearchBar onSearch={handleSearch} initialQuery={searchQuery} placeholder={'Buscar Comics'} />
+          <DateFilter onFilterChange={handleFilterChange} initialOrder={dateOrder} />
         </div>
         
 

@@ -11,6 +11,7 @@ import DateFilter from "../../components/DateFilter";
 import CategoryFilter from "../../components/CategoryFilter";
 import DeleteComicButton from "../deleteComicBtn/DeleteComicBtn";
 import BanUserButton from "../banUserBtn/BanUserBtn";
+import UnBanUserButton from "../unBanUserButton/UnBanUserButton";
 
 const bebas = Bebas_Neue({
   subsets: ["latin"],
@@ -122,26 +123,35 @@ const AllUsersComponent: React.FC = () => {
       <div className="flex justify-evenly flex-wrap ">
         <section className="flex flex-col">
           <div className="flex flex-col self-center ">
-            <SearchBar onSearch={handleSearch} initialQuery={searchQuery} />
+            <SearchBar onSearch={handleSearch} initialQuery={searchQuery} placeholder={'Buscar Usuario'} />
+            {/* <DateFilter onFilterChange={handleFilterChange} initialOrder={dateOrder} /> */}
           </div>
           <section className="flex flex-row flex-wrap justify-center pt-6 w-screen pb-12">
-            {/* Cambia `users` a `currentUsers` para usar los usuarios filtrados */}
+            
             {currentUsers.map((user) => (
               <div
                 key={user.id}
-                className="flex flex-col items-center justify-center w-[240vw] max-w-md bg-gray-800 bg-opacity-60 p-4 m-4 rounded-lg shadow-lg"
+                className="flex flex-col items-center justify-center w-[240vw] max-w-md bg-gray-800 bg-opacity-60 p-4 m-4 rounded-lg shadow-lg h-[40vh]"
               >
               <h1 className={`${bebas.variable} font-sans text-center text-3xl uppercase mb-4 text-yellow-400`}>
                 ROL: {user.role}
               </h1>
 
                 <div className="flex items-center">
+                {user.profilePicture === "none" ? (
+                <img
+                src= "/images/userIcon2.png"
+                className="w-32 h-32 rounded-xl object-cover border-4 border-rose-800 mr-4"
+                alt={`${user.username} Profile Picture`}
+                />
+                ) : (
                   <img
-                    src={user.profilePicture || "/images/userIcon2.png"}
-                    className="w-32 h-32 rounded-xl object-cover border-4 border-rose-800 mr-4"
-                    alt={`${user.username} Profile Picture`}
-                  />
-
+                  src={user.profilePicture || "/images/userIcon2.png"}
+                  className="w-32 h-32 rounded-xl object-cover border-4 border-rose-800 mr-4"
+                  alt={`${user.username} Profile Picture`}
+                />
+                )
+                }              
                   <div className="flex flex-col justify-between h-32">
                     <button
                       onClick={() => handleUserClick(user.id)} // Asegúrate de pasar el id del usuario
@@ -150,7 +160,16 @@ const AllUsersComponent: React.FC = () => {
                       {user.username}
                     </button>
 
-                    <BanUserButton />
+                    {user.isDeleted ? (
+                      <UnBanUserButton userId={user.id} isDeleted={user.isDeleted}  />
+                    ) : (
+                    <BanUserButton userId={user.id} isDeleted={user.isDeleted} />
+                    )}
+
+                    {user.isDeleted && (
+                      <h1 className="text-white">USUARIO BANNEADO</h1>
+                    )}
+                    
                   </div>
                 </div>
               </div>
