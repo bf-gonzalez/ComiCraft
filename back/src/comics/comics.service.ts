@@ -24,6 +24,14 @@ export class ComicsService {
     return this.comicsRepository.getComicByTitle(title);
   }
 
+  getComicByIdioma(idioma: string){
+    return this.comicsRepository.getComicByIdioma(idioma);
+  }
+  
+  getComicByType(typecomic: string){
+    return this.comicsRepository.getComicByTyoe(typecomic);
+  }
+
   createComic(id: string, comic: Partial<Comics>) {
     return this.comicsRepository.createComic(id, comic);
   }

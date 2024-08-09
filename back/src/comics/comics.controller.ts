@@ -39,6 +39,15 @@ export class ComicsController {
     return this.comicsService.getComicByTitle(title);
   }
 
+  @Get('idioma/:idioma')
+  getComicByIdioma(@Param('idioma') idioma: string){
+    return this.comicsService.getComicByIdioma(idioma);
+  }
+
+  @Get('typecomic/:typecomic')
+  getComicByType(@Param('typecomic') typecomic: string){
+    return this.comicsService.getComicByType(typecomic);
+  }
   @Post(':id')
   createComic(@Param('id') id: string, @Body() comic: Partial<Comics>) {
     return this.comicsService.createComic(id, comic);

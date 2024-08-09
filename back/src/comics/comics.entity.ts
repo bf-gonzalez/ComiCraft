@@ -61,6 +61,26 @@ export class Comics {
   categoryname: string
 
   /**
+   * Es el tipo de comic ya sea manga,occidental,etc
+   * @example "Manga"
+   */
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  typecomic: string;
+
+  /**
+   * Es el idioma del comic Ej. ingles,español,etc
+   * @example "Ingles"
+   */
+  @Column({
+    type: 'varchar',
+    nullable: true,
+  })
+  idioma: string
+
+  /**
    * Es de tipo varchar, puede usar hasta 50 caracteres no puede ser null
    * @example "1990-07-25"
    */
